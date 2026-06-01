@@ -43,6 +43,10 @@ in
         rsync
         ;
     };
+    extraPackages = with pkgs; [
+      duckdb
+      ouch
+    ];
     settings = {
       plugin = {
         prepend_previewers =

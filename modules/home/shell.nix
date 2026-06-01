@@ -12,7 +12,6 @@ in
     tig
     just
     dust
-    ouch
     rsync
     lumen.packages.${system}.lumen
   ];
