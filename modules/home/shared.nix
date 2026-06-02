@@ -1,5 +1,4 @@
-{ nix-index-database, ... }:
-{
+{ nix-index-database, ... }: {
   imports = [
     nix-index-database.homeModules.default
     ./stylix.nix

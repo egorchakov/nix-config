@@ -1,5 +1,4 @@
-{ nix-homebrew, user, ... }:
-{
+{ nix-homebrew, user, ... }: {
   imports = [ nix-homebrew.darwinModules.nix-homebrew ];
 
   nix-homebrew = {

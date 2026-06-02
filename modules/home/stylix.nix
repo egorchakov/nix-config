@@ -1,5 +1,4 @@
-{ pkgs, stylix, ... }:
-{
+{ pkgs, stylix, ... }: {
   imports = [ stylix.homeModules.stylix ];
   disabledModules = map (x: "${stylix}/modules/${x}/hm.nix") [
     "blender"
