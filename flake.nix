@@ -109,24 +109,53 @@
 
       pkgsFor = lib.genAttrs supportedSystems (system: mkPkgs { inherit system; });
 
+      homeManagerSupportModule = {
+        imports = [
+          nix-index-database.homeModules.default
+          stylix.homeModules.stylix
+        ];
+
+        disabledModules = map (x: "${stylix}/modules/${x}/hm.nix") [
+          "blender"
+          "kde"
+          "qt"
+          "hyprpanel"
+          "qutebrowser"
+          "opencode"
+          "gnome"
+          "discord"
+          "vscode"
+          "zed"
+          "zen-browser"
+          "neovim"
+          "obsidian"
+          "emacs"
+        ];
+
+        _module.args = {
+          inherit
+            user
+            helix
+            hydra-lsp
+            llm-agents
+            lumen
+            nix-index-database
+            pytest-language-server
+            stylix
+            ;
+        };
+      };
+
+      linuxHomeModules = [
+        ./modules/home/shared.nix
+        ./modules/home/linux.nix
+      ];
+
       mkHome =
         { system, modules }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsFor.${system};
-          extraSpecialArgs = {
-            inherit
-              user
-              helix
-              hydra-lsp
-              llm-agents
-              lumen
-              pytest-language-server
-              stylix
-              nix-index-database
-              ;
-          };
-
-          inherit modules;
+          modules = [ homeManagerSupportModule ] ++ modules;
         };
 
       eachSystem = f: lib.genAttrs supportedSystems (system: f system pkgsFor.${system});
@@ -162,6 +191,10 @@
           ];
         }
       );
+
+      homeModules = lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (_system: {
+        imports = [ homeManagerSupportModule ] ++ linuxHomeModules;
+      });
 
       formatter = eachSystem (system: _pkgs: treefmtEval.${system}.config.build.wrapper);
       checks = eachSystem (
