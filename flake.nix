@@ -115,23 +115,6 @@
           stylix.homeModules.stylix
         ];
 
-        disabledModules = map (x: "${stylix}/modules/${x}/hm.nix") [
-          "blender"
-          "kde"
-          "qt"
-          "hyprpanel"
-          "qutebrowser"
-          "opencode"
-          "gnome"
-          "discord"
-          "vscode"
-          "zed"
-          "zen-browser"
-          "neovim"
-          "obsidian"
-          "emacs"
-        ];
-
         _module.args = {
           inherit
             user

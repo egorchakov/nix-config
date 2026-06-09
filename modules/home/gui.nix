@@ -25,4 +25,10 @@
       };
     };
   };
+
+  stylix.targets = {
+    gtk.enable = true;
+    sioyek.enable = true;
+    ghostty.enable = true;
+  };
 }
