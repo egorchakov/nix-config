@@ -50,6 +50,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    flake-utils.url = "github:numtide/flake-utils";
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        utils.follows = "flake-utils";
+      };
+    };
+
     # TODO: https://github.com/NixOS/nixpkgs/pull/484661
     lumen = {
       url = "github:jnsahaj/lumen?shallow=1";
@@ -86,18 +101,21 @@
       lumen,
       pytest-language-server,
       stylix,
+      deploy-rs,
+      flake-utils,
+      git-hooks,
       treefmt-nix,
       ...
     }:
     let
+      user = "evgenii";
+      systems = flake-utils.lib.system;
       inherit (nixpkgs) lib;
 
-      user = "evgenii";
-
       supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "aarch64-darwin"
+        systems.x86_64-linux
+        systems.aarch64-linux
+        systems.aarch64-darwin
       ];
 
       mkPkgs =
@@ -109,45 +127,56 @@
 
       pkgsFor = lib.genAttrs supportedSystems (system: mkPkgs { inherit system; });
 
-      homeManagerSupportModule = {
-        imports = [
-          nix-index-database.homeModules.default
-          stylix.homeModules.stylix
-        ];
-
-        _module.args = {
-          inherit
-            user
-            helix
-            hydra-lsp
-            llm-agents
-            lumen
-            nix-index-database
-            pytest-language-server
-            stylix
-            ;
-        };
-      };
-
-      linuxHomeModules = [
-        ./modules/home/shared.nix
-        ./modules/home/linux.nix
-      ];
-
       mkHome =
         { system, modules }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsFor.${system};
-          modules = [ homeManagerSupportModule ] ++ modules;
+          extraSpecialArgs = {
+            inherit
+              user
+              helix
+              hydra-lsp
+              llm-agents
+              lumen
+              nix-index-database
+              pytest-language-server
+              stylix
+              ;
+          };
+          modules = [
+            nix-index-database.homeModules.default
+            stylix.homeModules.stylix
+          ]
+          ++ modules;
         };
 
       eachSystem = f: lib.genAttrs supportedSystems (system: f system pkgsFor.${system});
       treefmtEval = eachSystem (_system: pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      preCommitCheck = eachSystem (
+        system: pkgs:
+        git-hooks.lib.${system}.run {
+          src = ./.;
+          package = pkgs.prek;
+          hooks = {
+            nixfmt.enable = true;
+            deadnix.enable = true;
+            statix.enable = true;
+            trim-trailing-whitespace.enable = true;
+            end-of-file-fixer.enable = true;
+            check-merge-conflicts.enable = true;
+            check-symlinks.enable = true;
+            check-case-conflicts.enable = true;
+            check-added-large-files.enable = true;
+            check-json.enable = true;
+          };
+        }
+      );
+
     in
     {
       darwinConfigurations = {
         mbp = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
+          system = systems.aarch64-darwin;
           specialArgs = { inherit self user nix-homebrew; };
           modules = [ ./modules/darwin.nix ];
         };
@@ -155,16 +184,16 @@
 
       homeConfigurations = {
         "${user}@mbp" = mkHome {
-          system = "aarch64-darwin";
+          system = systems.aarch64-darwin;
           modules = [ ./modules/home/darwin.nix ];
         };
 
         "${user}@arch" = mkHome {
-          system = "x86_64-linux";
+          system = systems.x86_64-linux;
           modules = [ ./modules/home/arch.nix ];
         };
       }
-      // lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
+      // lib.genAttrs [ systems.x86_64-linux systems.aarch64-linux ] (
         system:
         mkHome {
           inherit system;
@@ -175,13 +204,62 @@
         }
       );
 
-      homeModules = lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (_system: {
-        imports = [ homeManagerSupportModule ] ++ linuxHomeModules;
-      });
+      deploy.nodes =
+        lib.mapAttrs
+          (hostname: system: {
+            inherit hostname;
+            sshUser = null;
+            remoteBuild = true;
+            autoRollback = true;
+            magicRollback = true;
+            activationTimeout = 600;
+            confirmTimeout = 60;
+            profiles.home = {
+              inherit user;
+              path = deploy-rs.lib.${system}.activate.home-manager self.homeConfigurations.${system};
+            };
+          })
+          {
+            aboutblank = systems.x86_64-linux;
+            berghain = systems.x86_64-linux;
+            delta-dev1 = systems.aarch64-linux;
+            kitkat = systems.x86_64-linux;
+            renate = systems.x86_64-linux;
+            sisyphos = systems.x86_64-linux;
+            tresor = systems.x86_64-linux;
+          };
 
       formatter = eachSystem (system: _pkgs: treefmtEval.${system}.config.build.wrapper);
       checks = eachSystem (
-        system: _pkgs: { formatting = treefmtEval.${system}.config.build.check self; }
+        system: _pkgs:
+        {
+          formatting = treefmtEval.${system}.config.build.check self;
+          pre-commit-check = preCommitCheck.${system};
+        }
+        // lib.optionalAttrs (system == systems.x86_64-linux) (
+          deploy-rs.lib.${system}.deployChecks self.deploy
+        )
+      );
+
+      devShells = eachSystem (
+        system: pkgs: {
+          default = pkgs.mkShell {
+            packages = [
+              pkgs.nushell
+              pkgs.just
+              pkgs.skim
+              pkgs.deploy-rs
+              pkgs.direnv
+              pkgs.gitMinimal
+              pkgs.nix-direnv
+              pkgs.nix-output-monitor
+              pkgs.openssh
+            ]
+            ++ preCommitCheck.${system}.enabledPackages;
+
+            inherit (preCommitCheck.${system}) shellHook;
+          };
+        }
       );
     };
 }
