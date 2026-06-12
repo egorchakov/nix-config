@@ -66,6 +66,7 @@ in
       shellAliases = {
         cx = "codex";
         zl = "zellij";
+        nf = "nix flake";
         gi = "gst-inspect-1.0";
         gl = "gst-launch-1.0";
       };

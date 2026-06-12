@@ -1,12 +1,9 @@
-_: {
+{ profile, ... }: {
   programs = {
     git = {
       enable = true;
       settings = {
-        user = {
-          email = "evgorchakov@gmail.com";
-          name = "Evgenii Gorchakov";
-        };
+        user = { inherit (profile.git) email name; };
         push.autoSetupRemote = true;
       };
 

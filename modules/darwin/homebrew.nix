@@ -1,12 +1,10 @@
-{ nix-homebrew, user, ... }: {
+{ nix-homebrew, profile, ... }: {
   imports = [ nix-homebrew.darwinModules.nix-homebrew ];
 
-  nix-homebrew = {
-    inherit user;
-    enable = true;
-    enableRosetta = true;
-    autoMigrate = true;
-  };
+  nix-homebrew.user = profile.username;
+  nix-homebrew.enable = true;
+  nix-homebrew.enableRosetta = true;
+  nix-homebrew.autoMigrate = true;
 
   homebrew = {
     enable = true;

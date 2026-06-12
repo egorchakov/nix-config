@@ -15,6 +15,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable?shallow=1";
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     darwin = {
       url = "github:nix-darwin/nix-darwin?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +41,7 @@
     llm-agents = {
       url = "github:numtide/llm-agents.nix?shallow=1";
       inputs = {
+        flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
       };
@@ -47,10 +54,11 @@
 
     stylix = {
       url = "github:nix-community/stylix?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
-
-    flake-utils.url = "github:numtide/flake-utils";
 
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
@@ -59,10 +67,7 @@
 
     deploy-rs = {
       url = "github:serokell/deploy-rs";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        utils.follows = "flake-utils";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # TODO: https://github.com/NixOS/nixpkgs/pull/484661
@@ -88,61 +93,101 @@
   };
 
   outputs =
-    {
+    inputs@{
       self,
-      darwin,
       nixpkgs,
+      flake-parts,
+      darwin,
       home-manager,
       nix-index-database,
-      nix-homebrew,
+      stylix,
+      git-hooks,
+      deploy-rs,
+      treefmt-nix,
       helix,
       hydra-lsp,
+      pytest-language-server,
       llm-agents,
       lumen,
-      pytest-language-server,
-      stylix,
-      deploy-rs,
-      flake-utils,
-      git-hooks,
-      treefmt-nix,
+      nix-homebrew,
       ...
     }:
     let
-      user = "evgenii";
-      systems = flake-utils.lib.system;
       inherit (nixpkgs) lib;
 
-      supportedSystems = [
-        systems.x86_64-linux
-        systems.aarch64-linux
-        systems.aarch64-darwin
+      profile = {
+        username = "evgenii";
+        git = {
+          name = "Evgenii Gorchakov";
+          email = "evgorchakov@gmail.com";
+        };
+      };
+
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
       ];
 
+      moduleArgs = {
+        inherit
+          self
+          profile
+          helix
+          hydra-lsp
+          pytest-language-server
+          llm-agents
+          lumen
+          nix-homebrew
+          ;
+      };
+
       mkPkgs =
-        { system }:
+        system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
         };
 
-      pkgsFor = lib.genAttrs supportedSystems (system: mkPkgs { inherit system; });
+      pkgsFor = lib.genAttrs systems mkPkgs;
+
+      deployHosts = {
+        aboutblank = "x86_64-linux";
+        berghain = "x86_64-linux";
+        delta-dev1 = "aarch64-linux";
+        kitkat = "x86_64-linux";
+        renate = "x86_64-linux";
+        sisyphos = "x86_64-linux";
+        tresor = "x86_64-linux";
+      };
+
+      deploySystems = lib.unique (lib.attrValues deployHosts);
+
+      deployPkgsFor = lib.genAttrs deploySystems (
+        system:
+        let
+          pkgs = pkgsFor.${system};
+        in
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = [
+            deploy-rs.overlays.default
+            (_: prev: {
+              deploy-rs = {
+                inherit (pkgs) deploy-rs;
+                lib = prev.deploy-rs.lib;
+              };
+            })
+          ];
+        }
+      );
 
       mkHome =
         { system, modules }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsFor.${system};
-          extraSpecialArgs = {
-            inherit
-              user
-              helix
-              hydra-lsp
-              llm-agents
-              lumen
-              nix-index-database
-              pytest-language-server
-              stylix
-              ;
-          };
+          extraSpecialArgs = moduleArgs;
           modules = [
             nix-index-database.homeModules.default
             stylix.homeModules.stylix
@@ -150,100 +195,120 @@
           ++ modules;
         };
 
-      eachSystem = f: lib.genAttrs supportedSystems (system: f system pkgsFor.${system});
-      treefmtEval = eachSystem (_system: pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
-      preCommitCheck = eachSystem (
-        system: pkgs:
-        git-hooks.lib.${system}.run {
-          src = ./.;
-          package = pkgs.prek;
-          hooks = {
-            nixfmt.enable = true;
-            deadnix.enable = true;
-            statix.enable = true;
-            trim-trailing-whitespace.enable = true;
-            end-of-file-fixer.enable = true;
-            check-merge-conflicts.enable = true;
-            check-symlinks.enable = true;
-            check-case-conflicts.enable = true;
-            check-added-large-files.enable = true;
-            check-json.enable = true;
-          };
-        }
-      );
-
     in
-    {
-      darwinConfigurations = {
-        mbp = darwin.lib.darwinSystem {
-          system = systems.aarch64-darwin;
-          specialArgs = { inherit self user nix-homebrew; };
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      inherit systems;
+
+      imports = [
+        treefmt-nix.flakeModule
+        git-hooks.flakeModule
+      ];
+
+      flake = {
+        darwinConfigurations.mbp = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = moduleArgs;
           modules = [ ./modules/darwin.nix ];
         };
-      };
 
-      homeConfigurations = {
-        "${user}@mbp" = mkHome {
-          system = systems.aarch64-darwin;
-          modules = [ ./modules/home/darwin.nix ];
-        };
-
-        "${user}@arch" = mkHome {
-          system = systems.x86_64-linux;
-          modules = [ ./modules/home/arch.nix ];
-        };
-      }
-      // lib.genAttrs [ systems.x86_64-linux systems.aarch64-linux ] (
-        system:
-        mkHome {
-          inherit system;
-          modules = [
-            ./modules/home/shared.nix
-            ./modules/home/linux.nix
-          ];
-        }
-      );
-
-      deploy.nodes =
-        lib.mapAttrs
-          (hostname: system: {
-            inherit hostname;
-            sshUser = null;
-            remoteBuild = true;
-            autoRollback = true;
-            magicRollback = true;
-            activationTimeout = 600;
-            confirmTimeout = 60;
-            profiles.home = {
-              inherit user;
-              path = deploy-rs.lib.${system}.activate.home-manager self.homeConfigurations.${system};
-            };
-          })
-          {
-            aboutblank = systems.x86_64-linux;
-            berghain = systems.x86_64-linux;
-            delta-dev1 = systems.aarch64-linux;
-            kitkat = systems.x86_64-linux;
-            renate = systems.x86_64-linux;
-            sisyphos = systems.x86_64-linux;
-            tresor = systems.x86_64-linux;
+        homeConfigurations = {
+          "${profile.username}@mbp" = mkHome {
+            system = "aarch64-darwin";
+            modules = [ ./modules/home/darwin.nix ];
           };
 
-      formatter = eachSystem (system: _pkgs: treefmtEval.${system}.config.build.wrapper);
-      checks = eachSystem (
-        system: _pkgs:
-        {
-          formatting = treefmtEval.${system}.config.build.check self;
-          pre-commit-check = preCommitCheck.${system};
-        }
-        // lib.optionalAttrs (system == systems.x86_64-linux) (
-          deploy-rs.lib.${system}.deployChecks self.deploy
-        )
-      );
+          "${profile.username}@arch" = mkHome {
+            system = "x86_64-linux";
+            modules = [ ./modules/home/arch.nix ];
+          };
 
-      devShells = eachSystem (
-        system: pkgs: {
-          default = pkgs.mkShell {
+          x86_64-linux = mkHome {
+            system = "x86_64-linux";
+            modules = [
+              ./modules/home/shared.nix
+              ./modules/home/linux.nix
+            ];
+          };
+
+          aarch64-linux = mkHome {
+            system = "aarch64-linux";
+            modules = [
+              ./modules/home/shared.nix
+              ./modules/home/linux.nix
+            ];
+          };
+        };
+
+        deploy.nodes = lib.mapAttrs (hostname: system: {
+          inherit hostname;
+          remoteBuild = true;
+          autoRollback = true;
+          magicRollback = true;
+          activationTimeout = 600;
+          confirmTimeout = 60;
+          profiles.home = {
+            user = profile.username;
+            path =
+              deployPkgsFor.${system}.deploy-rs.lib.activate.home-manager
+                self.homeConfigurations.${system};
+          };
+        }) deployHosts;
+      };
+
+      perSystem =
+        { config, system, ... }:
+        let
+          pkgs = pkgsFor.${system};
+        in
+        {
+          _module.args.pkgs = pkgs;
+
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs = {
+              deadnix.enable = true;
+              statix.enable = true;
+              nixfmt = {
+                enable = true;
+                strict = true;
+              };
+              just.enable = true;
+              keep-sorted.enable = true;
+              rumdl-format.enable = true;
+            };
+            settings.excludes = [
+              ".git/*"
+              "flake.lock"
+            ];
+            settings.formatter = {
+              deadnix.priority = 1;
+              statix.priority = 2;
+              nixfmt.priority = 3;
+            };
+          };
+
+          pre-commit = {
+            settings = {
+              package = pkgs.prek;
+              hooks = {
+                treefmt.enable = true;
+                trim-trailing-whitespace.enable = true;
+                end-of-file-fixer.enable = true;
+                check-merge-conflicts.enable = true;
+                check-symlinks.enable = true;
+                check-case-conflicts.enable = true;
+                check-added-large-files.enable = true;
+                check-json.enable = true;
+              };
+            };
+          };
+
+          checks = lib.optionalAttrs (system == "x86_64-linux") (
+            deployPkgsFor.${system}.deploy-rs.lib.deployChecks self.deploy
+          );
+
+          devShells.default = pkgs.mkShell {
+            inputsFrom = [ config.pre-commit.devShell ];
             packages = [
               pkgs.nushell
               pkgs.just
@@ -254,12 +319,8 @@
               pkgs.nix-direnv
               pkgs.nix-output-monitor
               pkgs.openssh
-            ]
-            ++ preCommitCheck.${system}.enabledPackages;
-
-            inherit (preCommitCheck.${system}) shellHook;
+            ];
           };
-        }
-      );
+        };
     };
 }

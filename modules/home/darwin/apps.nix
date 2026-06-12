@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  user,
+  profile,
   ...
 }:
 let
@@ -19,8 +19,8 @@ let
 in
 {
   home = {
-    username = user;
-    homeDirectory = "/Users/${user}";
+    inherit (profile) username;
+    homeDirectory = "/Users/${profile.username}";
     packages = with pkgs; [
       whatsapp-for-mac
       google-chrome

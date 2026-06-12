@@ -1,7 +1,7 @@
 {
   self,
   pkgs,
-  user,
+  profile,
   ...
 }:
 {
@@ -11,7 +11,7 @@
 
   nixpkgs.config.allowUnfree = true;
   system = {
-    primaryUser = user;
+    primaryUser = profile.username;
     configurationRevision = self.rev or self.dirtyRev or null;
     stateVersion = 6;
   };
@@ -24,8 +24,8 @@
 
   environment.systemPackages = with pkgs; [ nextdns ];
 
-  users.users."${user}" = {
-    home = "/Users/${user}";
+  users.users."${profile.username}" = {
+    home = "/Users/${profile.username}";
     shell = pkgs.nushell;
   };
 
