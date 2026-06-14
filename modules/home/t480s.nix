@@ -5,11 +5,6 @@
     ./gui.nix
   ];
 
-  targets.genericLinux = {
-    enable = true;
-    gpu.enable = true;
-  };
-
   home.packages = with pkgs; [
     bluetui
     pavucontrol
@@ -18,7 +13,6 @@
     slack
     telegram-desktop
     impala
+    brightnessctl
   ];
-
-  stylix.fonts.sizes.terminal = 16;
 }

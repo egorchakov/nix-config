@@ -205,6 +205,12 @@
       ];
 
       flake = {
+        nixosConfigurations.t480s = lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = moduleArgs;
+          modules = [ ./modules/nixos/t480s ];
+        };
+
         darwinConfigurations.mbp = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = moduleArgs;
@@ -217,9 +223,9 @@
             modules = [ ./modules/home/darwin.nix ];
           };
 
-          "${profile.username}@arch" = mkHome {
+          "${profile.username}@t480s" = mkHome {
             system = "x86_64-linux";
-            modules = [ ./modules/home/arch.nix ];
+            modules = [ ./modules/home/t480s.nix ];
           };
 
           x86_64-linux = mkHome {
