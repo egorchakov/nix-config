@@ -32,7 +32,7 @@ in
     carapace.enable = true;
     nh = {
       enable = true;
-      flake = "${config.home.homeDirectory}/.config/nix";
+      flake = "${config.home.homeDirectory}/dev/nix-config";
     };
     nix-index-database.comma.enable = true;
     television.enable = true;

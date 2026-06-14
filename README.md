@@ -5,14 +5,20 @@
 
 # nix config
 
+## NixOS
+
+```bash
+sudo nixos-rebuild switch --refresh --flake github:egorchakov/nix-config
+```
+
 ## nix-darwin
 
 ```bash
-sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake github:egorchakov/nix
+sudo nix run nix-darwin/master#darwin-rebuild -- switch --refresh --flake github:egorchakov/nix-config
 ```
 
 ## home-manager
 
 ```bash
-nix run home-manager/master -- switch --flake github:egorchakov/nix
+nix run home-manager/master -- switch --refresh --flake github:egorchakov/nix-config
 ```
