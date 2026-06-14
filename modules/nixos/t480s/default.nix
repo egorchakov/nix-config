@@ -1,5 +1,7 @@
-{ pkgs, ... }:
-
+{ pkgs, profile, ... }:
+let
+  inherit (profile) username;
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -23,7 +25,7 @@
       "nix-command"
       "flakes"
     ];
-    trusted-users = [ "evgenii" ];
+    trusted-users = [ username ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -66,11 +68,10 @@
     };
   };
 
-  users.users."evgenii" = {
-    # TODO: use profile
+  users.users.${username} = {
     isNormalUser = true;
     shell = pkgs.nushell;
-    description = "evgenii";
+    description = username;
     extraGroups = [
       "networkmanager"
       "wheel"
