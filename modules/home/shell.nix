@@ -2,12 +2,14 @@
   config,
   pkgs,
   lumen,
+  nix-index-database,
   ...
 }:
 let
   system = pkgs.stdenv.hostPlatform.system;
 in
 {
+  imports = [ nix-index-database.homeModules.default ];
   home.packages = with pkgs; [
     tig
     just

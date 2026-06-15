@@ -29,6 +29,8 @@ in
       # bitwarden-desktop
       telegram-desktop
       rerun
+      cloudflare-warp
+      signal-desktop
     ];
   };
 }

@@ -129,7 +129,7 @@
         "aarch64-darwin"
       ];
 
-      moduleArgs = {
+      specialArgs = {
         inherit
           self
           profile
@@ -139,6 +139,8 @@
           llm-agents
           lumen
           nix-homebrew
+          stylix
+          nix-index-database
           ;
       };
 
@@ -187,12 +189,8 @@
         { system, modules }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsFor.${system};
-          extraSpecialArgs = moduleArgs;
-          modules = [
-            nix-index-database.homeModules.default
-            stylix.homeModules.stylix
-          ]
-          ++ modules;
+          extraSpecialArgs = specialArgs;
+          inherit modules;
         };
 
     in
@@ -207,13 +205,13 @@
       flake = {
         nixosConfigurations.t480s = lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = moduleArgs;
+          inherit specialArgs;
           modules = [ ./modules/nixos/t480s ];
         };
 
         darwinConfigurations.mbp = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = moduleArgs;
+          inherit specialArgs;
           modules = [ ./modules/darwin.nix ];
         };
 
