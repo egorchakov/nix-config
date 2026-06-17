@@ -23,6 +23,11 @@
       };
     };
 
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -104,6 +109,7 @@
       self,
       nixpkgs,
       nur,
+      nixos-hardware,
       flake-parts,
       darwin,
       home-manager,
@@ -215,7 +221,10 @@
         nixosConfigurations.t480s = lib.nixosSystem {
           system = "x86_64-linux";
           inherit specialArgs;
-          modules = [ ./modules/nixos/t480s ];
+          modules = [
+            nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+            ./modules/nixos/t480s
+          ];
         };
 
         darwinConfigurations.mbp = darwin.lib.darwinSystem {
