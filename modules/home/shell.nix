@@ -16,6 +16,7 @@ in
     dust
     rsync
     lumen.packages.${system}.lumen
+    nur.repos.doomhammer.gitpane
   ];
 
   programs = {

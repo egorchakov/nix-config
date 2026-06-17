@@ -15,6 +15,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable?shallow=1";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -96,6 +103,7 @@
     inputs@{
       self,
       nixpkgs,
+      nur,
       flake-parts,
       darwin,
       home-manager,
@@ -149,6 +157,7 @@
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = [ nur.overlays.default ];
         };
 
       pkgsFor = lib.genAttrs systems mkPkgs;
