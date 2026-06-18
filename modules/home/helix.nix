@@ -8,6 +8,7 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   yamlConfigQueries = ./helix/runtime/queries/yaml-config;
+  justQueries = ./helix/runtime/queries/just;
   hydra-lsp-package = pkgs.rustPlatform.buildRustPackage {
     pname = "hydra-lsp";
     version = "0.3.0";
@@ -304,6 +305,11 @@ in
     "helix/runtime/queries/yaml-config/indents.scm" = {
       enable = true;
       source = yamlConfigQueries + "/indents.scm";
+    };
+
+    "helix/runtime/queries/just/injections.scm" = {
+      enable = true;
+      source = justQueries + "/injections.scm";
     };
   };
 }

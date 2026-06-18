@@ -1,5 +1,6 @@
-set shell := ["nu", "-c"]
 set script-interpreter := ["nu"]
+set shell := ["nu", "-c"]
+# set default-script # TODO
 set lazy
 
 _default:
