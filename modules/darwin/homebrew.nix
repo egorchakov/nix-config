@@ -14,7 +14,7 @@
     casks = [
       "tunnelblick"
       "uhk-agent"
-      "display-pimot"
+      "display-pilot"
     ];
     onActivation = {
       autoUpdate = false;
