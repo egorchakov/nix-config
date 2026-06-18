@@ -150,6 +150,7 @@ in
         }
         {
           name = "yaml-config";
+          auto-format = true;
           scope = "source.yaml";
           grammar = "yaml";
           language-id = "yaml";
@@ -163,6 +164,10 @@ in
             "yaml-language-server"
             "hydra-lsp"
           ];
+          formatter = {
+            command = "${pkgs.yamlfmt}/bin/yamlfmt";
+            args = [ "-" ];
+          };
         }
         {
           name = "yaml";
