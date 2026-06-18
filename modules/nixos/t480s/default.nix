@@ -17,7 +17,12 @@ in
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_zen;
+    kernelParams = [
+      "i915.enable_guc=2"
+      "i915.enable_fbc=1"
+      "i915.enable_psr=2"
+    ];
   };
 
   nix.settings = {
@@ -32,8 +37,32 @@ in
 
   networking = {
     hostName = "t480s";
-    wireless.enable = true;
-    networkmanager.enable = true;
+    wireless.iwd = {
+      enable = true;
+      settings = {
+        General = {
+          AddressRandomization = "once";
+          AddressRandomizationRange = "full";
+        };
+        Network = {
+          EnableIPv6 = true;
+        };
+        Settings = {
+          AutoConnect = true;
+        };
+      };
+    };
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+  };
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+    priority = 100;
   };
 
   time.timeZone = "Europe/Berlin";
@@ -66,6 +95,8 @@ in
       alsa.support32Bit = true;
       pulse.enable = true;
     };
+    upower.enable = true;
+    fwupd.enable = true;
   };
 
   users.users.${username} = {
