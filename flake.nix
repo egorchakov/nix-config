@@ -268,6 +268,13 @@
           magicRollback = true;
           activationTimeout = 600;
           confirmTimeout = 60;
+          sshOpts = [
+            "-o"
+            "ControlMaster=no"
+            "-o"
+            "ControlPath=none"
+          ];
+
           profiles.home = {
             user = profile.username;
             path =
