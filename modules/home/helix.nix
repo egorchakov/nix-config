@@ -288,6 +288,7 @@ in
       rustfmt
       clippy
       jq-lsp
+      kdlfmt
     ];
   };
 
