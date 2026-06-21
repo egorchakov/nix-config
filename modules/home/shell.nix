@@ -1,13 +1,9 @@
 {
   config,
   pkgs,
-  lumen,
   nix-index-database,
   ...
 }:
-let
-  system = pkgs.stdenv.hostPlatform.system;
-in
 {
   imports = [ nix-index-database.homeModules.default ];
   home.packages = with pkgs; [
@@ -15,7 +11,6 @@ in
     just
     dust
     rsync
-    lumen.packages.${system}.lumen
     nur.repos.doomhammer.gitpane
   ];
 

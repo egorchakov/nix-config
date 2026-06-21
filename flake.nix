@@ -79,22 +79,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # TODO: https://github.com/NixOS/nixpkgs/pull/484661
-    lumen = {
-      url = "github:jnsahaj/lumen?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    pytest-language-server = {
-      url = "github:bellini666/pytest-language-server?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hydra-lsp = {
-      url = "github:m-lyon/hydra-lsp?shallow=1";
-      flake = false;
-    };
-
     treefmt-nix = {
       url = "github:numtide/treefmt-nix?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -116,10 +100,7 @@
       deploy-rs,
       treefmt-nix,
       helix,
-      hydra-lsp,
-      pytest-language-server,
       llm-agents,
-      lumen,
       nix-homebrew,
       ...
     }:
@@ -145,10 +126,7 @@
           self
           profile
           helix
-          hydra-lsp
-          pytest-language-server
           llm-agents
-          lumen
           nix-homebrew
           stylix
           nix-index-database
