@@ -6,13 +6,11 @@
   ];
 
   home.packages = with pkgs; [
-    bluetui
-    pavucontrol
-    signal-desktop
     google-chrome
-    slack
+    signal-desktop
     telegram-desktop
-    impala
-    brightnessctl
+    slack
+    systemctl-tui
+    nextdns
   ];
 }
