@@ -5,7 +5,6 @@
     ghostty = {
       enable = true;
       settings = {
-        command = "${pkgs.bashInteractive}/bin/bash -l -c nu";
         window-inherit-working-directory = true;
         window-decoration = false;
         focus-follows-mouse = true;
