@@ -1,9 +1,28 @@
-{ pkgs, profile, ... }:
+{
+  config,
+  pkgs,
+  profile,
+  nixos-hardware,
+  agenix,
+  ...
+}:
 let
   inherit (profile) username;
 in
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+    ./hardware-configuration.nix
+    agenix.nixosModules.default
+  ];
+
+  age = {
+    identityPaths = [ "${config.users.users.${username}.home}/.ssh/id_ed25519" ];
+    secrets.nextdns-profile = {
+      file = ../../../secrets/nextdns-profile.age;
+      mode = "0400";
+    };
+  };
 
   hardware = {
     bluetooth = {
@@ -83,6 +102,15 @@ in
   };
 
   services = {
+    nextdns = {
+      enable = true;
+      arguments = [
+        "-config-file"
+        config.age.secrets.nextdns-profile.path
+        "-report-client-info"
+        "-auto-activate"
+      ];
+    };
     printing.enable = true;
     displayManager = {
       enable = true;

@@ -83,6 +83,11 @@
       url = "github:numtide/treefmt-nix?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:yaxitech/ragenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -102,6 +107,7 @@
       helix,
       llm-agents,
       nix-homebrew,
+      agenix,
       ...
     }:
     let
@@ -130,6 +136,8 @@
           nix-homebrew
           stylix
           nix-index-database
+          nixos-hardware
+          agenix
           ;
       };
 
@@ -196,10 +204,7 @@
         nixosConfigurations.t480s = lib.nixosSystem {
           system = "x86_64-linux";
           inherit specialArgs;
-          modules = [
-            nixos-hardware.nixosModules.lenovo-thinkpad-t480s
-            ./modules/nixos/t480s
-          ];
+          modules = [ ./modules/nixos/t480s ];
         };
 
         darwinConfigurations.mbp = darwin.lib.darwinSystem {
@@ -311,20 +316,23 @@
             deployPkgsFor.${system}.deploy-rs.lib.deployChecks self.deploy
           );
 
-          devShells.default = pkgs.mkShell {
-            inputsFrom = [ config.pre-commit.devShell ];
-            packages = [
-              pkgs.nushell
-              pkgs.just
-              pkgs.skim
-              pkgs.deploy-rs
-              pkgs.direnv
-              pkgs.gitMinimal
-              pkgs.nix-direnv
-              pkgs.nix-output-monitor
-              pkgs.openssh
-            ];
-          };
+          devShells.default =
+            with pkgs;
+            mkShell {
+              inputsFrom = [ config.pre-commit.devShell ];
+              packages = [
+                nushell
+                just
+                skim
+                pkgs.deploy-rs
+                direnv
+                gitMinimal
+                nix-direnv
+                nix-output-monitor
+                openssh
+                ragenix
+              ];
+            };
         };
     };
 }
