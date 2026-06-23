@@ -39,6 +39,7 @@
     direnv = {
       enable = true;
       silent = true;
+      config.global.warn_timeout = "120s";
       nix-direnv.enable = true;
     };
 
