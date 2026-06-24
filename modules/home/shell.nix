@@ -34,6 +34,7 @@
     };
     nix-index-database.comma.enable = true;
     television.enable = true;
+    nix-search-tv.enable = true;
     fd.enable = true;
 
     direnv = {
