@@ -100,6 +100,11 @@
           ${pkgs.lib.concatMapStringsSep "\n" (
             name: "use custom-completions/${name}/${name}-completions.nu *"
           ) nushellCustomCompletions}
+
+          def why [] {
+              let cmd = history | last | get command
+              codex $"/goal explain why this command failed and suggest a fix: ($cmd)"
+          }
         '';
     };
 
