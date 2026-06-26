@@ -12,5 +12,7 @@
     slack
     systemctl-tui
     nextdns
+    playerctl
+    brightnessctl
   ];
 }
