@@ -142,7 +142,10 @@ in
     ];
   };
 
-  environment.systemPackages = with pkgs; [ helix ];
+  environment.systemPackages = with pkgs; [
+    helix
+    nextdns
+  ];
 
   programs = {
     niri.enable = true;

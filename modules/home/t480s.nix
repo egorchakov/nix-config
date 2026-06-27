@@ -10,8 +10,6 @@
     signal-desktop
     telegram-desktop
     slack
-    systemctl-tui
-    nextdns
     playerctl
     brightnessctl
   ];
