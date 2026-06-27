@@ -88,6 +88,11 @@
       url = "github:yaxitech/ragenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    srvos = {
+      url = "github:nix-community/srvos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -108,6 +113,7 @@
       llm-agents,
       nix-homebrew,
       agenix,
+      srvos,
       ...
     }:
     let
@@ -138,6 +144,7 @@
           nix-index-database
           nixos-hardware
           agenix
+          srvos
           ;
       };
 

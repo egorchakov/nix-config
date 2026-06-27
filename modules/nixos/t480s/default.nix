@@ -4,6 +4,7 @@
   profile,
   nixos-hardware,
   agenix,
+  srvos,
   ...
 }:
 let
@@ -12,8 +13,9 @@ in
 {
   imports = [
     nixos-hardware.nixosModules.lenovo-thinkpad-t480s
-    ./hardware-configuration.nix
+    srvos.nixosModules.desktop
     agenix.nixosModules.default
+    ./hardware-configuration.nix
   ];
 
   age = {
@@ -33,8 +35,12 @@ in
 
   boot = {
     loader = {
-      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      systemd-boot = {
+        enable = true;
+        editor = false;
+        configurationLimit = 10;
+      };
     };
     kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = [
