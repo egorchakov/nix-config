@@ -1,11 +1,11 @@
-{ pkgs, llm-agents, ... }:
+{ pkgs, self, ... }:
 let
   system = pkgs.stdenv.hostPlatform.system;
 in
 {
   programs.codex = {
     enable = true;
-    package = llm-agents.packages.${system}.codex;
+    package = self.inputs.llm-agents.packages.${system}.codex;
     settings = {
       model = "gpt-5.5";
       model_reasoning_effort = "xhigh";

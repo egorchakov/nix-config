@@ -12,71 +12,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable?shallow=1";
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-
-    darwin = {
-      url = "github:nix-darwin/nix-darwin?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager/master?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    helix = {
-      url = "github:helix-editor/helix/master?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew?shallow=1";
-
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix?shallow=1";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
-
-    nix-index-database = {
-      url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    stylix = {
-      url = "github:nix-community/stylix?shallow=1";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     treefmt-nix = {
@@ -89,33 +28,76 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    darwin = {
+      url = "github:nix-darwin/nix-darwin?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    helix = {
+      url = "github:helix-editor/helix/master?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager/master?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix?shallow=1";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
+
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew?shallow=1";
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     srvos = {
       url = "github:nix-community/srvos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix = {
+      url = "github:nix-community/stylix?shallow=1";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      nur,
-      nixos-hardware,
-      flake-parts,
-      darwin,
-      home-manager,
-      nix-index-database,
-      stylix,
-      git-hooks,
-      deploy-rs,
-      treefmt-nix,
-      helix,
-      llm-agents,
-      nix-homebrew,
-      agenix,
-      srvos,
-      ...
-    }:
+    inputs@{ self, nixpkgs, ... }:
     let
       inherit (nixpkgs) lib;
 
@@ -133,27 +115,14 @@
         "aarch64-darwin"
       ];
 
-      specialArgs = {
-        inherit
-          self
-          profile
-          helix
-          llm-agents
-          nix-homebrew
-          stylix
-          nix-index-database
-          nixos-hardware
-          agenix
-          srvos
-          ;
-      };
+      specialArgs = { inherit self profile; };
 
       mkPkgs =
         system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [ nur.overlays.default ];
+          overlays = [ inputs.nur.overlays.default ];
         };
 
       pkgsFor = lib.genAttrs systems mkPkgs;
@@ -179,7 +148,7 @@
           inherit system;
           config.allowUnfree = true;
           overlays = [
-            deploy-rs.overlays.default
+            inputs.deploy-rs.overlays.default
             (_: prev: {
               deploy-rs = {
                 inherit (pkgs) deploy-rs;
@@ -192,29 +161,29 @@
 
       mkHome =
         { system, modules }:
-        home-manager.lib.homeManagerConfiguration {
+        inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsFor.${system};
           extraSpecialArgs = specialArgs;
           inherit modules;
         };
 
     in
-    flake-parts.lib.mkFlake { inherit inputs; } {
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       inherit systems;
 
       imports = [
-        treefmt-nix.flakeModule
-        git-hooks.flakeModule
+        inputs.treefmt-nix.flakeModule
+        inputs.git-hooks.flakeModule
       ];
 
       flake = {
-        nixosConfigurations.t480s = lib.nixosSystem {
+        nixosConfigurations.t480s = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           inherit specialArgs;
           modules = [ ./modules/nixos/t480s ];
         };
 
-        darwinConfigurations.mbp = darwin.lib.darwinSystem {
+        darwinConfigurations.mbp = inputs.darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           inherit specialArgs;
           modules = [ ./modules/darwin.nix ];

@@ -1,4 +1,4 @@
-{ pkgs, helix, ... }:
+{ pkgs, self, ... }:
 let
   system = pkgs.stdenv.hostPlatform.system;
   yamlConfigQueries = ./helix/runtime/queries/yaml-config;
@@ -8,7 +8,7 @@ in
   programs.helix = {
     enable = true;
     defaultEditor = true;
-    package = helix.packages.${system}.default;
+    package = self.inputs.helix.packages.${system}.default;
     settings = {
       editor = {
         auto-save = true;

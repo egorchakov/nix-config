@@ -2,9 +2,7 @@
   config,
   pkgs,
   profile,
-  nixos-hardware,
-  agenix,
-  srvos,
+  self,
   ...
 }:
 let
@@ -12,9 +10,9 @@ let
 in
 {
   imports = [
-    nixos-hardware.nixosModules.lenovo-thinkpad-t480s
-    srvos.nixosModules.desktop
-    agenix.nixosModules.default
+    self.inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+    self.inputs.srvos.nixosModules.desktop
+    self.inputs.agenix.nixosModules.default
     ./hardware-configuration.nix
   ];
 

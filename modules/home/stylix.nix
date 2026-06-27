@@ -1,8 +1,8 @@
-{ pkgs, stylix, ... }: {
+{ pkgs, self, ... }: {
   imports = [
-    stylix.homeModules.stylix
+    self.inputs.stylix.homeModules.stylix
     {
-      disabledModules = map (name: "${stylix}/modules/${name}/hm.nix") [
+      disabledModules = map (name: "${self.inputs.stylix}/modules/${name}/hm.nix") [
         "blender"
         "kde"
         "gnome"
