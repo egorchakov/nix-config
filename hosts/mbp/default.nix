@@ -30,4 +30,11 @@
     shell = pkgs.nushell;
   };
 
+  networking = {
+    computerName = "mbp";
+    hostName = "mbp";
+    localHostName = "mbp";
+  };
+
+  security.pam.services.sudo_local.touchIdAuth = true;
 }
