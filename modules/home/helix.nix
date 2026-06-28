@@ -226,6 +226,29 @@ in
         nixd = {
           command = "${pkgs.nixd}/bin/nixd";
           args = [ "--semantic-tokens=true" ];
+          config.nixd = {
+            nixpkgs.expr = ''
+              let flake = builtins.getFlake (builtins.toString ./.);
+              in flake.inputs.nixpkgs.legacyPackages.${system}
+            '';
+
+            options = {
+              darwin.expr = ''
+                let flake = builtins.getFlake (builtins.toString ./.);
+                in flake.darwinConfigurations.mbp.options
+              '';
+
+              "home-manager".expr = ''
+                let flake = builtins.getFlake (builtins.toString ./.);
+                in flake.homeConfigurations."evgenii@mbp".options
+              '';
+
+              nixos.expr = ''
+                let flake = builtins.getFlake (builtins.toString ./.);
+                in flake.nixosConfigurations.t480s.options
+              '';
+            };
+          };
         };
 
         statix = {
