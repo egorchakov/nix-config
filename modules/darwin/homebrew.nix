@@ -17,9 +17,10 @@
       "display-pilot"
     ];
     onActivation = {
-      autoUpdate = false;
       cleanup = "uninstall";
-      upgrade = false;
+      upgrade = true;
+      autoUpdate = true;
+      extraFlags = [ "--force-cleanup" ];
     };
   };
 }
