@@ -5,11 +5,10 @@
   ...
 }:
 {
-  imports = [ ./darwin/homebrew.nix ];
+  imports = [ ../../modules/darwin/homebrew.nix ];
 
   nix.enable = false;
 
-  nixpkgs.config.allowUnfree = true;
   system = {
     primaryUser = profile.username;
     configurationRevision = self.rev or self.dirtyRev or null;
@@ -22,7 +21,9 @@
     nushell
   ];
 
-  environment.systemPackages = with pkgs; [ nextdns ];
+  environment.systemPackages = with pkgs; [
+    # nextdns
+  ];
 
   users.users."${profile.username}" = {
     home = "/Users/${profile.username}";

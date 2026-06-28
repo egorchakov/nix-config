@@ -180,24 +180,24 @@
         nixosConfigurations.t480s = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           inherit specialArgs;
-          modules = [ ./modules/nixos/t480s ];
+          modules = [ ./hosts/t480s ];
         };
 
         darwinConfigurations.mbp = inputs.darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           inherit specialArgs;
-          modules = [ ./modules/darwin.nix ];
+          modules = [ ./hosts/mbp ];
         };
 
         homeConfigurations = {
           "${profile.username}@mbp" = mkHome {
             system = "aarch64-darwin";
-            modules = [ ./modules/home/darwin.nix ];
+            modules = [ ./hosts/mbp/home.nix ];
           };
 
           "${profile.username}@t480s" = mkHome {
             system = "x86_64-linux";
-            modules = [ ./modules/home/t480s.nix ];
+            modules = [ ./hosts/t480s/home.nix ];
           };
 
           x86_64-linux = mkHome {

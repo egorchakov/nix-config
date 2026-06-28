@@ -1,8 +1,8 @@
 { pkgs, ... }: {
   imports = [
-    ./shared.nix
-    ./linux.nix
-    ./gui.nix
+    ../../modules/home/shared.nix
+    ../../modules/home/linux.nix
+    ../../modules/home/gui.nix
   ];
 
   home.packages = with pkgs; [

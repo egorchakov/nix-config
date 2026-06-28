@@ -19,7 +19,7 @@ in
   age = {
     identityPaths = [ "${config.users.users.${username}.home}/.ssh/id_ed25519" ];
     secrets.nextdns-profile = {
-      file = ../../../secrets/nextdns-profile.age;
+      file = ../../secrets/nextdns-profile.age;
       mode = "0400";
     };
   };
