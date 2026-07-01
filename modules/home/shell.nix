@@ -11,7 +11,6 @@
     just
     dust
     rsync
-    nur.repos.doomhammer.gitpane
   ];
 
   programs = {
