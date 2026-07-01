@@ -1,5 +1,9 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ winbox ];
+  home.packages = with pkgs; [
+    winbox
+    qpdf
+    poppler-utils
+  ];
 
   programs = {
     ghostty = {
