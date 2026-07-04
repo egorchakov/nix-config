@@ -1,11 +1,13 @@
 { ... }: {
   imports = [
-    ./stylix.nix
-    ./core.nix
     ./codex.nix
+    ./core.nix
     ./git.nix
-    ./shell.nix
-    ./yazi.nix
     ./helix.nix
+    ./nushell.nix
+    ./shell.nix
+    ./stylix.nix
+    ./yazi.nix
+    ./zellij.nix
   ];
 }
