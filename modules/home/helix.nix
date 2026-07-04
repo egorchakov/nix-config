@@ -127,6 +127,7 @@ in
           language-servers = [
             "ruff"
             "ty"
+            "pyrefly"
           ];
         }
         {
