@@ -27,7 +27,7 @@ in
       chatgpt
       slack
       # bitwarden-desktop
-      telegram-desktop
+      # telegram-desktop
       rerun
       cloudflare-warp
       signal-desktop
