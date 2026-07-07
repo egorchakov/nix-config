@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
-    ./codex.nix
+    ./agents.nix
     ./core.nix
     ./git.nix
     ./helix.nix
