@@ -59,6 +59,30 @@ in
           undo = true;
         };
       };
+      context = ''
+        ## guiding principles
+          - strive for the absolute minimal diff
+          - use as much third-party code as possible where applicable
+          - use native library APIs instead of custom helpers
+          - if introducing a new data structure, opt for the cleanest and tightest design
+
+        ## strictly forbidden
+          - over-abstraction
+          - superfluous structs or single/few-use helpers
+          - adding tests unless instructed otherwise
+          - reinventing the wheel
+
+        ## tool preferences
+          - "nix develop" for nix-managed projects
+          - "nix run" for one-off commands if a tool is missing
+          - nushell for shell tasks
+
+        ## language-specific preferences
+        ### rust
+          - prefer long method chains over single-use intermediate variables
+          - prefer methods over free functions
+          - consult https://blessed.rs/crates when picking a crate
+      '';
     };
   };
 }
