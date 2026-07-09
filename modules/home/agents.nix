@@ -22,9 +22,9 @@ in
       enableMcpIntegration = true;
       package = self.inputs.llm-agents.packages.${system}.codex;
       settings = {
-        model = "gpt-5.5";
-        model_reasoning_effort = "xhigh";
-        plan_mode_reasoning_effort = "xhigh";
+        model = "gpt-5.6-sol";
+        model_reasoning_effort = "ultra";
+        plan_mode_reasoning_effort = "ultra";
         service_tier = "fast";
         personality = "pragmatic";
         approval_policy = "never";
