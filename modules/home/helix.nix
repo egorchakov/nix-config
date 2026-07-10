@@ -107,6 +107,13 @@ in
     languages = {
       language = [
         {
+          name = "markdown";
+          language-servers = [
+            "rumdl"
+            "mpls"
+          ];
+        }
+        {
           name = "nix";
           auto-format = true;
           formatter = {
@@ -224,6 +231,8 @@ in
           args = [ "--clang-tidy" ];
         };
 
+        mpls.command = "${pkgs.mpls}/bin/mpls";
+
         nixd = {
           command = "${pkgs.nixd}/bin/nixd";
           args = [ "--semantic-tokens=true" ];
@@ -286,6 +295,7 @@ in
       clippy
       jq-lsp
       kdlfmt
+      rumdl
     ];
   };
 
