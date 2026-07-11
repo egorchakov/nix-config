@@ -26,8 +26,6 @@ in
       google-chrome
       chatgpt
       slack
-      # bitwarden-desktop
-      # telegram-desktop
       rerun
       cloudflare-warp
       signal-desktop

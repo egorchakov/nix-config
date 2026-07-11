@@ -20,15 +20,11 @@ in
     identityPaths = [ "${config.users.users.${username}.home}/.ssh/id_ed25519" ];
     secrets.nextdns-profile = {
       file = ../../secrets/nextdns-profile.age;
-      mode = "0400";
     };
   };
 
   hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-    };
+    bluetooth.enable = true;
   };
 
   boot = {
@@ -46,14 +42,6 @@ in
       "i915.enable_fbc=1"
       "i915.enable_psr=2"
     ];
-  };
-
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    trusted-users = [ username ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -83,8 +71,6 @@ in
 
   zramSwap = {
     enable = true;
-    algorithm = "zstd";
-    memoryPercent = 50;
     priority = 100;
   };
 
@@ -117,10 +103,8 @@ in
     };
     printing.enable = true;
     displayManager = {
-      enable = true;
       ly.enable = true;
     };
-    pulseaudio.enable = false;
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -149,13 +133,7 @@ in
 
   programs = {
     niri.enable = true;
-    dms-shell = {
-      enable = true;
-      systemd = {
-        enable = true;
-        restartIfChanged = true;
-      };
-    };
+    dms-shell.enable = true;
     dsearch.enable = true;
   };
 

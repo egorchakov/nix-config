@@ -21,10 +21,6 @@
     nushell
   ];
 
-  environment.systemPackages = with pkgs; [
-    # nextdns
-  ];
-
   users.users."${profile.username}" = {
     home = "/Users/${profile.username}";
     shell = pkgs.nushell;

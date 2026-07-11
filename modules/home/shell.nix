@@ -15,6 +15,7 @@
 
   programs = {
     bat.enable = true;
+    delta.enable = true;
     ripgrep.enable = true;
     skim.enable = true;
     zoxide.enable = true;

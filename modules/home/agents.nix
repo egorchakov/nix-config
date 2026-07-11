@@ -45,18 +45,10 @@ in
           ];
         };
         features = {
-          apply_patch_freeform = true;
-          fast_mode = true;
-          multi_agent = true;
-          remote_models = true;
-          runtime_metrics = true;
-          shell_snapshot = true;
-          unified_exec = true;
-          goals = true;
+          code_mode = true;
           hooks = true;
           memories = true;
           prevent_idle_sleep = true;
-          undo = true;
         };
       };
       context = ''

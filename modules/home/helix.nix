@@ -1,8 +1,6 @@
 { pkgs, self, ... }:
 let
   system = pkgs.stdenv.hostPlatform.system;
-  yamlConfigQueries = ./helix/runtime/queries/yaml-config;
-  justQueries = ./helix/runtime/queries/just;
 in
 {
   programs.helix = {
@@ -140,6 +138,7 @@ in
         {
           name = "toml";
           auto-format = true;
+          language-servers = [ "tombi" ];
         }
         {
           name = "yaml-config";
@@ -284,45 +283,24 @@ in
       };
     };
     extraPackages = with pkgs; [
-      tombi
-      yaml-language-server
-      vscode-json-languageserver
-      just-lsp
-      ruff
-      ty
-      rust-analyzer
-      rustfmt
       clippy
       jq-lsp
+      just-lsp
       kdlfmt
+      pyrefly
+      ruff
       rumdl
+      rust-analyzer
+      rustfmt
+      tombi
+      ty
+      vscode-json-languageserver
+      yaml-language-server
     ];
   };
 
   xdg.configFile = {
-    "helix/runtime/queries/yaml-config/highlights.scm" = {
-      enable = true;
-      source = yamlConfigQueries + "/highlights.scm";
-    };
-
-    "helix/runtime/queries/yaml-config/injections.scm" = {
-      enable = true;
-      source = yamlConfigQueries + "/injections.scm";
-    };
-
-    "helix/runtime/queries/yaml-config/textobjects.scm" = {
-      enable = true;
-      source = yamlConfigQueries + "/textobjects.scm";
-    };
-
-    "helix/runtime/queries/yaml-config/indents.scm" = {
-      enable = true;
-      source = yamlConfigQueries + "/indents.scm";
-    };
-
-    "helix/runtime/queries/just/injections.scm" = {
-      enable = true;
-      source = justQueries + "/injections.scm";
-    };
+    "helix/runtime/queries/yaml-config".source = ./helix/runtime/queries/yaml-config;
+    "helix/runtime/queries/just".source = ./helix/runtime/queries/just;
   };
 }

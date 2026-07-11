@@ -5,7 +5,6 @@
     plugins = {
       inherit (pkgs.yaziPlugins)
         full-border
-        chmod
         starship
         git
         ouch

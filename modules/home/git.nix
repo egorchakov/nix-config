@@ -17,8 +17,6 @@
         mode = "both";
       };
     };
-
-    delta.enable = true;
   };
 
   xdg.configFile."tig/config" = {
