@@ -9,7 +9,7 @@ in
       enable = true;
       servers = {
         rerun = {
-          enabled = false; # TODO: enable once https://github.com/NixOS/nixpkgs/pull/539089
+          enabled = true;
           command = "rerun"; # TODO: binpath?
           args = [ "viewer-mcp" ];
           env.RUST_LOG = "re_viewer_mcp=info,warn";

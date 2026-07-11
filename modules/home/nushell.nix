@@ -2,7 +2,7 @@
   programs.nushell = {
     enable = true;
     shellAliases = {
-      cx = "codex";
+      cx = "codex --profile interactive";
       zl = "zellij";
       nf = "nix flake";
       gi = "gst-inspect-1.0";
