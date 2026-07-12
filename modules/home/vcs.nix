@@ -1,4 +1,6 @@
-{ profile, ... }: {
+{ pkgs, profile, ... }: {
+  home.packages = with pkgs; [ lumen ];
+
   programs = {
     git = {
       enable = true;

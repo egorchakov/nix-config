@@ -4,7 +4,7 @@ set default-script
 set lazy
 
 _default:
-    just --choose --chooser sk
+    just --list
 
 deploy *ARGS:
     deploy {{ ARGS }} -- --log-format internal-json o+e>| nom --json

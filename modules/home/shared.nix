@@ -2,7 +2,7 @@
   imports = [
     ./agents.nix
     ./core.nix
-    ./git.nix
+    ./vcs.nix
     ./helix.nix
     ./nushell.nix
     ./shell.nix
