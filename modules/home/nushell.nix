@@ -41,7 +41,7 @@
 
         def why [] {
             let cmd = history | last | get command
-            codex $"/goal explain why this command failed and suggest a fix: ($cmd)"
+            codex --profile interactive $"/goal explain why this command failed and suggest a fix: ($cmd)"
         }
       '';
   };
