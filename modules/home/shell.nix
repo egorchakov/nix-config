@@ -6,12 +6,22 @@
 }:
 {
   imports = [ self.inputs.nix-index-database.homeModules.default ];
-  home.packages = with pkgs; [
-    tig
-    just
-    dust
-    rsync
-  ];
+  home = {
+    packages = with pkgs; [
+      tig
+      just
+      dust
+      rsync
+      ouch
+      duckdb
+    ];
+
+    file.".duckdbrc".text = ''
+      .startup_text none
+      SET autoinstall_known_extensions = true;
+      SET autoload_known_extensions = true;
+    '';
+  };
 
   programs = {
     bat.enable = true;
