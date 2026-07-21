@@ -16,7 +16,7 @@
       };
     };
     sioyek = {
-      enable = true;
+      enable = false; # TODO
       config = {
         case_sensitive_search = "0";
         default_dark_mode = "1";
