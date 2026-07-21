@@ -5,8 +5,7 @@
       cx = "codex --profile interactive";
       zl = "zellij";
       nf = "nix flake";
-      gi = "gst-inspect-1.0";
-      gl = "gst-launch-1.0";
+      hd = "herdr";
     };
     environmentVariables = config.home.sessionVariables;
     settings = {

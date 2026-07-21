@@ -4,6 +4,7 @@
     ./core.nix
     ./vcs.nix
     ./helix.nix
+    ./herdr.nix
     ./nushell.nix
     ./shell.nix
     ./stylix.nix
