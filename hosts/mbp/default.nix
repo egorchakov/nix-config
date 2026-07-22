@@ -1,4 +1,5 @@
 {
+  addressedHosts,
   config,
   lib,
   self,
@@ -6,6 +7,17 @@
   profile,
   ...
 }:
+let
+  hostsFile = pkgs.writeText "hosts" ''
+    127.0.0.1 localhost
+    255.255.255.255 broadcasthost
+    ::1 localhost
+
+    ${lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (name: { address, ... }: "${address}\t${name}") addressedHosts
+    )}
+  '';
+in
 {
   imports = [ ../../modules/darwin/homebrew.nix ];
 
@@ -41,4 +53,13 @@
   };
 
   security.pam.services.sudo_local.touchIdAuth = true;
+
+  system.activationScripts.postActivation.text = lib.mkAfter ''
+    ${pkgs.coreutils}/bin/install \
+      --owner=root \
+      --group=wheel \
+      --mode=0644 \
+      ${hostsFile} \
+      /etc/hosts
+  '';
 }

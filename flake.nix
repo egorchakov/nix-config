@@ -101,13 +101,50 @@
         };
       };
 
+      hosts = {
+        mbp.system = "aarch64-darwin";
+        t480s.system = "x86_64-linux";
+
+        aboutblank = {
+          address = "192.168.207.247";
+          system = "x86_64-linux";
+        };
+        berghain = {
+          address = "192.168.207.244";
+          system = "x86_64-linux";
+        };
+        kitkat = {
+          address = "192.168.207.239";
+          system = "x86_64-linux";
+        };
+        renate = {
+          address = "192.168.207.246";
+          system = "x86_64-linux";
+        };
+        sisyphos = {
+          address = "192.168.207.241";
+          system = "x86_64-linux";
+        };
+        tresor = {
+          address = "192.168.207.242";
+          system = "x86_64-linux";
+        };
+        delta-dev1 = {
+          address = "192.168.144.35";
+          system = "aarch64-linux";
+        };
+        delta-emc1.address = "172.30.0.40";
+      };
+
+      addressedHosts = lib.filterAttrs (_: host: host ? address) hosts;
+
       systems = [
         "x86_64-linux"
         "aarch64-linux"
         "aarch64-darwin"
       ];
 
-      specialArgs = { inherit self profile; };
+      specialArgs = { inherit self profile addressedHosts; };
 
       mkPkgs =
         system:
@@ -118,17 +155,9 @@
 
       pkgsFor = lib.genAttrs systems mkPkgs;
 
-      deployHosts = {
-        aboutblank = "x86_64-linux";
-        berghain = "x86_64-linux";
-        delta-dev1 = "aarch64-linux";
-        kitkat = "x86_64-linux";
-        renate = "x86_64-linux";
-        sisyphos = "x86_64-linux";
-        tresor = "x86_64-linux";
-      };
+      deployHosts = lib.filterAttrs (_: host: host ? address && host ? system) hosts;
 
-      deploySystems = lib.unique (lib.attrValues deployHosts);
+      deploySystems = lib.unique (lib.mapAttrsToList (_: host: host.system) deployHosts);
 
       deployPkgsFor = lib.genAttrs deploySystems (
         system:
@@ -169,25 +198,25 @@
 
       flake = {
         nixosConfigurations.t480s = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+          inherit (hosts.t480s) system;
           inherit specialArgs;
           modules = [ ./hosts/t480s ];
         };
 
         darwinConfigurations.mbp = inputs.darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
+          inherit (hosts.mbp) system;
           inherit specialArgs;
           modules = [ ./hosts/mbp ];
         };
 
         homeConfigurations = {
           "${profile.username}@mbp" = mkHome {
-            system = "aarch64-darwin";
+            inherit (hosts.mbp) system;
             modules = [ ./hosts/mbp/home.nix ];
           };
 
           "${profile.username}@t480s" = mkHome {
-            system = "x86_64-linux";
+            inherit (hosts.t480s) system;
             modules = [ ./hosts/t480s/home.nix ];
           };
 
@@ -208,7 +237,7 @@
           };
         };
 
-        deploy.nodes = lib.mapAttrs (hostname: system: {
+        deploy.nodes = lib.mapAttrs (hostname: { system, ... }: {
           inherit hostname;
           remoteBuild = true;
           autoRollback = true;
