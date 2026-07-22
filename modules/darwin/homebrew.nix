@@ -11,6 +11,8 @@
   homebrew = {
     enable = true;
     greedyCasks = false;
+    taps = [ "lablup/tap" ];
+    brews = [ "lablup/tap/all-smi" ];
     casks = [
       "tunnelblick"
       "uhk-agent"
