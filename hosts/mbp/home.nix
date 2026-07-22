@@ -1,6 +1,8 @@
 {
   addressedHosts,
+  config,
   lib,
+  pkgs,
   profile,
   ...
 }:
@@ -43,4 +45,30 @@
       };
     };
   };
+
+  xdg.configFile = {
+    "all-smi/config.toml" = {
+      force = true;
+      text = ''
+        [view]
+        ssh_hostfile = "${config.xdg.configHome}/all-smi/servers"
+        ssh_strict_host_key = "accept-new"
+      '';
+    };
+
+    "all-smi/servers".text = lib.concatMapStrings (server: "${profile.username}@${server}\n") [
+      "aboutblank"
+      "berghain"
+      "kitkat"
+      "renate"
+      "sisyphos"
+      "tresor"
+    ];
+  };
+
+  home.activation.allSmiConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run ${pkgs.coreutils}/bin/install -Dm600 \
+      ${lib.escapeShellArg config.xdg.configFile."all-smi/config.toml".source} \
+      ${lib.escapeShellArg "${config.xdg.configHome}/all-smi/config.toml"}
+  '';
 }
