@@ -6,6 +6,7 @@
       zl = "zellij";
       nf = "nix flake";
       hd = "herdr";
+      hdr = "herdr --remote";
     };
     environmentVariables = config.home.sessionVariables;
     settings = {
