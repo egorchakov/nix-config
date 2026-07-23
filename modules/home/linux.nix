@@ -11,7 +11,7 @@
     if $nu.is-interactive and ($env.SSH_CONNECTION? != null) and ($env.SSH_AUTH_SOCK? != null) {
       let forwarded_agent = $env.HOME | path join ".ssh" "forwarded-agent.sock"
 
-      if ($env.ZELLIJ? == null) and ($env.SSH_AUTH_SOCK != $forwarded_agent) {
+      if ($env.ZELLIJ? == null) and ($env.HERDR_ENV? == null) and ($env.SSH_AUTH_SOCK != $forwarded_agent) {
         ${pkgs.coreutils}/bin/ln -sfn $env.SSH_AUTH_SOCK $forwarded_agent
       }
 
