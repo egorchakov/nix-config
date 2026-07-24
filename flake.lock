@@ -580,6 +580,22 @@
         "type": "github"
       }
     },
+    "pohuy": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784744640,
+        "narHash": "sha256-oJQHKQMKQ7i6FOJv0ZB+OA3mncNCfk8K24WUgGCCbLA=",
+        "owner": "smixs",
+        "repo": "pohuy",
+        "rev": "983c415babaf8be8f4a9866e375493eead57bddf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "smixs",
+        "repo": "pohuy",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -594,6 +610,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
+        "pohuy": "pohuy",
         "srvos": "srvos",
         "stylix": "stylix",
         "treefmt-nix": "treefmt-nix"

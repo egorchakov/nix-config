@@ -3,6 +3,11 @@ let
   system = pkgs.stdenv.hostPlatform.system;
 in
 {
+  home.file.".agents/skills/pohuy".source = builtins.path {
+    name = "pohuy-skill";
+    path = self.inputs.pohuy + "/skills/pohuy";
+  };
+
   programs = {
 
     mcp = {
