@@ -17,26 +17,6 @@ in
       ui = {
         sidebar_start_collapsed = true;
         sidebar_collapsed_mode = "hidden";
-        sidebar = {
-          spaces = {
-            row_gap = 1;
-          };
-          agents = {
-            row_gap = 1;
-            rows = [
-              [
-                "state_icon"
-                "workspace"
-                "agent"
-                "state_text"
-              ]
-              [
-                "tab"
-                "pane"
-              ]
-            ];
-          };
-        };
         prompt_new_tab_name = false;
         pane_gaps = false;
         sound.enabled = false;
