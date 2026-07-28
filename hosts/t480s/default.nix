@@ -104,7 +104,9 @@ in
     printing.enable = true;
     displayManager = {
       ly.enable = true;
+      sessionPackages = [ pkgs.niri ];
     };
+    gnome.gnome-keyring.enable = true;
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -132,7 +134,6 @@ in
   ];
 
   programs = {
-    niri.enable = true;
     dms-shell.enable = true;
     dsearch.enable = true;
   };

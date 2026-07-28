@@ -12,7 +12,13 @@
     slack
     playerctl
     brightnessctl
+    nautilus
   ];
+
+  wayland.windowManager.niri.enable = true;
+
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
   systemd.user.services.dropbox = {
     Unit = {
       Description = "Dropbox service";
