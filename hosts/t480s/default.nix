@@ -131,6 +131,12 @@ in
   environment.systemPackages = with pkgs; [
     helix
     nextdns
+    libreoffice-fresh
+    hunspell
+    hunspellDicts.en_US-large
+    hunspellDicts.de_DE
+    hyphenDicts.en_US
+    hyphenDicts.de_DE
   ];
 
   programs = {
