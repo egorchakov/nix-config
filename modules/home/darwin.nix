@@ -29,6 +29,7 @@ in
       rerun
       cloudflare-warp
       signal-desktop
+      telegram-desktop
     ];
   };
 }
