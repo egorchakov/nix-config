@@ -142,6 +142,7 @@ in
   programs = {
     dms-shell.enable = true;
     dsearch.enable = true;
+    dconf.enable = true;
   };
 
   system.stateVersion = "26.05";
