@@ -1,23 +1,4 @@
-{
-  lib,
-  pkgs,
-  profile,
-  ...
-}:
-let
-  rerun = (pkgs.rerun.override { buildWebViewerFeatures = [ "map_view" ]; }).overrideAttrs (
-    old:
-    let
-      rerunFeatures = lib.unique ((old.cargoBuildFeatures or old.buildFeatures or [ ]) ++ [ "map_view" ]);
-    in
-    {
-      buildFeatures = rerunFeatures;
-      cargoBuildFeatures = rerunFeatures;
-      cargoCheckFeatures = rerunFeatures;
-    }
-  );
-in
-{
+{ pkgs, profile, ... }: {
   home = {
     inherit (profile) username;
     homeDirectory = "/Users/${profile.username}";
