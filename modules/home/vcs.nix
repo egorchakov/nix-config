@@ -19,6 +19,10 @@
         mode = "both";
       };
     };
+
+    gitui = {
+      enable = true;
+    };
   };
 
   xdg.configFile."tig/config" = {
