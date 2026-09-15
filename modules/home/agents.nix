@@ -79,6 +79,7 @@ in
           - introduce superfluous structs or single/few-use helpers
           - add tests unless instructed otherwise
           - reinvent the wheel
+          - add unnecessary comments
       '';
     };
   };
