@@ -37,15 +37,14 @@ in
       editor = {
         auto-save = true;
         true-color = true;
-        idle-timeout = 0;
+        idle-timeout = 150;
         auto-completion = true;
         path-completion = true;
         completion-timeout = 5;
-        completion-trigger-len = 1;
         completion-replace = true;
 
         lsp = {
-          display-messages = true;
+          display-progress-messages = true;
           display-inlay-hints = true;
         };
 
@@ -271,9 +270,15 @@ in
 
         rust-analyzer = {
           config = {
+            cargo.targetDir = true;
             check = {
               command = "clippy";
               workspace = false;
+              allTargets = false;
+              extraArgs = [
+                "--"
+                "--no-deps"
+              ];
             };
             completion.fullFunctionSignatures.enable = true;
           };
