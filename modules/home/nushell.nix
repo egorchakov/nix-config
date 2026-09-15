@@ -7,6 +7,7 @@
       nf = "nix flake";
       hd = "herdr";
       hdr = "herdr --remote";
+      bssh = "bssh -o ClearAllForwardings=yes";
     };
     environmentVariables = config.home.sessionVariables;
     settings = {

@@ -6,6 +6,16 @@
   profile,
   ...
 }:
+let
+  servers = [
+    "aboutblank"
+    "berghain"
+    "kitkat"
+    "renate"
+    "sisyphos"
+    "tresor"
+  ];
+in
 {
   imports = [
     ../../modules/home/shared.nix
@@ -37,6 +47,7 @@
         SetEnv.TERM = "xterm-256color";
         RemoteForward = "9878 localhost:9878";
         StrictHostKeyChecking = "accept-new";
+        LogLevel = "QUIET";
       };
 
       "router.lan" = {
@@ -56,14 +67,12 @@
       '';
     };
 
-    "all-smi/servers".text = lib.concatMapStrings (server: "${profile.username}@${server}\n") [
-      "aboutblank"
-      "berghain"
-      "kitkat"
-      "renate"
-      "sisyphos"
-      "tresor"
-    ];
+    "all-smi/servers".text = lib.concatMapStrings (server: "${profile.username}@${server}\n") servers;
+
+    "bssh/config.yaml".source = (pkgs.formats.yaml { }).generate "bssh-config.yaml" {
+      defaults.user = profile.username;
+      clusters.ml.nodes = servers;
+    };
   };
 
   home.activation.allSmiConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
