@@ -131,6 +131,7 @@ in
       language = [
         {
           name = "cpp";
+          auto-format = true;
           language-servers = [
             "clangd"
             "git-blame"
@@ -138,6 +139,7 @@ in
         }
         {
           name = "ron";
+          auto-format = true;
           language-servers = [
             "ron-lsp"
             "git-blame"
@@ -162,7 +164,7 @@ in
           name = "nix";
           auto-format = true;
           formatter = {
-            command = "${pkgs.nixfmt}/bin/nixfmt";
+            command = "nixfmt";
             args = [
               "--verify"
               "--strict"
@@ -209,7 +211,7 @@ in
             "git-blame"
           ];
           formatter = {
-            command = "${pkgs.yamlfmt}/bin/yamlfmt";
+            command = "yamlfmt";
             args = [ "-" ];
           };
         }
@@ -222,7 +224,7 @@ in
             "git-blame"
           ];
           formatter = {
-            command = "${pkgs.yamlfmt}/bin/yamlfmt";
+            command = "yamlfmt";
             args = [ "-" ];
           };
         }
@@ -234,7 +236,7 @@ in
             "git-blame"
           ];
           formatter = {
-            command = "${pkgs.just}/bin/just";
+            command = "just";
             args = [
               "--dump"
               "--justfile"
@@ -245,18 +247,13 @@ in
         {
           name = "nu";
           auto-format = true;
-          language-servers = [ "nu-lsp" ];
-          formatter = {
-            command = "${pkgs.nufmt}/bin/nufmt";
-            args = [ "--stdin" ];
-          };
         }
         {
           name = "jq";
           auto-format = true;
           language-servers = [ "jq-lsp" ];
           formatter = {
-            command = "${pkgs.jqfmt}/bin/jqfmt";
+            command = "jqfmt";
             args = [
               "-ob"
               "-ar"
@@ -301,15 +298,11 @@ in
           config.settings.format.preview = true;
         };
 
-        clangd = {
-          command = "${pkgs.clang-tools}/bin/clangd";
-          args = [ "--clang-tidy" ];
-        };
+        clangd.args = [ "--clang-tidy" ];
 
-        mpls.command = "${pkgs.mpls}/bin/mpls";
+        mpls.command = "mpls";
 
         nixd = {
-          command = "${pkgs.nixd}/bin/nixd";
           config.nixd = {
             nixpkgs.expr = ''
               let flake = builtins.getFlake (builtins.toString ./.);
@@ -336,12 +329,12 @@ in
         };
 
         statix = {
-          command = "${pkgs.efm-langserver}/bin/efm-langserver";
+          command = "efm-langserver";
           config = {
             languages = {
               nix = [
                 {
-                  lintCommand = "${pkgs.statix}/bin/statix check --stdin --format=errfmt";
+                  lintCommand = "statix check --stdin --format=errfmt";
                   lintStdIn = true;
                   lintIgnoreExitCode = true;
                   lintFormats = [ "<stdin>>%l:%c:%t:%n:%m" ];
@@ -358,19 +351,29 @@ in
       };
     };
     extraPackages = with pkgs; [
+      clang-tools
       clippy
+      efm-langserver
       jq-lsp
+      jqfmt
+      just
       just-lsp
       kdlfmt
+      mpls
+      nixd
+      nixfmt
+      nufmt
       pyrefly
       ruff
       rumdl
       rust-analyzer
       rustfmt
+      statix
       tombi
       ty
       vscode-json-languageserver
       yaml-language-server
+      yamlfmt
     ];
   };
 
