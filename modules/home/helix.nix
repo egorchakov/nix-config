@@ -271,7 +271,6 @@ in
             check = {
               command = "clippy";
               workspace = false;
-              allTargets = false;
               extraArgs = [
                 "--"
                 "--no-deps"
