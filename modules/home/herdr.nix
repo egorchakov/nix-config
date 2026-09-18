@@ -14,6 +14,7 @@ in
         version_check = false;
         manifest_check = false;
       };
+      remote.manage_ssh_config = true;
       ui = {
         sidebar_start_collapsed = true;
         sidebar_collapsed_mode = "hidden";
