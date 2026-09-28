@@ -140,6 +140,13 @@ in
         {
           name = "ron";
           auto-format = true;
+          formatter = {
+            command = "fmtron";
+            args = [
+              "--stdin-filepath"
+              "%{buffer_name}"
+            ];
+          };
           language-servers = [
             "ron-lsp"
             "git-blame"
