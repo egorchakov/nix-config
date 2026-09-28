@@ -32,7 +32,10 @@
     uv.enable = true;
     bottom.enable = true;
     htop.enable = true;
-    gh.enable = true;
+    gh = {
+      enable = true;
+      extensions = [ pkgs.gh-stack ];
+    };
     nix-your-shell = {
       enable = true;
       nix-output-monitor.enable = true;
