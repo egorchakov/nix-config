@@ -30,6 +30,11 @@ in
       experimental = {
         kitty_graphics = true;
       };
+      keys = {
+        next_agent = "prefix+]";
+        previous_agent = "prefix+[";
+        copy_mode = "prefix+shift+c";
+      };
     };
   };
 }
