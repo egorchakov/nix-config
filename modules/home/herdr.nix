@@ -1,4 +1,9 @@
-{ pkgs, self, ... }:
+{
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   system = pkgs.stdenv.hostPlatform.system;
 in
@@ -8,7 +13,7 @@ in
     package = self.inputs.llm-agents.packages.${system}.herdr;
     settings = {
       onboarding = false;
-      terminal.default_shell = "nu";
+      terminal.default_shell = lib.getExe pkgs.nushell;
       theme.name = "kanagawa";
       update = {
         version_check = false;
