@@ -40,7 +40,7 @@ in
       enableMcpIntegration = true;
       package = self.inputs.llm-agents.packages.${system}.codex;
       settings = {
-        model = "gpt-6-astra";
+        model = "gpt-6.1-sol";
         model_reasoning_effort = "xhigh";
         plan_mode_reasoning_effort = "xhigh";
         service_tier = "fast";
