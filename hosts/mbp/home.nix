@@ -75,6 +75,20 @@ in
     };
   };
 
+  xdg.stateFile."herdr/client/endpoints.json" = {
+    force = true;
+    text = builtins.toJSON {
+      version = 1;
+      ssh = lib.mapAttrsToList (target: _: {
+        inherit target;
+        id = builtins.substring 0 32 (builtins.hashString "sha256" "herdr:${target}:default");
+        label = target;
+        session = "default";
+        enabled = true;
+      }) addressedHosts;
+    };
+  };
+
   home.activation.allSmiConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     run ${pkgs.coreutils}/bin/install -Dm600 \
       ${lib.escapeShellArg config.xdg.configFile."all-smi/config.toml".source} \
