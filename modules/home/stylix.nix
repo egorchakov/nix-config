@@ -31,8 +31,8 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/evenok-dark.yaml";
     fonts = {
       monospace = {
-        package = pkgs.iosevka-bin;
-        name = "Iosevka";
+        package = pkgs.nerd-fonts.iosevka;
+        name = "Iosevka Nerd Font Mono";
       };
       sizes.terminal = 14;
     };
