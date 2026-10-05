@@ -6,11 +6,11 @@
   ...
 }:
 let
-  flow = (pkgs.flow-control.override { zig_0_15 = pkgs.zig_0_16; }).overrideAttrs (old: {
+  flow = (pkgs.flow-control.override { zig_0_15 = pkgs.zig_0_17; }).overrideAttrs (old: {
     version = "unstable-${self.inputs.flow.shortRev}";
     src = self.inputs.flow;
     zigDeps = old.zigDeps.overrideAttrs {
-      outputHash = "sha256-nXp69dBrNH0VexHX8APJApBPb60FBFif7QnYBZ6awmk=";
+      outputHash = "sha256-2EwxDrq4pwzWoST+TJUOnDsXQehNxthchAlgWaPMDbg=";
     };
     zigBuildFlags = [
       "--system"
