@@ -44,6 +44,7 @@ in
         completion-replace = true;
 
         lsp = {
+          auto-document-highlight = true;
           display-progress-messages = true;
           display-inlay-hints = true;
         };
