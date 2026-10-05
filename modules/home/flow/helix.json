@@ -1,0 +1,31 @@
+{
+  "settings": { "inherit": "<<builtin>>" },
+  "normal": {
+    "cursor": "block",
+    "line_numbers": "absolute",
+    "press": [
+      [";", "open_command_palette"],
+      ["y", ["enable_selection"], ["copy"], ["enter_mode", "normal"]],
+      ["d", ["enable_selection"], ["cut"]],
+      ["ctrl+h", "focus_prev_split"],
+      ["ctrl+l", "focus_next_split"],
+      ["escape", "cancel"]
+    ]
+  },
+  "insert": {
+    "cursor": "beam",
+    "press": [["escape", ["cancel"], ["enter_mode", "normal"]]]
+  },
+  "select": {
+    "cursor": "underline",
+    "line_numbers": "absolute",
+    "press": [
+      [";", "open_command_palette"],
+      ["y", ["copy"], ["enter_mode", "normal"]],
+      ["d", ["cut"], ["enter_mode", "normal"]],
+      ["ctrl+h", "focus_prev_split"],
+      ["ctrl+l", "focus_next_split"],
+      ["escape", ["cancel"], ["enter_mode", "normal"]]
+    ]
+  }
+}
