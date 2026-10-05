@@ -343,6 +343,7 @@
           devShells.default =
             with pkgs;
             mkShell {
+              name = "nix-config";
               inputsFrom = [ config.pre-commit.devShell ];
               packages = [
                 nushell

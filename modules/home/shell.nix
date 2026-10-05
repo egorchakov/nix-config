@@ -71,7 +71,13 @@
 
     starship = {
       enable = true;
-      settings.format = "$username$hostname$directory$git_branch$git_state$nix_shell$direnv$python\n$character";
+      settings = {
+        format = "$username$hostname$directory$git_branch$git_state$nix_shell$direnv$python\n$character";
+        nix_shell = {
+          format = "via [$symbol$name]($style) ";
+          symbol = "❄️ ";
+        };
+      };
     };
   };
 }
