@@ -44,6 +44,10 @@
             let cmd = history | last | get command
             codex --profile interactive $"/goal explain why this command failed and suggest a fix: ($cmd)"
         }
+
+        def ns [...packages: string] {
+            ^nix shell ...($packages | each {|p| $"nixpkgs#($p)"})
+        }
       '';
   };
 }
