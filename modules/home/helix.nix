@@ -24,9 +24,7 @@ in
   programs.helix = {
     enable = true;
     defaultEditor = true;
-    package = self.inputs.helix.packages.${system}.default.override {
-      includeGrammarIf = grammar: grammar.name != "perl";
-    };
+    package = self.inputs.helix.packages.${system}.default;
     themes.stylix-brighter-comments = {
       inherits = "stylix";
       comment = {

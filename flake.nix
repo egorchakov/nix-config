@@ -43,10 +43,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    helix = {
-      url = "github:helix-editor/helix/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    helix.url = "github:helix-editor/helix/master";
 
     flow = {
       url = "github:neurocyte/flow/master";
@@ -62,7 +59,6 @@
       url = "github:numtide/llm-agents.nix";
       inputs = {
         flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
       };
     };
