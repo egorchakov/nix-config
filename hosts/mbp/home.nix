@@ -7,14 +7,7 @@
   ...
 }:
 let
-  servers = [
-    "aboutblank"
-    "berghain"
-    "kitkat"
-    "renate"
-    "sisyphos"
-    "tresor"
-  ];
+  hostGroups = lib.groupBy (name: addressedHosts.${name}.group) (builtins.attrNames addressedHosts);
 in
 {
   imports = [
@@ -67,11 +60,13 @@ in
       '';
     };
 
-    "all-smi/servers".text = lib.concatMapStrings (server: "${profile.username}@${server}\n") servers;
+    "all-smi/servers".text = lib.concatMapStrings (
+      server: "${profile.username}@${server}\n"
+    ) hostGroups.ml;
 
     "bssh/config.yaml".source = (pkgs.formats.yaml { }).generate "bssh-config.yaml" {
       defaults.user = profile.username;
-      clusters.ml.nodes = servers;
+      clusters = lib.mapAttrs (_: nodes: { inherit nodes; }) hostGroups;
     };
   };
 
