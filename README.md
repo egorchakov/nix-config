@@ -1,8 +1,6 @@
 <p align="center">
-  <a href="https://deepwiki.com/egorchakov/nix"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+  <a href="https://deepwiki.com/egorchakov/nix-config"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 </p>
-
-# nix config
 
 ## NixOS
 
