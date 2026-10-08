@@ -1,5 +1,14 @@
-{ pkgs, profile, ... }: {
-  home.packages = with pkgs; [ lumen ];
+{
+  pkgs,
+  self,
+  profile,
+  ...
+}:
+let
+  system = pkgs.stdenv.hostPlatform.system;
+in
+{
+  home.packages = [ self.inputs.llm-agents.packages.${system}.hunk ];
 
   programs = {
     git = {
