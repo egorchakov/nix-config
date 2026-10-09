@@ -278,7 +278,7 @@ in
             cargo.targetDir = true;
             check = {
               command = "clippy";
-              workspace = false;
+              workspace = true;
               extraArgs = [
                 "--"
                 "--no-deps"
