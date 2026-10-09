@@ -34,11 +34,25 @@ in
     };
   };
 
-  xdg.configFile."tig/config" = {
-    enable = true;
-    text = ''
-      bind main R !git rebase -i %(commit)^
-      bind diff R !git rebase -i %(commit)^
-    '';
+  xdg.configFile = {
+    "hunk/config.toml" = {
+      force = true;
+      source = (pkgs.formats.toml { }).generate "hunk-config.toml" {
+        watch = true;
+        transparent_background = true;
+        keybindings = {
+          "hunk.review.nextFile" = "shift+j";
+          "hunk.review.previousFile" = "shift+k";
+        };
+      };
+    };
+
+    "tig/config" = {
+      enable = true;
+      text = ''
+        bind main R !git rebase -i %(commit)^
+        bind diff R !git rebase -i %(commit)^
+      '';
+    };
   };
 }
