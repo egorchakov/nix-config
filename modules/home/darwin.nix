@@ -11,6 +11,7 @@
       signal-desktop
       telegram-desktop
       discord
+      ffmpeg-headless
       (rerun.overrideAttrs (old: {
         cargoBuildFeatures = old.cargoBuildFeatures ++ [ "map_view" ];
         doCheck = false;
