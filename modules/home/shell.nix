@@ -34,7 +34,13 @@
     htop.enable = true;
     gh = {
       enable = true;
-      extensions = [ pkgs.gh-stack ];
+      extensions = [
+        (pkgs.gh-stack.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [ ./patches/gh-stack-no-footer.patch ];
+          # Upstream tests require the attribution footer.
+          doCheck = false;
+        }))
+      ];
     };
     nix-your-shell = {
       enable = true;
