@@ -9,6 +9,9 @@ _default:
 deploy *ARGS:
     deploy {{ ARGS }} -- --log-format internal-json o+e>| nom --json
 
+deploy-ml *ARGS:
+    deploy --targets .#renate .#aboutblank .#berghain .#kitkat .#sisyphos .#tresor {{ ARGS }}
+
 flow-deps-hash:
     let result = ^nix build --impure --no-link --expr 'let f = builtins.getFlake (toString ./.); flow = builtins.head (builtins.filter (p: (p.pname or "") == "flow-control") f.homeConfigurations."evgenii@mbp".config.home.packages); in flow.zigDeps.overrideAttrs { outputHash = f.inputs.nixpkgs.lib.fakeHash; }' | complete
     let hashes = $result.stderr | lines | parse --regex '^\s*got:\s*(?<hash>\S+)' | get hash
