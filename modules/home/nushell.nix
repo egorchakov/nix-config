@@ -1,4 +1,10 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   programs.nushell = {
     enable = true;
     shellAliases = {
@@ -17,6 +23,25 @@
       polars
       query
     ];
+    extraEnv = ''
+      use std/util "path add"
+
+      if "${config.home.profileDirectory}/bin" not-in $env.PATH {
+        path add ${
+          lib.hm.nushell.toNushell { } (
+            [
+              "${config.home.profileDirectory}/bin"
+              "/run/current-system/sw/bin"
+              "/nix/var/nix/profiles/default/bin"
+            ]
+            ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+              "/opt/homebrew/bin"
+              "/opt/homebrew/sbin"
+            ]
+          )
+        }
+      }
+    '';
     extraConfig =
       let
         nushellCustomCompletions = [
