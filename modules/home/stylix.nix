@@ -32,7 +32,7 @@
     fonts = {
       monospace = {
         package = pkgs.iosevka-bin;
-        name = "Iosevka";
+        name = "Iosevka Term";
       };
       sizes.terminal = 14;
     };
