@@ -16,6 +16,7 @@ in
     ../../modules/home/darwin.nix
     ../../modules/home/darwin/aerospace.nix
     ../../modules/home/darwin/terminal.nix
+    ../../modules/home/tern.nix
   ];
 
   programs.ssh = {

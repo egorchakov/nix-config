@@ -1,0 +1,5 @@
+schema = 1
+id = "no-dim"
+name = "No dimming"
+version = "0.1.0"
+window = "window.luau"

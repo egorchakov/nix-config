@@ -7,3 +7,6 @@ result-*
 
 # Ignore git-hooks.nix generated pre-commit config
 /.pre-commit-config.yaml
+
+/assets/*
+!/assets/.gitkeep

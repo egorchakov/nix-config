@@ -28,6 +28,9 @@ in
     "${config.homebrew.prefix}/sbin"
     (lib.replaceStrings [ "$HOME" ] [ "/Users/${profile.username}" ] config.environment.systemPath)
   ];
+  launchd.user.envVariables.TERN_CONFIG_DIR = "${
+    config.users.users.${profile.username}.home
+  }/.config/tern";
 
   system = {
     primaryUser = profile.username;
