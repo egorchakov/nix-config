@@ -6,11 +6,14 @@
 
     packages = with pkgs; [ systemctl-tui ];
 
-    file.".zshenv".text = ''
-      if [ ! -e /etc/NIXOS ] && [ -r /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-      fi
-    '';
+    file.".zshenv" = {
+      force = true;
+      text = ''
+        if [ ! -e /etc/NIXOS ] && [ -r /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        fi
+      '';
+    };
 
     # Herdr's remote attach does not start an interactive shell.
     file.".ssh/rc".text = ''
