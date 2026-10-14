@@ -1,15 +1,22 @@
 { pkgs, self, ... }:
 let
   system = pkgs.stdenv.hostPlatform.system;
+  git-surgeon = self.inputs.llm-agents.packages.${system}.git-surgeon;
 in
 {
   imports = [ self.inputs.agent-skills.homeManagerModules.default ];
+
+  home.packages = [ git-surgeon ];
 
   programs = {
     agent-skills = {
       enable = true;
       sources = {
         copper.path = self.inputs.copper-rs-skills;
+        git-surgeon = {
+          path = git-surgeon.src;
+          subdir = "skills";
+        };
         pohuy = {
           path = self.inputs.pohuy;
           subdir = "skills";
