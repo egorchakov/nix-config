@@ -713,6 +713,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "pohuy": "pohuy",
+        "rust-skills": "rust-skills",
         "srvos": "srvos",
         "stylix": "stylix",
         "treefmt-nix": "treefmt-nix"
@@ -757,6 +758,22 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787483379,
+        "narHash": "sha256-IWK5ftgsABvASRNyGLLlQJNkA9U38esEeHkQz/sfMFE=",
+        "owner": "actionbook",
+        "repo": "rust-skills",
+        "rev": "5c40d3ad785193231b7d0dbfb8e1eb447e5edd94",
+        "type": "github"
+      },
+      "original": {
+        "owner": "actionbook",
+        "repo": "rust-skills",
         "type": "github"
       }
     },

@@ -21,6 +21,10 @@ in
           path = self.inputs.pohuy;
           subdir = "skills";
         };
+        rust = {
+          path = self.inputs.rust-skills;
+          subdir = "skills";
+        };
       };
       skills.enableAll = true;
       targets.agents = {

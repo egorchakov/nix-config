@@ -103,6 +103,11 @@
       flake = false;
     };
 
+    rust-skills = {
+      url = "github:actionbook/rust-skills";
+      flake = false;
+    };
+
     pohuy = {
       url = "github:smixs/pohuy";
       flake = false;
