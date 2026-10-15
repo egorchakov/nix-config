@@ -8,9 +8,12 @@ let
   system = pkgs.stdenv.hostPlatform.system;
 in
 {
+  imports = [ ./herdr/plugins.nix ];
+
   programs.herdr = {
     enable = true;
     package = self.inputs.llm-agents.packages.${system}.herdr;
+    plugins = [ (pkgs.callPackage ../../pkgs/herdr-sesh.nix { }) ];
     settings = {
       onboarding = false;
       terminal.default_shell = lib.getExe pkgs.nushell;
@@ -31,9 +34,18 @@ in
         kitty_graphics = true;
       };
       keys = {
+        settings = "prefix+comma";
         next_agent = "prefix+]";
         previous_agent = "prefix+[";
         copy_mode = "prefix+shift+c";
+        command = [
+          {
+            key = "prefix+s";
+            type = "plugin_action";
+            command = "fullerzz.sesh.open-picker";
+            description = "open Sesh picker";
+          }
+        ];
       };
     };
   };
