@@ -547,6 +547,21 @@
         "type": "github"
       }
     },
+    "multiverse": {
+      "locked": {
+        "lastModified": 1792128668,
+        "narHash": "sha256-auzzfo/5dogrVxg70lpAJ/1qcTToGLdHV2fh0Vvhzok=",
+        "owner": "fzakaria",
+        "repo": "nixpkgs-multiverse",
+        "rev": "cefb2cd3ef8ae6710fb90117c106a1fe2817830c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fzakaria",
+        "repo": "nixpkgs-multiverse",
+        "type": "github"
+      }
+    },
     "nix-homebrew": {
       "inputs": {
         "brew-src": "brew-src"
@@ -708,6 +723,7 @@
         "helix": "helix",
         "home-manager": "home-manager_2",
         "llm-agents": "llm-agents",
+        "multiverse": "multiverse",
         "nix-homebrew": "nix-homebrew",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
