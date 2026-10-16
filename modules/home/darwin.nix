@@ -12,11 +12,8 @@
       telegram-desktop
       discord
       ffmpeg-headless
-      (rerun.overrideAttrs (old: {
-        cargoBuildFeatures = old.cargoBuildFeatures ++ [ "map_view" ];
-        doCheck = false;
-        doInstallCheck = false;
-      }))
+      # tfw no map_view
+      (callPackage ../../pkgs/rerun-bin.nix { })
     ];
   };
 }
