@@ -275,7 +275,10 @@ in
 
         rust-analyzer = {
           config = {
-            cargo.targetDir = true;
+            cargo = {
+              features = "all";
+              targetDir = true;
+            };
             check = {
               command = "clippy";
               workspace = true;
