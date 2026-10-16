@@ -84,6 +84,7 @@ in
           - strive for the absolute cleanest and tighest design
           - use native library APIs instead of custom helpers
           - use third-party libraries where applicable
+          - keep README updates concise and minimal
 
         ## do not
           - over-abstract
