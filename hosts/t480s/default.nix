@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    self.inputs.determinate.nixosModules.default
     self.inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
     self.inputs.srvos.nixosModules.desktop
     self.inputs.agenix.nixosModules.default

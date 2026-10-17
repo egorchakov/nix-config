@@ -13,6 +13,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
     flake-parts = {
