@@ -1,13 +1,9 @@
 {
   config,
-  lib,
   pkgs,
   self,
   ...
 }:
-let
-  iets = self.inputs.iets.packages.${pkgs.stdenv.hostPlatform.system}.default;
-in
 {
   imports = [ self.inputs.nix-index-database.homeModules.default ];
   home = {
@@ -19,8 +15,6 @@ in
       ouch
       duckdb
       chafa
-      iets
-      (lib.hiPrio (self.inputs.iets.lib.mkClassic pkgs iets (lib.defaultTo pkgs.nix config.nix.package)))
     ];
 
     file.".duckdbrc".text = ''
@@ -66,8 +60,7 @@ in
       enable = true;
       silent = true;
       config.global.warn_timeout = "120s";
-      nix-direnv.enable = false;
-      stdlib = builtins.readFile "${self.inputs.iets}/nix/direnvrc";
+      nix-direnv.enable = true;
     };
 
     atuin = {

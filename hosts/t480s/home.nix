@@ -1,4 +1,4 @@
-{ pkgs, self, ... }: {
+{ pkgs, ... }: {
   imports = [
     ../../modules/home/shared.nix
     ../../modules/home/linux.nix
@@ -14,9 +14,6 @@
     brightnessctl
     nautilus
   ];
-
-  nix.package =
-    self.inputs.determinate.inputs.nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   wayland.windowManager.niri.enable = true;
 
