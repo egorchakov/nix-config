@@ -15,6 +15,8 @@
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
+    iets.url = "github:numtide/iets";
+
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
     flake-parts = {
