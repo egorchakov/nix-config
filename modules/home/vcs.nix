@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   self,
   profile,
@@ -13,6 +14,16 @@ in
   programs = {
     git = {
       enable = true;
+      maintenance = {
+        enable = true;
+        repositories = [ "${config.xdg.cacheHome}/nix/tarball-cache-v2" ];
+      };
+      includes = [
+        {
+          condition = "gitdir:${config.xdg.cacheHome}/nix/tarball-cache-v2";
+          contents.maintenance.strategy = "incremental";
+        }
+      ];
       settings = {
         user = { inherit (profile.git) email name; };
         push.autoSetupRemote = true;
