@@ -79,13 +79,13 @@ in
     force = true;
     text = builtins.toJSON {
       version = 1;
-      ssh = lib.mapAttrsToList (target: _: {
+      ssh = map (target: {
         inherit target;
         id = builtins.substring 0 32 (builtins.hashString "sha256" "herdr:${target}:default");
         label = target;
         session = "default";
         enabled = true;
-      }) addressedHosts;
+      }) (hostGroups.ml ++ hostGroups.kits);
     };
   };
 
