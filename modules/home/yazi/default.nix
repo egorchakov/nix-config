@@ -1,7 +1,22 @@
-{ pkgs, ... }: {
+{
+  addressedHosts,
+  lib,
+  pkgs,
+  profile,
+  ...
+}:
+let
+  hostGroups = lib.groupBy (name: addressedHosts.${name}.group) (builtins.attrNames addressedHosts);
+in
+{
   programs.yazi = {
     enable = true;
     shellWrapperName = "f";
+    vfs.sftp = lib.mapAttrs (_: host: {
+      host = host.address;
+      user = profile.username;
+      port = 22;
+    }) addressedHosts;
     plugins = {
       inherit (pkgs.yaziPlugins)
         full-border
@@ -16,6 +31,22 @@
       ouch
       duckdb
     ];
+    theme =
+      let
+        padding = {
+          open = "▐";
+          close = "▌";
+        };
+      in
+      {
+        indicator.padding = padding;
+        tabs = {
+          sep_inner = padding;
+          sep_outer = padding;
+        };
+
+      };
+
     settings = {
       plugin = {
         prepend_previewers =
@@ -59,6 +90,10 @@
       mgr = {
         prepend_keymap = [
           {
+            on = "d";
+            run = "remove --permanently";
+          }
+          {
             on = "R";
             run = "plugin rsync -- --remember";
             desc = "rsync";
@@ -83,15 +118,7 @@
       };
     };
     initLua = ''
-      require("full-border"):setup {
-        type = ui.Border.PLAIN,
-      }
-      require("starship"):setup()
-      require("git"):setup()
-      require("duckdb"):setup({
-        mode = "standard",
-        cache_size = 100,
-      })
+      dofile("${./init.lua}")(${lib.generators.toLua { } (hostGroups.ml ++ hostGroups.kits)})
     '';
   };
 }

@@ -9,7 +9,7 @@
     ./nushell.nix
     ./shell.nix
     ./stylix.nix
-    ./yazi.nix
+    ./yazi
     ./zellij.nix
   ];
 }
