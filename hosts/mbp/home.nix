@@ -71,7 +71,9 @@ in
 
     "bssh/config.yaml".source = (pkgs.formats.yaml { }).generate "bssh-config.yaml" {
       defaults.user = profile.username;
-      clusters = lib.mapAttrs (_: nodes: { inherit nodes; }) hostGroups;
+      clusters = lib.mapAttrs (_: nodes: { inherit nodes; }) hostGroups // {
+        all.nodes = builtins.attrNames addressedHosts;
+      };
     };
   };
 
