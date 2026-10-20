@@ -7,7 +7,8 @@
 
 ; Highlight the RHS of `=~` as regex
 ((regex
-  (_) @injection.content)
+    (_)
+    @injection.content)
   (#set! injection.language "regex"))
 
 ; ================ Global defaults ================
@@ -19,26 +20,33 @@
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (recipe
     .
-    name: (identifier)
+    name:
+    (identifier)
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#set! injection.language "bash")
       (#set! injection.combined)))
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (#not-eq? @_setting "shell")
   (#not-eq? @_setting "default-script"))
 
 (external_command
-  (content) @injection.content
+  (content)
+  @injection.content
   (#set! injection.language "bash"))
 
 ; ================ Global language specified ================
@@ -68,7 +76,8 @@
     (expression
       (value
         (external_command
-          (content) @injection.content)))))
+          (content)
+          @injection.content)))))
 
 (file
   (setting "shell" ":=" "[" . (string) @_langstr
@@ -78,7 +87,8 @@
     (expression
       (value
         (external_command
-          (content) @injection.content)))))
+          (content)
+          @injection.content)))))
 
 (file
   (setting "shell" ":=" "[" . (string) @injection.language
@@ -88,14 +98,17 @@
     (expression
       (value
         (external_command
-          (content) @injection.content)))))
+          (content)
+          @injection.content)))))
 
 ; ================ Recipe language specified - Helix only ================
 
 ; Set highlighting for recipes that specify a language using builtin shebang matching
 (recipe_body
-  (shebang_line) @injection.shebang
-  (recipe_line) @injection.content
+  (shebang_line)
+  @injection.shebang
+  (recipe_line)
+  @injection.content
   (#set! injection.combined))
 
 ; ================ Recipe shell specified ================
@@ -106,84 +119,108 @@
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (setting "shell" ":=" "[" . (string) @_langstr
     (#match? @_langstr ".*(powershell|pwsh|cmd).*")
     (#set! injection.language "powershell"))
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (recipe
     .
-    name: (identifier)
+    name:
+    (identifier)
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#set! injection.combined)))
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (#not-eq? @_setting "default-script"))
 
 (file
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (setting "shell" ":=" "[" . (string) @_langstr
     (#eq? @_langstr "\"nu\"")
     (#set! injection.language "nu"))
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (recipe
     .
-    name: (identifier)
+    name:
+    (identifier)
     (recipe_body
-      !shebang) @injection.content
+      !shebang)
+    @injection.content
     (#not-match? @injection.content "^\\s*@")
     (#set! injection.include-children))
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (#not-eq? @_setting "default-script"))
 
 (file
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (setting "shell" ":=" "[" . (string) @injection.language
     (#not-match? @injection.language ".*(powershell|pwsh|cmd).*")
     (#not-eq? @injection.language "\"nu\""))
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (recipe
     .
-    name: (identifier)
+    name:
+    (identifier)
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#set! injection.combined)))
   [
     (setting "shell" @_setting)
     (setting
-      name: (identifier) @_setting)
-  ]*
+      name:
+      (identifier)
+      @_setting)]
+  *
   (#not-eq? @_setting "default-script"))
 
 ; ================ Default script specified ================
@@ -192,164 +229,212 @@
 ; Match both setting orders because just allows settings anywhere in the file.
 (file
   (setting
-    name: (identifier) @_script_interpreter
+    name:
+    (identifier)
+    @_script_interpreter
     ":="
     "["
     .
-    (string) @_langstr
+    (string)
+    @_langstr
     (#eq? @_script_interpreter "script-interpreter")
     (#match? @_langstr ".*(powershell|pwsh|cmd).*")
     (#set! injection.language "powershell"))
   [
     (setting
-      name: (identifier) @_default_script
+      name:
+      (identifier)
+      @_default_script
       .
       (#eq? @_default_script "default-script"))
     (setting
-      name: (identifier) @_default_script
-      (boolean) @_default_script_value
+      name:
+      (identifier)
+      @_default_script
+      (boolean)
+      @_default_script_value
       (#eq? @_default_script "default-script")
-      (#eq? @_default_script_value "true"))
-  ]
+      (#eq? @_default_script_value "true"))]
   (recipe
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#set! injection.combined))))
 
 (file
   (setting
-    name: (identifier) @_script_interpreter
+    name:
+    (identifier)
+    @_script_interpreter
     ":="
     "["
     .
-    (string) @_langstr
+    (string)
+    @_langstr
     (#eq? @_script_interpreter "script-interpreter")
     (#eq? @_langstr "\"nu\"")
     (#set! injection.language "nu"))
   [
     (setting
-      name: (identifier) @_default_script
+      name:
+      (identifier)
+      @_default_script
       .
       (#eq? @_default_script "default-script"))
     (setting
-      name: (identifier) @_default_script
-      (boolean) @_default_script_value
+      name:
+      (identifier)
+      @_default_script
+      (boolean)
+      @_default_script_value
       (#eq? @_default_script "default-script")
-      (#eq? @_default_script_value "true"))
-  ]
+      (#eq? @_default_script_value "true"))]
   (recipe
     (recipe_body
-      !shebang) @injection.content
+      !shebang)
+    @injection.content
     (#not-match? @injection.content "^\\s*@")
     (#set! injection.include-children)))
 
 (file
   [
     (setting
-      name: (identifier) @_default_script
+      name:
+      (identifier)
+      @_default_script
       .
       (#eq? @_default_script "default-script"))
     (setting
-      name: (identifier) @_default_script
-      (boolean) @_default_script_value
+      name:
+      (identifier)
+      @_default_script
+      (boolean)
+      @_default_script_value
       (#eq? @_default_script "default-script")
-      (#eq? @_default_script_value "true"))
-  ]
+      (#eq? @_default_script_value "true"))]
   (setting
-    name: (identifier) @_script_interpreter
+    name:
+    (identifier)
+    @_script_interpreter
     ":="
     "["
     .
-    (string) @_langstr
+    (string)
+    @_langstr
     (#eq? @_script_interpreter "script-interpreter")
     (#match? @_langstr ".*(powershell|pwsh|cmd).*")
     (#set! injection.language "powershell"))
   (recipe
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#set! injection.combined))))
 
 (file
   [
     (setting
-      name: (identifier) @_default_script
+      name:
+      (identifier)
+      @_default_script
       .
       (#eq? @_default_script "default-script"))
     (setting
-      name: (identifier) @_default_script
-      (boolean) @_default_script_value
+      name:
+      (identifier)
+      @_default_script
+      (boolean)
+      @_default_script_value
       (#eq? @_default_script "default-script")
-      (#eq? @_default_script_value "true"))
-  ]
+      (#eq? @_default_script_value "true"))]
   (setting
-    name: (identifier) @_script_interpreter
+    name:
+    (identifier)
+    @_script_interpreter
     ":="
     "["
     .
-    (string) @_langstr
+    (string)
+    @_langstr
     (#eq? @_script_interpreter "script-interpreter")
     (#eq? @_langstr "\"nu\"")
     (#set! injection.language "nu"))
   (recipe
     (recipe_body
-      !shebang) @injection.content
+      !shebang)
+    @injection.content
     (#not-match? @injection.content "^\\s*@")
     (#set! injection.include-children)))
 
 (file
   (setting
-    name: (identifier) @_script_interpreter
+    name:
+    (identifier)
+    @_script_interpreter
     ":="
     "["
     .
-    (string) @injection.language
+    (string)
+    @injection.language
     (#eq? @_script_interpreter "script-interpreter")
     (#not-match? @injection.language ".*(powershell|pwsh|cmd).*")
     (#not-eq? @injection.language "\"nu\""))
   [
     (setting
-      name: (identifier) @_default_script
+      name:
+      (identifier)
+      @_default_script
       .
       (#eq? @_default_script "default-script"))
     (setting
-      name: (identifier) @_default_script
-      (boolean) @_default_script_value
+      name:
+      (identifier)
+      @_default_script
+      (boolean)
+      @_default_script_value
       (#eq? @_default_script "default-script")
-      (#eq? @_default_script_value "true"))
-  ]
+      (#eq? @_default_script_value "true"))]
   (recipe
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#set! injection.combined))))
 
 (file
   [
     (setting
-      name: (identifier) @_default_script
+      name:
+      (identifier)
+      @_default_script
       .
       (#eq? @_default_script "default-script"))
     (setting
-      name: (identifier) @_default_script
-      (boolean) @_default_script_value
+      name:
+      (identifier)
+      @_default_script
+      (boolean)
+      @_default_script_value
       (#eq? @_default_script "default-script")
-      (#eq? @_default_script_value "true"))
-  ]
+      (#eq? @_default_script_value "true"))]
   (setting
-    name: (identifier) @_script_interpreter
+    name:
+    (identifier)
+    @_script_interpreter
     ":="
     "["
     .
-    (string) @injection.language
+    (string)
+    @injection.language
     (#eq? @_script_interpreter "script-interpreter")
     (#not-match? @injection.language ".*(powershell|pwsh|cmd).*")
     (#not-eq? @injection.language "\"nu\""))
   (recipe
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#set! injection.combined))))
 
 ; ================ Script interpreter specified ================
@@ -357,60 +442,81 @@
 ; Highlight [script] recipes using the global script-interpreter setting.
 (file
   (setting
-    name: (identifier) @_setting
+    name:
+    (identifier)
+    @_setting
     ":="
     "["
     .
-    (string) @_langstr
+    (string)
+    @_langstr
     (#eq? @_setting "script-interpreter")
     (#match? @_langstr ".*(powershell|pwsh|cmd).*")
     (#set! injection.language "powershell"))
   (recipe
     (attribute
-      name: (identifier) @_script) @_script_attribute
+      name:
+      (identifier)
+      @_script)
+    @_script_attribute
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#eq? @_script "script")
       (#eq? @_script_attribute "script")
       (#set! injection.combined))))
 
 (file
   (setting
-    name: (identifier) @_setting
+    name:
+    (identifier)
+    @_setting
     ":="
     "["
     .
-    (string) @_langstr
+    (string)
+    @_langstr
     (#eq? @_setting "script-interpreter")
     (#eq? @_langstr "\"nu\"")
     (#set! injection.language "nu"))
   (recipe
     (attribute
-      name: (identifier) @_script) @_script_attribute
+      name:
+      (identifier)
+      @_script)
+    @_script_attribute
     (recipe_body
-      !shebang) @injection.content
-      (#eq? @_script "script")
-      (#eq? @_script_attribute "script")
-      (#not-match? @injection.content "^\\s*@")
-      (#set! injection.include-children)))
+      !shebang)
+    @injection.content
+    (#eq? @_script "script")
+    (#eq? @_script_attribute "script")
+    (#not-match? @injection.content "^\\s*@")
+    (#set! injection.include-children)))
 
 (file
   (setting
-    name: (identifier) @_setting
+    name:
+    (identifier)
+    @_setting
     ":="
     "["
     .
-    (string) @injection.language
+    (string)
+    @injection.language
     (#eq? @_setting "script-interpreter")
     (#not-match? @injection.language ".*(powershell|pwsh|cmd).*")
     (#not-eq? @injection.language "\"nu\""))
   (recipe
     (attribute
-      name: (identifier) @_script) @_script_attribute
+      name:
+      (identifier)
+      @_script)
+    @_script_attribute
     (recipe_body
       !shebang
-      (recipe_line) @injection.content
+      (recipe_line)
+      @injection.content
       (#eq? @_script "script")
       (#eq? @_script_attribute "script")
       (#set! injection.combined))))

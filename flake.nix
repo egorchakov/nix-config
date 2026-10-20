@@ -285,6 +285,7 @@
               just.enable = true;
               keep-sorted.enable = true;
               rumdl-format.enable = true;
+              stylua.enable = true;
             };
             settings.excludes = [
               ".git/*"
@@ -294,6 +295,10 @@
               deadnix.priority = 1;
               statix.priority = 2;
               nixfmt.priority = 3;
+              schemat = {
+                command = lib.getExe pkgs.schemat;
+                includes = [ "*.scm" ];
+              };
             };
           };
 
