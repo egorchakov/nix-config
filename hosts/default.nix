@@ -38,8 +38,8 @@
     system = "x86_64-linux";
   };
 
-  delta-dev1 = {
-    address = "172.30.0.175";
+  delta-devkit = {
+    address = "172.30.0.132";
     group = "kits";
     system = "aarch64-linux";
   };
