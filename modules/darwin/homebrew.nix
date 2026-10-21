@@ -16,6 +16,7 @@
       "lablup/tap/bssh"
     ];
     casks = [
+      "cloudflare-warp"
       "tunnelblick"
       "uhk-agent"
       "display-pilot"

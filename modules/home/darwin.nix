@@ -7,7 +7,6 @@
       google-chrome
       chatgpt
       slack
-      cloudflare-warp
       signal-desktop
       telegram-desktop
       discord
