@@ -5,11 +5,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "rerun-bin";
-  version = "0.39.0";
+  version = "0.40.0";
 
   src = fetchurl {
     url = "https://github.com/rerun-io/rerun/releases/download/${finalAttrs.version}/rerun-cli-${finalAttrs.version}-${stdenvNoCC.hostPlatform.rust.rustcTarget}";
-    hash = "sha256-P7FsMYLajEVd2dadTl58kKxNEKac1JoAk978Q8SVWxI=";
+    hash = "sha256-6rW7gzJ9SvO2DrDSRGJMGQd/GalOJh/w/apWzALH8tI=";
   };
 
   dontUnpack = true;
