@@ -43,6 +43,8 @@ in
     gitui = {
       enable = true;
     };
+
+    worktrunk.enable = true;
   };
 
   xdg.configFile = {
