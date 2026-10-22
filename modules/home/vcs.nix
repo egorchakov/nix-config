@@ -47,7 +47,10 @@ in
 
     worktrunk = {
       enable = true;
-      settings.pre-start.direnv = "${lib.getExe pkgs.nushell} ${./ensure-flake-envrc.nu}";
+      settings.pre-start = [
+        { submodules = "${lib.getExe pkgs.git} submodule update --init --recursive"; }
+        { direnv = "${lib.getExe pkgs.nushell} ${./ensure-flake-envrc.nu}"; }
+      ];
     };
   };
 
