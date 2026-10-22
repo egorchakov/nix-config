@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   self,
   profile,
@@ -44,7 +45,10 @@ in
       enable = true;
     };
 
-    worktrunk.enable = true;
+    worktrunk = {
+      enable = true;
+      settings.pre-start.direnv = "${lib.getExe pkgs.nushell} ${./ensure-flake-envrc.nu}";
+    };
   };
 
   xdg.configFile = {
