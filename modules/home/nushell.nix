@@ -7,6 +7,7 @@
 {
   home.sessionPath = [
     "${config.home.profileDirectory}/bin"
+    "/run/wrappers/bin"
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
   ]
