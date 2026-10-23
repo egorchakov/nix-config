@@ -6,6 +6,10 @@
 }:
 let
   system = pkgs.stdenv.hostPlatform.system;
+  blameLanguages = map (language: {
+    inherit (language) name;
+    language-servers = (language.language-servers or [ ]) ++ [ "git-blame" ];
+  }) (builtins.fromTOML (builtins.readFile "${self.inputs.helix}/languages.toml")).language;
   git-blame-lsp = pkgs.stdenv.mkDerivation {
     pname = "git-blame-lsp";
     version = "unstable-${self.inputs.git-blame-lsp.shortRev}";
@@ -129,7 +133,7 @@ in
     };
 
     languages = {
-      language = [
+      language = blameLanguages ++ [
         {
           name = "cpp";
           auto-format = true;
@@ -259,7 +263,10 @@ in
         {
           name = "jq";
           auto-format = true;
-          language-servers = [ "jq-lsp" ];
+          language-servers = [
+            "jq-lsp"
+            "git-blame"
+          ];
           formatter = {
             command = "jqfmt";
             args = [
