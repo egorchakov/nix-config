@@ -5,6 +5,16 @@
   ...
 }:
 {
+  home.sessionPath = [
+    "${config.home.profileDirectory}/bin"
+    "/run/current-system/sw/bin"
+    "/nix/var/nix/profiles/default/bin"
+  ]
+  ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+    "/opt/homebrew/bin"
+    "/opt/homebrew/sbin"
+  ];
+
   programs.nushell = {
     enable = true;
     shellAliases = {
@@ -13,7 +23,6 @@
       hd = "herdr";
       bssh = "bssh -o ClearAllForwardings=yes";
     };
-    environmentVariables = config.home.sessionVariables;
     settings = {
       show_banner = false;
     };
@@ -21,25 +30,6 @@
       polars
       query
     ];
-    extraEnv = ''
-      use std/util "path add"
-
-      if "${config.home.profileDirectory}/bin" not-in $env.PATH {
-        path add ${
-          lib.hm.nushell.toNushell { } (
-            [
-              "${config.home.profileDirectory}/bin"
-              "/run/current-system/sw/bin"
-              "/nix/var/nix/profiles/default/bin"
-            ]
-            ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-              "/opt/homebrew/bin"
-              "/opt/homebrew/sbin"
-            ]
-          )
-        }
-      }
-    '';
     extraConfig = ''
       def why [] {
           let cmd = history | last | get command
