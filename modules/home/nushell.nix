@@ -40,6 +40,21 @@
       def ns [...packages: string] {
           ^nix shell ...($packages | each {|p| $"nixpkgs#($p)"})
       }
+
+      # Update all flake inputs except the names given before the first Nix option.
+      def --wrapped nix-flake-update-except [...args] {
+          let excluded = $args | take while {|arg| not ($arg | str starts-with "-")}
+          let options = $args | skip ($excluded | length)
+          if ($excluded | is-empty) {
+              ^nix flake update ...$options
+          } else {
+              let lock = open flake.lock | from json
+              let inputs = $lock.nodes | get $lock.root | get inputs | reject ...$excluded | columns
+              if ($inputs | is-not-empty) {
+                  ^nix flake update ...$inputs ...$options
+              }
+          }
+      }
     '';
   };
 }
