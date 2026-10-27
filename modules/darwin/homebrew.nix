@@ -20,6 +20,7 @@
       "tunnelblick"
       "uhk-agent"
       "display-pilot"
+      "zerotier-one"
     ];
     onActivation = {
       cleanup = "uninstall";

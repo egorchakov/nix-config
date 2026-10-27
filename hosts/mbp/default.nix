@@ -8,6 +8,8 @@
   ...
 }:
 let
+  yaakNetStagingNetworkId = "12ac4a1e71b101f1";
+
   hostsFile = pkgs.writeText "hosts" ''
     127.0.0.1 localhost
     255.255.255.255 broadcasthost
@@ -61,5 +63,11 @@ in
       --mode=0644 \
       ${hostsFile} \
       /etc/hosts
+
+    ${pkgs.coreutils}/bin/install -d -m 0700 "/Library/Application Support/ZeroTier/One/networks.d"
+    if [ ! -e "/Library/Application Support/ZeroTier/One/networks.d/${yaakNetStagingNetworkId}.conf" ]; then
+      ${pkgs.coreutils}/bin/touch "/Library/Application Support/ZeroTier/One/networks.d/${yaakNetStagingNetworkId}.conf"
+      /bin/launchctl kickstart -k system/com.zerotier.one
+    fi
   '';
 }
