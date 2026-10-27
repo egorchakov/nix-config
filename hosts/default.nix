@@ -3,7 +3,7 @@
   t480s.system = "x86_64-linux";
 
   aboutblank = {
-    address = "172.30.0.190";
+    address = "192.168.207.247";
     group = "ml";
     system = "x86_64-linux";
   };
@@ -21,7 +21,7 @@
   };
 
   renate = {
-    address = "172.30.0.63";
+    address = "192.168.207.246";
     group = "ml";
     system = "x86_64-linux";
   };
