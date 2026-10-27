@@ -15,7 +15,7 @@
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
-    multiverse.url = "github:fzakaria/nixpkgs-multiverse";
+    # multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

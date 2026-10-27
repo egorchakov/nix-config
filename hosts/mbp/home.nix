@@ -4,11 +4,9 @@
   lib,
   pkgs,
   profile,
-  self,
   ...
 }:
 let
-  system = pkgs.stdenv.hostPlatform.system;
   hostGroups = lib.groupBy (name: addressedHosts.${name}.group) (builtins.attrNames addressedHosts);
 in
 {
@@ -19,9 +17,6 @@ in
     ../../modules/home/darwin/aerospace.nix
     ../../modules/home/darwin/terminal.nix
   ];
-
-  # TODO: Remove once nixpkgs-unstable includes https://github.com/NixOS/nixpkgs/pull/574509.
-  programs.atuin.package = self.inputs.multiverse.multiverse.${system}.versions.atuin."18.21.0";
 
   programs.ssh = {
     enable = true;
