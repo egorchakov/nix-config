@@ -12,7 +12,7 @@
         window-inherit-working-directory = true;
         window-decoration = false;
         focus-follows-mouse = true;
-        shell-integration-features = "sudo,ssh-env,ssh-terminfo";
+        shell-integration-features = "sudo,no-ssh-env,no-ssh-terminfo";
       };
     };
     sioyek = {

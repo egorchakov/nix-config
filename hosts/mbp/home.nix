@@ -37,7 +37,6 @@ in
         ControlPersist = "30m";
         ServerAliveInterval = 30;
         ServerAliveCountMax = 3;
-        SetEnv.TERM = "xterm-256color";
         RemoteForward = "9878 localhost:9878";
         StrictHostKeyChecking = "accept-new";
         LogLevel = "QUIET";
