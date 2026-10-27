@@ -23,6 +23,7 @@
       nf = "nix flake";
       hd = "herdr";
       bssh = "bssh -o ClearAllForwardings=yes";
+      wj = "wt switch";
     };
     settings = {
       show_banner = false;
