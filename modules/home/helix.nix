@@ -9,13 +9,13 @@ let
   blameLanguages = map (language: {
     inherit (language) name;
     language-servers = (language.language-servers or [ ]) ++ [ "git-blame" ];
-  }) (builtins.fromTOML (builtins.readFile "${self.inputs.helix}/languages.toml")).language;
+  }) (fromTOML (builtins.readFile "${self.inputs.helix}/languages.toml")).language;
   git-blame-lsp = pkgs.stdenv.mkDerivation {
     pname = "git-blame-lsp";
     version = "unstable-${self.inputs.git-blame-lsp.shortRev}";
     src = self.inputs.git-blame-lsp;
     nativeBuildInputs = [
-      pkgs.zig_0_16.hook
+      pkgs.zig_0_17.hook
       pkgs.makeBinaryWrapper
     ];
     postFixup = ''
