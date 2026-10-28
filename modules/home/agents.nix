@@ -85,6 +85,7 @@ in
           - use native library APIs instead of custom helpers
           - use third-party libraries where applicable
           - keep README updates concise and minimal
+          - use nushell syntax when giving command examples
 
         ## do not
           - over-abstract
