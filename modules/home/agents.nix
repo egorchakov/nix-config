@@ -50,6 +50,7 @@ in
       enable = true;
       enableMcpIntegration = true;
       package = self.inputs.llm-agents.packages.${system}.codex;
+      plugins = [ "${pkgs.worktrunk.src}/plugins/worktrunk" ];
       settings = {
         model = "gpt-6.1-sol";
         model_reasoning_effort = "xhigh";
