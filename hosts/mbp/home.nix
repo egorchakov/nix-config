@@ -26,7 +26,7 @@ in
 
     settings = {
       "${lib.concatStringsSep " " (builtins.attrNames addressedHosts)}" = {
-        IdentityFile = "~/.ssh/id_rsa";
+        IdentityFile = "~/.ssh/id_ed25519";
         ForwardAgent = true;
         AddKeysToAgent = true;
         UseKeychain = true;
@@ -40,6 +40,11 @@ in
         RemoteForward = "9878 localhost:9878";
         StrictHostKeyChecking = "accept-new";
         LogLevel = "QUIET";
+      };
+
+      "github.com" = {
+        AddKeysToAgent = true;
+        IdentityFile = "~/.ssh/id_ed25519";
       };
 
       "router.lan" = {
