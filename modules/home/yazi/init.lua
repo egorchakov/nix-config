@@ -1,8 +1,7 @@
 return function(hosts)
 	require("full-border"):setup({
-		type = ui.Border.PLAIN,
+		set = "plain",
 	})
-	require("starship"):setup()
 	require("git"):setup()
 	require("duckdb"):setup({
 		mode = "standard",
