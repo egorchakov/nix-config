@@ -33,7 +33,7 @@
       query
     ];
     extraConfig = ''
-      def why [] {
+      def y [] {
           let cmd = history | last | get command
           codex --profile interactive $"explain why this failed: ($cmd)"
       }
