@@ -28,8 +28,13 @@
     };
 
     agenix = {
-      url = "github:yaxitech/ragenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        darwin.follows = "darwin";
+        home-manager.follows = "home-manager";
+        systems.follows = "llm-agents/systems";
+      };
     };
 
     darwin = {
@@ -39,12 +44,19 @@
 
     deploy-rs = {
       url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "git-hooks/flake-compat";
+        utils.inputs.systems.follows = "llm-agents/systems";
+      };
     };
 
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "determinate/nix/git-hooks-nix/flake-compat";
+      };
     };
 
     helix.url = "github:helix-editor/helix/master";
@@ -89,6 +101,7 @@
       inputs = {
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
+        systems.follows = "llm-agents/systems";
       };
     };
 
@@ -277,6 +290,24 @@
             projectRootFile = "flake.nix";
             programs = {
               deadnix.enable = true;
+              flake-edit = {
+                enable = true;
+                # noLock = true;
+                settings.follow.ignore = [
+                  "determinate.nixpkgs"
+                  "determinate.nix.nixpkgs"
+                  "determinate.nix.nixpkgs-23-11"
+                  "determinate.nix.nixpkgs-regression"
+                  "determinate.nix.flake-parts"
+                  "determinate.nix.flake-parts.nixpkgs-lib"
+                  "determinate.nix.git-hooks-nix.nixpkgs"
+                  "helix.nixpkgs"
+                  "helix.rust-overlay.nixpkgs"
+                  "iets.nixpkgs"
+                  "llm-agents.nixpkgs"
+                  "llm-agents.bun2nix.nixpkgs"
+                ];
+              };
               statix.enable = true;
               nixfmt = {
                 enable = true;
@@ -287,10 +318,7 @@
               rumdl-format.enable = true;
               stylua.enable = true;
             };
-            settings.excludes = [
-              ".git/*"
-              "flake.lock"
-            ];
+            settings.excludes = [ ".git/*" ];
             settings.formatter = {
               deadnix.priority = 1;
               statix.priority = 2;
@@ -306,7 +334,10 @@
             settings = {
               package = pkgs.prek;
               hooks = {
-                treefmt.enable = true;
+                treefmt = {
+                  enable = true;
+                  pass_filenames = false;
+                };
                 trim-trailing-whitespace.enable = true;
                 end-of-file-fixer.enable = true;
                 check-merge-conflicts.enable = true;
