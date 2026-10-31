@@ -13,6 +13,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
+    rex = {
+      url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     # multiverse.url = "github:fzakaria/nixpkgs-multiverse";
@@ -226,23 +231,17 @@
             inherit (hosts.t480s) system;
             modules = [ ./hosts/t480s/home.nix ];
           };
-
-          x86_64-linux = mkHome {
-            system = "x86_64-linux";
+        }
+        // lib.mapAttrs (
+          hostname: host:
+          mkHome {
+            inherit (host) system;
             modules = [
-              ./modules/home/shared.nix
-              ./modules/home/linux.nix
+              ./modules/home/server.nix
+              { _module.args.hostname = hostname; }
             ];
-          };
-
-          aarch64-linux = mkHome {
-            system = "aarch64-linux";
-            modules = [
-              ./modules/home/shared.nix
-              ./modules/home/linux.nix
-            ];
-          };
-        };
+          }
+        ) deployHosts;
 
         deploy.nodes = lib.mapAttrs (hostname: { system, group, ... }: {
           inherit hostname;
@@ -270,7 +269,7 @@
             user = profile.username;
             path =
               deployPkgsFor.${system}.deploy-rs.lib.activate.home-manager
-                self.homeConfigurations.${system};
+                self.homeConfigurations.${hostname};
           };
         }) deployHosts;
       };

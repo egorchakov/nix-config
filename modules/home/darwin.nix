@@ -1,4 +1,6 @@
 { pkgs, profile, ... }: {
+  imports = [ ./darwin/rex.nix ];
+
   home = {
     inherit (profile) username;
     homeDirectory = "/Users/${profile.username}";

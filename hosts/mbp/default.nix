@@ -25,6 +25,8 @@ in
 
   nix.enable = false;
 
+  services.tailscale.enable = true;
+
   launchd.user.envVariables.PATH = lib.concatStringsSep ":" [
     "${config.homebrew.prefix}/bin"
     "${config.homebrew.prefix}/sbin"
