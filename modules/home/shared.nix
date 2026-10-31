@@ -10,6 +10,5 @@
     ./shell.nix
     ./stylix.nix
     ./yazi
-    ./zellij.nix
   ];
 }
