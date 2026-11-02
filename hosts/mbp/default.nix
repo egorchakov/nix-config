@@ -16,7 +16,9 @@ let
     ::1 localhost
 
     ${lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (name: { address, ... }: "${address}\t${name}") addressedHosts
+      lib.mapAttrsToList (
+        name: { address, ... }: "${address.warp or address.zerotier}\t${name}"
+      ) addressedHosts
     )}
   '';
 in

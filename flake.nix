@@ -192,10 +192,12 @@
       );
 
       mkHome =
-        { system, modules }:
+        { hostname, modules }:
         inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgsFor.${system};
-          extraSpecialArgs = specialArgs;
+          pkgs = pkgsFor.${hosts.${hostname}.system};
+          extraSpecialArgs = specialArgs // {
+            inherit hostname;
+          };
           inherit modules;
         };
 
@@ -223,23 +225,20 @@
 
         homeConfigurations = {
           "${profile.username}@mbp" = mkHome {
-            inherit (hosts.mbp) system;
+            hostname = "mbp";
             modules = [ ./hosts/mbp/home.nix ];
           };
 
           "${profile.username}@t480s" = mkHome {
-            inherit (hosts.t480s) system;
+            hostname = "t480s";
             modules = [ ./hosts/t480s/home.nix ];
           };
         }
         // lib.mapAttrs (
-          hostname: host:
+          hostname: _:
           mkHome {
-            inherit (host) system;
-            modules = [
-              ./modules/home/server.nix
-              { _module.args.hostname = hostname; }
-            ];
+            inherit hostname;
+            modules = [ ./modules/home/server.nix ];
           }
         ) deployHosts;
 

@@ -1,5 +1,6 @@
 {
   addressedHosts,
+  hostname,
   lib,
   pkgs,
   profile,
@@ -7,13 +8,19 @@
 }:
 let
   hostGroups = lib.groupBy (name: addressedHosts.${name}.group) (builtins.attrNames addressedHosts);
+  preferZerotier =
+    addressedHosts ? ${hostname}.address.zerotier && !(addressedHosts ? ${hostname}.address.warp);
 in
 {
   programs.yazi = {
     enable = true;
     shellWrapperName = "f";
     vfs.sftp = lib.mapAttrs (_: host: {
-      host = host.address;
+      host =
+        if preferZerotier then
+          host.address.zerotier or host.address.warp
+        else
+          host.address.warp or host.address.zerotier;
       user = profile.username;
       port = 22;
     }) addressedHosts;
