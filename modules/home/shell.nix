@@ -82,7 +82,7 @@
         nix_shell = {
           heuristic = true;
           format = "via [$symbol$name]($style) ";
-          symbol = "❄️ ";
+          symbol = "󱄅 ";
         };
       };
     };
