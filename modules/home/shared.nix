@@ -5,7 +5,6 @@
     ./vcs.nix
     ./helix.nix
     # ./flow.nix
-    ./herdr.nix
     ./nushell.nix
     ./shell.nix
     ./stylix.nix

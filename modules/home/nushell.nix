@@ -21,7 +21,6 @@
     shellAliases = {
       cx = "codex --profile interactive";
       nf = "nix flake";
-      hd = "herdr";
       bssh = "bssh -o ClearAllForwardings=yes";
       wj = "wt switch";
     };
