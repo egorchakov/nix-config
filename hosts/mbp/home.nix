@@ -57,16 +57,10 @@ in
   xdg.configFile = {
     "all-smi/config.toml" = {
       force = true;
-      text = ''
-        [view]
-        ssh_hostfile = "${config.xdg.configHome}/all-smi/servers"
-        ssh_strict_host_key = "accept-new"
-      '';
+      source = (pkgs.formats.toml { }).generate "all-smi-config.toml" {
+        view.hosts = map (server: "http://${server}:9091") (lib.remove "berghain" hostGroups.ml);
+      };
     };
-
-    "all-smi/servers".text = lib.concatMapStrings (
-      server: "${profile.username}@${server}\n"
-    ) hostGroups.ml;
 
     "bssh/config.yaml".source = (pkgs.formats.yaml { }).generate "bssh-config.yaml" {
       defaults.user = profile.username;
