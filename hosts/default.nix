@@ -26,6 +26,16 @@
     system = "x86_64-linux";
   };
 
+  nas = {
+    address.warp = "192.168.207.248";
+    group = "nas";
+  };
+
+  nasa = {
+    address.warp = "192.168.207.249";
+    group = "nas";
+  };
+
   renate = {
     address = {
       warp = "192.168.207.246";

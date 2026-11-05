@@ -25,7 +25,7 @@ in
     includes = [ "~/.ssh/config.local" ];
 
     settings = {
-      "${lib.concatStringsSep " " (builtins.attrNames addressedHosts)}" = {
+      "${lib.concatStringsSep " " (hostGroups.ml ++ hostGroups.kits)}" = {
         IdentityFile = "~/.ssh/id_ed25519";
         ForwardAgent = true;
         AddKeysToAgent = true;
@@ -40,6 +40,13 @@ in
         RemoteForward = "9878 localhost:9878";
         StrictHostKeyChecking = "accept-new";
         LogLevel = "QUIET";
+      };
+
+      "${lib.concatStringsSep " " hostGroups.nas}" = {
+        User = "yaak";
+        PreferredAuthentications = "password";
+        PasswordAuthentication = true;
+        PubkeyAuthentication = false;
       };
 
       "github.com" = {
