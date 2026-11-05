@@ -13,6 +13,8 @@
       telegram-desktop
       discord
       ffmpeg-headless
+      bitwarden-desktop
+      bitwarden-cli
       # tfw no map_view
       (callPackage ../../pkgs/rerun-bin.nix { })
     ];
