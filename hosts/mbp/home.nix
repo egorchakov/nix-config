@@ -41,7 +41,7 @@ in
         LogLevel = "QUIET";
       };
 
-      "${lib.concatStringsSep " " hostGroups.nas}" = {
+      "${lib.concatStringsSep " " (hostGroups.nas ++ hostGroups.routers)}" = {
         User = "yaak";
         PreferredAuthentications = "password";
         PasswordAuthentication = true;

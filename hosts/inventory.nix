@@ -26,6 +26,11 @@
     system = "x86_64-linux";
   };
 
+  mikrotik-cic = {
+    address.warp = "192.168.207.1";
+    group = "routers";
+  };
+
   nas = {
     address.warp = "192.168.207.248";
     group = "nas";
