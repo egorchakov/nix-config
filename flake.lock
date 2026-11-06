@@ -367,23 +367,6 @@
         "type": "github"
       }
     },
-    "flow": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1793956997,
-        "narHash": "sha256-+3qajEH1MD4f4UOyRiYl/U/2zUroQa3plTY0+46keUE=",
-        "owner": "neurocyte",
-        "repo": "flow",
-        "rev": "d77e510a7df42999ba0cb08e49e7022631a24731",
-        "type": "github"
-      },
-      "original": {
-        "owner": "neurocyte",
-        "ref": "master",
-        "repo": "flow",
-        "type": "github"
-      }
-    },
     "fromYaml": {
       "flake": false,
       "locked": {
@@ -805,7 +788,6 @@
         "deploy-rs": "deploy-rs",
         "determinate": "determinate",
         "flake-parts": "flake-parts_2",
-        "flow": "flow",
         "git-blame-lsp": "git-blame-lsp",
         "git-hooks": "git-hooks",
         "helix": "helix",
