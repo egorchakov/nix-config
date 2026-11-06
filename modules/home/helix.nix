@@ -194,7 +194,6 @@ in
           language-servers = [
             "ruff"
             "ty"
-            "pyrefly"
             "git-blame"
           ];
         }
@@ -380,7 +379,6 @@ in
       nixd
       nixfmt
       nufmt
-      pyrefly
       ruff
       rumdl
       rust-analyzer
