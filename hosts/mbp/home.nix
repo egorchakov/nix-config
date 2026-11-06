@@ -1,21 +1,20 @@
 {
-  addressedHosts,
-  config,
+  networkHosts,
   lib,
   pkgs,
   profile,
   ...
 }:
 let
-  hostGroups = lib.groupBy (name: addressedHosts.${name}.group) (builtins.attrNames addressedHosts);
+  hostGroups = lib.groupBy (name: networkHosts.${name}.group) (builtins.attrNames networkHosts);
 in
 {
   imports = [
-    ../../modules/home/shared.nix
-    ../../modules/home/gui.nix
+    ../../modules/home/default.nix
+    ../../modules/home/desktop.nix
     ../../modules/home/darwin.nix
     ../../modules/home/darwin/aerospace.nix
-    ../../modules/home/darwin/terminal.nix
+    ../../modules/home/darwin/ghostty.nix
   ];
 
   programs.ssh = {
@@ -77,14 +76,8 @@ in
     "bssh/config.yaml".source = (pkgs.formats.yaml { }).generate "bssh-config.yaml" {
       defaults.user = profile.username;
       clusters = lib.mapAttrs (_: nodes: { inherit nodes; }) hostGroups // {
-        all.nodes = builtins.attrNames addressedHosts;
+        all.nodes = builtins.attrNames networkHosts;
       };
     };
   };
-
-  home.activation.allSmiConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-    run ${pkgs.coreutils}/bin/install -Dm600 \
-      ${lib.escapeShellArg config.xdg.configFile."all-smi/config.toml".source} \
-      ${lib.escapeShellArg "${config.xdg.configHome}/all-smi/config.toml"}
-  '';
 }

@@ -1,5 +1,5 @@
 {
-  addressedHosts,
+  networkHosts,
   config,
   lib,
   self,
@@ -18,7 +18,7 @@ let
     ${lib.concatStringsSep "\n" (
       lib.mapAttrsToList (
         name: { address, ... }: "${address.warp or address.zerotier}\t${name}"
-      ) addressedHosts
+      ) networkHosts
     )}
   '';
 in
@@ -29,11 +29,14 @@ in
 
   services.tailscale.enable = true;
 
-  launchd.user.envVariables.PATH = lib.concatStringsSep ":" [
+  environment.systemPath = lib.mkOrder 1100 [
     "${config.homebrew.prefix}/bin"
     "${config.homebrew.prefix}/sbin"
-    (lib.replaceStrings [ "$HOME" ] [ "/Users/${profile.username}" ] config.environment.systemPath)
   ];
+
+  launchd.user.envVariables.PATH =
+    lib.replaceStrings [ "$HOME" ] [ config.users.users.${profile.username}.home ]
+      config.environment.systemPath;
 
   system = {
     primaryUser = profile.username;

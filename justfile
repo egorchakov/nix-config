@@ -13,6 +13,9 @@ deploy-ml *ARGS: (rex "prefetch")
 deploy-kits *ARGS: (rex "prefetch")
     deploy --groups kits {{ ARGS }}
 
+follow: (rex "prefetch")
+    flake-edit --config flake-edit.toml --non-interactive follow
+
 rex action="prefetch":
     if "{{ action }}" not-in [prefetch update] { error make { msg: "Expected rex prefetch or rex update" } }
     let lock = open --raw flake.lock | from json

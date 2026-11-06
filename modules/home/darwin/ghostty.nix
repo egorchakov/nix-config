@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }: {
   programs.nushell.extraConfig = ''
     $env.config.hooks.pre_prompt = (
       $env.config.hooks.pre_prompt?
@@ -15,7 +15,6 @@
     package = pkgs.ghostty-bin;
     settings = {
       command = "direct:${pkgs.lib.getExe pkgs.nushell}";
-      env = "PATH=/opt/homebrew/bin:/opt/homebrew/sbin:${config.home.profileDirectory}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       font-size = pkgs.lib.mkForce 16;
       macos-option-as-alt = "left";
     };

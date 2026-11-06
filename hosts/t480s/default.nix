@@ -132,7 +132,7 @@ in
   environment.systemPackages = with pkgs; [
     helix
     nextdns
-    libreoffice-fresh
+    libreoffice-stable
     hunspell
     hunspellDicts.en_US-large
     hunspellDicts.de_DE
@@ -141,8 +141,8 @@ in
   ];
 
   programs = {
-    dms-shell.enable = true;
-    dsearch.enable = true;
+    dux-shell.enable = true;
+    dux-search.enable = true;
     dconf.enable = true;
   };
 

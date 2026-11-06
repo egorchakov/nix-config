@@ -1,21 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-{
-  home.sessionPath = [
-    "${config.home.profileDirectory}/bin"
-    "/run/wrappers/bin"
-    "/run/current-system/sw/bin"
-    "/nix/var/nix/profiles/default/bin"
-  ]
-  ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-    "/opt/homebrew/bin"
-    "/opt/homebrew/sbin"
-  ];
-
+{ pkgs, ... }: {
   programs.nushell = {
     enable = true;
     shellAliases = {

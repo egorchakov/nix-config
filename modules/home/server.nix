@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    ./shared.nix
+    ./default.nix
     ./linux.nix
     self.inputs.rex.homeManagerModules.default
   ];

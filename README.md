@@ -4,18 +4,20 @@
 
 ## NixOS
 
-```bash
+```nu
 sudo nixos-rebuild switch --refresh --flake github:egorchakov/nix-config
 ```
 
 ## nix-darwin
 
-```bash
+```nu
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --refresh --flake github:egorchakov/nix-config
 ```
 
 ## home-manager
 
-```bash
+```nu
 nix run home-manager/master -- switch --refresh --flake github:egorchakov/nix-config
 ```
+
+Use `nix fmt` for formatting and `just follow` to update input follows explicitly.

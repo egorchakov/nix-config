@@ -13,14 +13,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    rex = {
-      url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    # multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -62,6 +55,11 @@
     };
 
     helix.url = "github:helix-editor/helix/master";
+
+    rex = {
+      url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -141,9 +139,9 @@
         };
       };
 
-      hosts = import ./hosts;
+      hosts = import ./hosts/inventory.nix;
 
-      addressedHosts = lib.filterAttrs (_: host: host ? address) hosts;
+      networkHosts = lib.filterAttrs (_: host: host ? address) hosts;
 
       systems = [
         "x86_64-linux"
@@ -151,7 +149,14 @@
         "aarch64-darwin"
       ];
 
-      specialArgs = { inherit self profile addressedHosts; };
+      specialArgs = {
+        inherit
+          self
+          profile
+          networkHosts
+          deployHosts
+          ;
+      };
 
       mkPkgs =
         system:
@@ -200,10 +205,7 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       inherit systems;
 
-      imports = [
-        inputs.treefmt-nix.flakeModule
-        inputs.git-hooks.flakeModule
-      ];
+      imports = [ ./modules/tooling.nix ];
 
       flake = {
         nixosConfigurations.t480s = inputs.nixpkgs.lib.nixosSystem {
@@ -269,97 +271,23 @@
       };
 
       perSystem =
-        { config, system, ... }:
+        { system, ... }:
         let
           pkgs = pkgsFor.${system};
         in
         {
           _module.args.pkgs = pkgs;
 
-          treefmt = {
-            projectRootFile = "flake.nix";
-            programs = {
-              deadnix.enable = true;
-              flake-edit = {
-                enable = true;
-                # noLock = true;
-                settings.follow.ignore = [
-                  "determinate.nixpkgs"
-                  "determinate.nix.nixpkgs"
-                  "determinate.nix.nixpkgs-23-11"
-                  "determinate.nix.nixpkgs-regression"
-                  "determinate.nix.flake-parts"
-                  "determinate.nix.flake-parts.nixpkgs-lib"
-                  "determinate.nix.git-hooks-nix.nixpkgs"
-                  "helix.nixpkgs"
-                  "helix.rust-overlay.nixpkgs"
-                  "iets.nixpkgs"
-                  "llm-agents.nixpkgs"
-                  "llm-agents.bun2nix.nixpkgs"
-                ];
-              };
-              statix.enable = true;
-              nixfmt = {
-                enable = true;
-                strict = true;
-              };
-              just.enable = true;
-              keep-sorted.enable = true;
-              rumdl-format.enable = true;
-              stylua.enable = true;
-            };
-            settings.excludes = [ ".git/*" ];
-            settings.formatter = {
-              deadnix.priority = 1;
-              statix.priority = 2;
-              nixfmt.priority = 3;
-              schemat = {
-                command = lib.getExe pkgs.schemat;
-                includes = [ "*.scm" ];
-              };
-            };
-          };
-
-          pre-commit = {
-            settings = {
-              package = pkgs.prek;
-              hooks = {
-                treefmt = {
-                  enable = true;
-                  pass_filenames = false;
-                };
-                trim-trailing-whitespace.enable = true;
-                end-of-file-fixer.enable = true;
-                check-merge-conflicts.enable = true;
-                check-symlinks.enable = true;
-                check-case-conflicts.enable = true;
-                check-added-large-files.enable = true;
-                check-json.enable = true;
-              };
-            };
+          packages = {
+            git-blame-lsp = pkgs.callPackage ./pkgs/git-blame-lsp.nix { src = inputs.git-blame-lsp; };
+          }
+          // lib.optionalAttrs (system == "aarch64-darwin") {
+            rerun-bin = pkgs.callPackage ./pkgs/rerun-bin.nix { };
           };
 
           checks = lib.optionalAttrs (system == "x86_64-linux") (
             deployPkgsFor.${system}.deploy-rs.lib.deployChecks self.deploy
           );
-
-          devShells.default =
-            with pkgs;
-            mkShell {
-              name = "nix-config";
-              inputsFrom = [ config.pre-commit.devShell ];
-              packages = [
-                nushell
-                just
-                pkgs.deploy-rs
-                direnv
-                gitMinimal
-                nix-direnv
-                nix-output-monitor
-                openssh
-                ragenix
-              ];
-            };
         };
     };
 }

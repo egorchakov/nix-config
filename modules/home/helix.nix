@@ -6,22 +6,114 @@
 }:
 let
   system = pkgs.stdenv.hostPlatform.system;
-  blameLanguages = map (language: {
-    inherit (language) name;
-    language-servers = (language.language-servers or [ ]) ++ [ "git-blame" ];
-  }) (fromTOML (builtins.readFile "${self.inputs.helix}/languages.toml")).language;
-  git-blame-lsp = pkgs.stdenv.mkDerivation {
-    pname = "git-blame-lsp";
-    version = "unstable-${self.inputs.git-blame-lsp.shortRev}";
-    src = self.inputs.git-blame-lsp;
-    nativeBuildInputs = [
-      pkgs.zig_0_17.hook
-      pkgs.makeBinaryWrapper
-    ];
-    postFixup = ''
-      wrapProgram $out/bin/git-blame-lsp \
-        --prefix PATH : ${lib.makeBinPath [ pkgs.gitMinimal ]}
-    '';
+  upstreamLanguages = lib.listToAttrs (
+    map (language: lib.nameValuePair language.name language)
+      (fromTOML (builtins.readFile "${self.inputs.helix}/languages.toml")).language
+  );
+  languageOverrides = {
+    cpp = {
+      auto-format = true;
+      language-servers = [ "clangd" ];
+    };
+    ron = {
+      auto-format = true;
+      formatter = {
+        command = "fmtron";
+        args = [
+          "--stdin-filepath"
+          "%{buffer_name}"
+        ];
+      };
+      language-servers = [ "ron-lsp" ];
+    };
+    rust = {
+      language-servers = [ "rust-analyzer" ];
+    };
+    markdown = {
+      language-servers = [
+        "rumdl"
+        "mpls"
+      ];
+    };
+    nix = {
+      auto-format = true;
+      formatter = {
+        command = "nixfmt";
+        args = [
+          "--verify"
+          "--strict"
+        ];
+      };
+      language-servers = [
+        "nixd"
+        "statix"
+      ];
+    };
+    python = {
+      auto-format = true;
+      language-servers = [
+        "ruff"
+        "ty"
+      ];
+    };
+    toml = {
+      auto-format = true;
+      language-servers = [ "tombi" ];
+    };
+    yaml-config = {
+      auto-format = true;
+      scope = "source.yaml";
+      grammar = "yaml";
+      language-id = "yaml";
+      file-types = [ { glob = "config/**/*.yaml"; } ];
+      comment-token = "#";
+      indent = {
+        tab-width = 2;
+        unit = "  ";
+      };
+      language-servers = [ "yaml-language-server" ];
+      formatter = {
+        command = "yamlfmt";
+        args = [ "-" ];
+      };
+    };
+    yaml = {
+      auto-format = true;
+      language-servers = [
+        "yaml-language-server"
+        "ansible-language-server"
+      ];
+      formatter = {
+        command = "yamlfmt";
+        args = [ "-" ];
+      };
+    };
+    just = {
+      auto-format = true;
+      language-servers = [ "just-lsp" ];
+      formatter = {
+        command = "just";
+        args = [
+          "--dump"
+          "--justfile"
+          "-"
+        ];
+      };
+    };
+    nu = {
+      auto-format = true;
+    };
+    jq = {
+      auto-format = true;
+      language-servers = [ "jq-lsp" ];
+      formatter = {
+        command = "jqfmt";
+        args = [
+          "-ob"
+          "-ar"
+        ];
+      };
+    };
   };
 in
 {
@@ -133,151 +225,17 @@ in
     };
 
     languages = {
-      language = blameLanguages ++ [
-        {
-          name = "cpp";
-          auto-format = true;
-          language-servers = [
-            "clangd"
-            "git-blame"
-          ];
+      language = lib.mapAttrsToList (
+        name: language:
+        language
+        // {
+          inherit name;
+          language-servers = lib.remove "git-blame" (language.language-servers or [ ]) ++ [ "git-blame" ];
         }
-        {
-          name = "ron";
-          auto-format = true;
-          formatter = {
-            command = "fmtron";
-            args = [
-              "--stdin-filepath"
-              "%{buffer_name}"
-            ];
-          };
-          language-servers = [
-            "ron-lsp"
-            "git-blame"
-          ];
-        }
-        {
-          name = "rust";
-          language-servers = [
-            "rust-analyzer"
-            "git-blame"
-          ];
-        }
-        {
-          name = "markdown";
-          language-servers = [
-            "rumdl"
-            "mpls"
-            "git-blame"
-          ];
-        }
-        {
-          name = "nix";
-          auto-format = true;
-          formatter = {
-            command = "nixfmt";
-            args = [
-              "--verify"
-              "--strict"
-            ];
-          };
-          language-servers = [
-            "nixd"
-            "statix"
-            "git-blame"
-          ];
-        }
-        {
-          name = "python";
-          auto-format = true;
-          language-servers = [
-            "ruff"
-            "ty"
-            "git-blame"
-          ];
-        }
-        {
-          name = "toml";
-          auto-format = true;
-          language-servers = [
-            "tombi"
-            "git-blame"
-          ];
-        }
-        {
-          name = "yaml-config";
-          auto-format = true;
-          scope = "source.yaml";
-          grammar = "yaml";
-          language-id = "yaml";
-          file-types = [ { glob = "config/**/*.yaml"; } ];
-          comment-token = "#";
-          indent = {
-            tab-width = 2;
-            unit = "  ";
-          };
-          language-servers = [
-            "yaml-language-server"
-            "git-blame"
-          ];
-          formatter = {
-            command = "yamlfmt";
-            args = [ "-" ];
-          };
-        }
-        {
-          name = "yaml";
-          auto-format = true;
-          language-servers = [
-            "yaml-language-server"
-            "ansible-language-server"
-            "git-blame"
-          ];
-          formatter = {
-            command = "yamlfmt";
-            args = [ "-" ];
-          };
-        }
-        {
-          name = "just";
-          auto-format = true;
-          language-servers = [
-            "just-lsp"
-            "git-blame"
-          ];
-          formatter = {
-            command = "just";
-            args = [
-              "--dump"
-              "--justfile"
-              "-"
-            ];
-          };
-        }
-        {
-          name = "nu";
-          auto-format = true;
-        }
-        {
-          name = "jq";
-          auto-format = true;
-          language-servers = [
-            "jq-lsp"
-            "git-blame"
-          ];
-          formatter = {
-            command = "jqfmt";
-            args = [
-              "-ob"
-              "-ar"
-            ];
-          };
-        }
-      ];
+      ) (lib.recursiveUpdate upstreamLanguages languageOverrides);
 
       language-server = {
-        git-blame.command = "${git-blame-lsp}/bin/git-blame-lsp";
+        git-blame.command = lib.getExe self.packages.${system}.git-blame-lsp;
 
         rust-analyzer = {
           config = {
@@ -317,32 +275,6 @@ in
         clangd.args = [ "--clang-tidy" ];
 
         mpls.command = "mpls";
-
-        nixd = {
-          config.nixd = {
-            nixpkgs.expr = ''
-              let flake = builtins.getFlake (builtins.toString ./.);
-              in flake.inputs.nixpkgs.legacyPackages.${system}
-            '';
-
-            options = {
-              darwin.expr = ''
-                let flake = builtins.getFlake (builtins.toString ./.);
-                in flake.darwinConfigurations.mbp.options
-              '';
-
-              "home-manager".expr = ''
-                let flake = builtins.getFlake (builtins.toString ./.);
-                in flake.homeConfigurations."evgenii@mbp".options
-              '';
-
-              nixos.expr = ''
-                let flake = builtins.getFlake (builtins.toString ./.);
-                in flake.nixosConfigurations.t480s.options
-              '';
-            };
-          };
-        };
 
         statix = {
           command = "efm-langserver";
@@ -394,6 +326,10 @@ in
 
   xdg.configFile = {
     "helix/runtime/queries/yaml-config".source = ./helix/runtime/queries/yaml-config;
-    "helix/runtime/queries/just".source = ./helix/runtime/queries/just;
+    "helix/runtime/queries/just".source = pkgs.applyPatches {
+      name = "helix-just-queries";
+      src = "${self.inputs.helix}/runtime/queries/just";
+      patches = [ ./patches/helix-just-injections.patch ];
+    };
   };
 }

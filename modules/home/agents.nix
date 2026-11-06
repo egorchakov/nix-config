@@ -34,18 +34,7 @@ in
       };
     };
 
-    mcp = {
-      enable = true;
-      servers = {
-        rerun = {
-          enabled = true;
-          command = "rerun"; # TODO: binpath?
-          args = [ "viewer-mcp" ];
-          env.RUST_LOG = "re_viewer_mcp=info,warn";
-        };
-      };
-
-    };
+    mcp.enable = true;
     codex = {
       enable = true;
       enableMcpIntegration = true;

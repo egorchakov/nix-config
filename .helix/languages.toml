@@ -1,0 +1,23 @@
+[language-server.nixd.config.nixd.nixpkgs]
+expr = """
+let flake = builtins.getFlake (builtins.toString ./.);
+in flake.inputs.nixpkgs.legacyPackages.${builtins.currentSystem}
+"""
+
+[language-server.nixd.config.nixd.options.darwin]
+expr = """
+let flake = builtins.getFlake (builtins.toString ./.);
+in flake.darwinConfigurations.mbp.options
+"""
+
+[language-server.nixd.config.nixd.options.home-manager]
+expr = """
+let flake = builtins.getFlake (builtins.toString ./.);
+in flake.homeConfigurations."evgenii@mbp".options
+"""
+
+[language-server.nixd.config.nixd.options.nixos]
+expr = """
+let flake = builtins.getFlake (builtins.toString ./.);
+in flake.nixosConfigurations.t480s.options
+"""

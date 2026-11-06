@@ -1,0 +1,14 @@
+[follow]
+ignore = [
+  "determinate.nixpkgs",
+  "determinate.nix.nixpkgs",
+  "determinate.nix.nixpkgs-23-11",
+  "determinate.nix.nixpkgs-regression",
+  "determinate.nix.flake-parts",
+  "determinate.nix.flake-parts.nixpkgs-lib",
+  "determinate.nix.git-hooks-nix.nixpkgs",
+  "helix.nixpkgs",
+  "helix.rust-overlay.nixpkgs",
+  "llm-agents.nixpkgs",
+  "llm-agents.bun2nix.nixpkgs",
+]

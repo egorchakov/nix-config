@@ -1,5 +1,5 @@
 {
-  addressedHosts,
+  deployHosts,
   config,
   lib,
   pkgs,
@@ -53,7 +53,7 @@ let
           StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rex-agent-${hostname}.log";
         }
       );
-    }) addressedHosts
+    }) deployHosts
   );
 in
 {
@@ -70,7 +70,7 @@ in
             endpoint = "https://rex-${hostname}.tail50f327.ts.net";
           }
         }
-      '') addressedHosts
+      '') deployHosts
     );
   };
 

@@ -1,5 +1,5 @@
 {
-  addressedHosts,
+  deployHosts,
   hostname,
   lib,
   pkgs,
@@ -7,9 +7,8 @@
   ...
 }:
 let
-  hostGroups = lib.groupBy (name: addressedHosts.${name}.group) (builtins.attrNames addressedHosts);
   preferZerotier =
-    addressedHosts ? ${hostname}.address.zerotier && !(addressedHosts ? ${hostname}.address.warp);
+    deployHosts ? ${hostname}.address.zerotier && !(deployHosts ? ${hostname}.address.warp);
 in
 {
   programs.yazi = {
@@ -23,7 +22,7 @@ in
           host.address.warp or host.address.zerotier;
       user = profile.username;
       port = 22;
-    }) addressedHosts;
+    }) deployHosts;
     plugins = {
       inherit (pkgs.yaziPlugins)
         full-border
@@ -125,7 +124,7 @@ in
       };
     };
     initLua = ''
-      dofile("${./init.lua}")(${lib.generators.toLua { } (hostGroups.ml ++ hostGroups.kits)})
+      dofile("${./init.lua}")(${lib.generators.toLua { } (builtins.attrNames deployHosts)})
     '';
   };
 }
