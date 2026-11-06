@@ -47,6 +47,11 @@ in
         PreferredAuthentications = "password";
         PasswordAuthentication = true;
         PubkeyAuthentication = false;
+        ControlMaster = "auto";
+        ControlPath = "~/.ssh/master-%r@%h:%p.socket";
+        ControlPersist = "24h";
+        ServerAliveInterval = 30;
+        ServerAliveCountMax = 3;
       };
 
       "github.com" = {
