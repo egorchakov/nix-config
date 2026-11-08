@@ -42,6 +42,12 @@ in
     primaryUser = profile.username;
     configurationRevision = self.rev or self.dirtyRev or null;
     stateVersion = 6;
+
+    defaults.NSGlobalDomain = {
+      ApplePressAndHoldEnabled = false;
+      InitialKeyRepeat = 15;
+      KeyRepeat = 0;
+    };
   };
 
   environment.shells = with pkgs; [
