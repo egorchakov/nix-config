@@ -1,13 +1,7 @@
 {
   nixConfig = {
-    extra-substituters = [
-      "https://cache.numtide.com"
-      "https://helix.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
-      "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
-    ];
+    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
   };
 
   inputs = {
@@ -53,8 +47,6 @@
         flake-compat.follows = "determinate/nix/git-hooks-nix/flake-compat";
       };
     };
-
-    helix.url = "github:helix-editor/helix/master";
 
     # TODO: Replace with pkgs.mitos once available in the pinned Nixpkgs.
     mitos = {
@@ -104,11 +96,6 @@
         nixpkgs.follows = "nixpkgs";
         systems.follows = "llm-agents/systems";
       };
-    };
-
-    git-blame-lsp = {
-      url = "github:credimusin/git-blame-lsp";
-      flake = false;
     };
 
     agent-skills = {
@@ -284,10 +271,7 @@
         {
           _module.args.pkgs = pkgs;
 
-          packages = {
-            git-blame-lsp = pkgs.callPackage ./pkgs/git-blame-lsp.nix { src = inputs.git-blame-lsp; };
-          }
-          // lib.optionalAttrs (system == "aarch64-darwin") {
+          packages = lib.optionalAttrs (system == "aarch64-darwin") {
             rerun-bin = pkgs.callPackage ./pkgs/rerun-bin.nix { };
           };
 

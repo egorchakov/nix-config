@@ -18,7 +18,6 @@
     autoEnable = false;
     targets = {
       bat.enable = true;
-      helix.enable = true;
       nushell.enable = true;
       starship.enable = true;
       yazi.enable = true;

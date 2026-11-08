@@ -130,7 +130,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    helix
+    self.inputs.mitos.packages.${pkgs.stdenv.hostPlatform.system}.default
     nextdns
     libreoffice-stable
     hunspell

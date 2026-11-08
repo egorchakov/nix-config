@@ -29,8 +29,11 @@ in
                 clang-tools
                 clippy
                 efm-langserver
+                jq-lsp
+                jqfmt
                 just
                 just-lsp
+                kdlfmt
                 mpls
                 nixd
                 nixfmt-rs
@@ -54,6 +57,11 @@ in
     })
   ];
 
+  home.sessionVariables = {
+    EDITOR = "ms";
+    VISUAL = "ms";
+  };
+
   xdg.configFile = {
     "mitos/config.toml".source = toml.generate "mitos-config.toml" {
       theme = "stylix-brighter-comments";
@@ -70,6 +78,19 @@ in
         lsp = {
           progress.enable = true;
           inlay-hints.enable = true;
+        };
+        statusline = {
+          left = [
+            "mode"
+            "spinner"
+            "file-name"
+            "read-only-indicator"
+            "file-modification-indicator"
+          ];
+          right = [
+            "diagnostics"
+            "branch"
+          ];
         };
         indent-guides = {
           render = true;
@@ -115,14 +136,18 @@ in
 
     "mitos/languages.toml".source = toml.generate "mitos-languages.toml" {
       language = lib.mapAttrsToList (name: language: language // { inherit name; }) {
+        jq.formatter = {
+          command = "jqfmt";
+          args = [
+            "-ob"
+            "-ar"
+          ];
+        };
         markdown.language-servers = upstreamLanguages.markdown.language-servers ++ [ "mpls" ];
         nix = {
           formatter = {
             command = "nixfmt";
-            args = [
-              "--verify"
-              "--strict"
-            ];
+            args = [ "--verify" ];
           };
           language-servers = upstreamLanguages.nix.language-servers ++ [ "statix" ];
         };

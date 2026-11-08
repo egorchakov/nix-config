@@ -2,7 +2,6 @@
   imports = [
     ./agents.nix
     ./vcs.nix
-    ./helix.nix
     ./mitos.nix
     ./nushell.nix
     ./cli.nix
