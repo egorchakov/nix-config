@@ -329,7 +329,7 @@ in
     "helix/runtime/queries/just".source = pkgs.applyPatches {
       name = "helix-just-queries";
       src = "${self.inputs.helix}/runtime/queries/just";
-      patches = [ ./patches/helix-just-injections.patch ];
+      patches = [ ./patches/just-injections.patch ];
     };
   };
 }

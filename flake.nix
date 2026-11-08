@@ -56,6 +56,12 @@
 
     helix.url = "github:helix-editor/helix/master";
 
+    # TODO: Replace with pkgs.mitos once available in the pinned Nixpkgs.
+    mitos = {
+      url = "github:mitos-editor/mitos/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     rex = {
       url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
