@@ -14,6 +14,7 @@ in
     self.inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
     self.inputs.srvos.nixosModules.desktop
     self.inputs.agenix.nixosModules.default
+    self.inputs.bootvine.nixosModules.default
     ./hardware-configuration.nix
   ];
 
@@ -29,6 +30,14 @@ in
   };
 
   boot = {
+    consoleLogLevel = 3;
+    initrd.systemd.services = {
+      systemd-vconsole-setup.after = [ "systemd-modules-load.service" ];
+      bootvine = {
+        requires = [ "systemd-vconsole-setup.service" ];
+        after = [ "systemd-vconsole-setup.service" ];
+      };
+    };
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot = {
@@ -43,6 +52,12 @@ in
       "i915.enable_fbc=1"
       "i915.enable_psr=2"
     ];
+  };
+
+  console = {
+    earlySetup = true;
+    packages = [ pkgs.cozette ];
+    font = "cozette12x26";
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -93,6 +108,7 @@ in
   };
 
   services = {
+    bootvine.enable = true;
     nextdns = {
       enable = true;
       arguments = [
