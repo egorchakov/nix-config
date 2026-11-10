@@ -457,11 +457,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793979366,
-        "narHash": "sha256-7OoWDsYO9teiPxl0QdlS5lYE20Pue8/5mpscSL32FUA=",
+        "lastModified": 1794278858,
+        "narHash": "sha256-rkrJwLgLSHBnXfgoSKIDa+2LLGdTqynsV3GAxOTGhUU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2c0c1f01521469cf0271180c453c79782d53c2f6",
+        "rev": "82ce401aa350502897c3f2e85f384d61cd3b0b6d",
         "type": "github"
       },
       "original": {
@@ -484,11 +484,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794229407,
-        "narHash": "sha256-4L7pYuOdzzV5VgDBwZGYA6L4qs+S7/QcVKeBS9fIPZA=",
+        "lastModified": 1794306018,
+        "narHash": "sha256-BdE8xH6hyd0j1j/LXAyibjMqZgsBXi4cQ/cID8TxbZM=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "0538a7598ce7eb1f80619bb93f613ed664d33510",
+        "rev": "5c531b675f7f2b595a1f7150446e5a23f9a17061",
         "type": "github"
       },
       "original": {
@@ -504,11 +504,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794213183,
-        "narHash": "sha256-t2FLmuFm0MNBgxTxoLv6ViYP3o3Oyk5ONI9XwUqH37Q=",
+        "lastModified": 1794299570,
+        "narHash": "sha256-S8Y45S1BLSDF3GNGbnf+aL2A1yAD6IAgMVLpoi45ZaM=",
         "owner": "mitos-editor",
         "repo": "mitos",
-        "rev": "dcd3c8651e20d5667a0b03a1365cf67f05ff6a60",
+        "rev": "61ddcdac14b569d1507215e1f4e375c5613412c6",
         "type": "github"
       },
       "original": {
@@ -738,10 +738,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794111130,
-        "narHash": "sha256-ZUIhnzNpmuEheybfzs9fFiLkicGWAqZVbTNSBxvLdZc=",
+        "lastModified": 1794283804,
+        "narHash": "sha256-QXXYZw14GkH4Uq3FB+uWxMiigCw8GMst09R+90N9i78=",
         "type": "tarball",
-        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1794111130-g9bcf6a.tar.gz"
+        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1794283804-gc3af96.tar.gz"
       },
       "original": {
         "type": "tarball",
