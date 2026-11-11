@@ -521,11 +521,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794306018,
-        "narHash": "sha256-BdE8xH6hyd0j1j/LXAyibjMqZgsBXi4cQ/cID8TxbZM=",
+        "lastModified": 1794380995,
+        "narHash": "sha256-SnXBuDADLroMur2kNKYPV1m6UYloeNoZI3HfcBso5vk=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "5c531b675f7f2b595a1f7150446e5a23f9a17061",
+        "rev": "b1794bce59df71b7f479fd477acbeedbdda5f85a",
         "type": "github"
       },
       "original": {
@@ -541,11 +541,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794299570,
-        "narHash": "sha256-S8Y45S1BLSDF3GNGbnf+aL2A1yAD6IAgMVLpoi45ZaM=",
+        "lastModified": 1794353640,
+        "narHash": "sha256-qLkST9NS8PdIWCIDOKtRc2TpRGJm/MJ6aT11tKXMQZ8=",
         "owner": "mitos-editor",
         "repo": "mitos",
-        "rev": "61ddcdac14b569d1507215e1f4e375c5613412c6",
+        "rev": "540a31893992f41c2da2dd1ad6956fd59936f08c",
         "type": "github"
       },
       "original": {
@@ -697,11 +697,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1793826729,
-        "narHash": "sha256-D5H7H+qMoTGI/jJtxKP4u7BdjkFnUyhOovTrf3pTOr0=",
+        "lastModified": 1793977579,
+        "narHash": "sha256-WrSODdZFVIs/Hh2NzC0bY+ROByi0bATg8WfePX8dPj8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "6dadaf4375be35033e1c84395adbd53ff5fded96",
+        "rev": "4fe25e12eb9f4c744966dd3de5a05246cf098601",
         "type": "github"
       },
       "original": {
@@ -775,10 +775,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794283804,
-        "narHash": "sha256-QXXYZw14GkH4Uq3FB+uWxMiigCw8GMst09R+90N9i78=",
+        "lastModified": 1794371922,
+        "narHash": "sha256-zfURQQ+Misazkc5Wr8IWOmtmhgUD/6SW4OV0fEMxcAQ=",
         "type": "tarball",
-        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1794283804-gc3af96.tar.gz"
+        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1794371922-g89ffd0.tar.gz"
       },
       "original": {
         "type": "tarball",
