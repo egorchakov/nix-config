@@ -7,6 +7,7 @@
   ...
 }:
 let
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
   preferZerotier =
     deployHosts ? ${hostname}.address.zerotier && !(deployHosts ? ${hostname}.address.warp);
 in
@@ -31,11 +32,21 @@ in
         ouch
         rsync
         duckdb
+        piper
         ;
     };
     extraPackages = with pkgs; [
       ouch
       duckdb
+      (python314.withPackages (
+        ps:
+        [
+          ps.polygraphy
+          ps.colored
+        ]
+        ++ ps.polygraphy.optional-dependencies.onnx
+        ++ lib.optionals isLinux ps.polygraphy.optional-dependencies.tensorrt
+      ))
     ];
     theme =
       let
@@ -55,7 +66,13 @@ in
 
     settings = {
       plugin = {
-        prepend_previewers =
+        prepend_previewers = [
+          {
+            url = if isLinux then "*.{onnx,engine}" else "*.onnx";
+            run = "piper -- polygraphy inspect model \"$1\" --show attrs | sed -n '/===/,$p'";
+          }
+        ]
+        ++
           map
             (url: {
               inherit url;
@@ -65,21 +82,21 @@ in
               "*.csv"
               "*.parquet"
             ]
-          ++
-            map
-              (type: {
-                run = "ouch";
-                mime = "application/${type}";
-              })
-              [
-                "*zip"
-                "x-tar"
-                "x-bzip2"
-                "x-7z-compressed"
-                "x-rar"
-                "x-xz"
-                "xz"
-              ];
+        ++
+          map
+            (type: {
+              run = "ouch";
+              mime = "application/${type}";
+            })
+            [
+              "*zip"
+              "x-tar"
+              "x-bzip2"
+              "x-7z-compressed"
+              "x-rar"
+              "x-xz"
+              "xz"
+            ];
         prepend_preloaders =
           map
             (url: {
