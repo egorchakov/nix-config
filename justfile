@@ -16,6 +16,9 @@ deploy-kits *ARGS: (rex "prefetch")
 follow: (rex "prefetch")
     flake-edit --config flake-edit.toml --non-interactive follow
 
+bump-rerun version="stable":
+    nix-update --flake --override-filename pkgs/rerun-bin.nix --version="{{ version }}" rerun-bin
+
 rex action="prefetch":
     if "{{ action }}" not-in [prefetch update] { error make { msg: "Expected rex prefetch or rex update" } }
     let lock = open --raw flake.lock | from json
