@@ -134,11 +134,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1794257658,
-        "narHash": "sha256-aPJtMiIqt8tb+ZsgKhVH3zmGWjRRzukUzXj64X1mhpI=",
+        "lastModified": 1794514597,
+        "narHash": "sha256-UAa1DPXj6zjwqN0TbXySsbkGarLXS8P6Zc/8DyYeArU=",
         "ref": "refs/heads/main",
-        "rev": "a7e33b453a82ecfe9e98d060008b3b20b6924f62",
-        "revCount": 101,
+        "rev": "61869df79775d07568d3cd4fff820a7890f57142",
+        "revCount": 102,
         "type": "git",
         "url": "https://codeberg.org/wvhulle/bootvine"
       },
@@ -521,11 +521,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794446492,
-        "narHash": "sha256-AIiEQTIvcYJZbIpJUEiZ/y6P2cIL7OVaZjncpv4FlLM=",
+        "lastModified": 1794551759,
+        "narHash": "sha256-kL6q4ItZT++IjrrDlcUOL9L0XNzTLb2+4xQgpHBzx/I=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "a4ef5bdd670dc14d115a2f4cd38a2955303254f3",
+        "rev": "860075d959fc68c31fd405989daf85c1b1f0db38",
         "type": "github"
       },
       "original": {
@@ -541,11 +541,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794472793,
-        "narHash": "sha256-d2jfW+LwtoRhMsQ9RiRtX5VRTrGm3AlC976sQ6hLLnI=",
+        "lastModified": 1794523501,
+        "narHash": "sha256-o9my2EeLMAQ8p0maXJeXXHOwxSNONYh6hBH+iZmUZFc=",
         "owner": "mitos-editor",
         "repo": "mitos",
-        "rev": "6abe54c32800baee138926550749de9cd25c97d9",
+        "rev": "c0fd46d81885991b22c6465e93bb4f633542e1c3",
         "type": "github"
       },
       "original": {
@@ -713,11 +713,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1794285365,
-        "narHash": "sha256-wZbTou+ANeUoN7ojuMBOPU9D4qMZ96MLxcDp2BzmIUY=",
+        "lastModified": 1794495034,
+        "narHash": "sha256-E0hYoioqUtM2XmPPvYYpJgdADF5AW9oOoPSEiM9dTHQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "9ac0edc06bfb33e6c0000be79d98ef8d89e26503",
+        "rev": "2074cc672349f14240fb7ea90d509e0b643e9dd4",
         "type": "github"
       },
       "original": {
@@ -775,10 +775,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794460237,
-        "narHash": "sha256-m/7JDDUG8QFhNYSE1G/BUaWoB06f/z1kRE5IWomZ/mk=",
+        "lastModified": 1794546118,
+        "narHash": "sha256-C+YTl7Ku6xQFekijJkrY4fvlnMFOwMeE+cAXMwfu/fg=",
         "type": "tarball",
-        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1794460237-g348d75.tar.gz"
+        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1794546118-g228358.tar.gz"
       },
       "original": {
         "type": "tarball",
