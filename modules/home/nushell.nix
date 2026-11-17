@@ -2,7 +2,7 @@
   programs.nushell = {
     enable = true;
     shellAliases = {
-      cx = "codex --profile interactive";
+      cx = "codex --no-daemon --profile interactive";
       nf = "nix flake";
       bssh = "bssh -o ClearAllForwardings=yes";
       wj = "wt switch";

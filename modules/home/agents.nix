@@ -41,7 +41,7 @@ in
       package = self.inputs.llm-agents.packages.${system}.codex;
       plugins = [ "${pkgs.worktrunk.src}/plugins/worktrunk" ];
       settings = {
-        model = "gpt-6.1-sol";
+        model = "gpt-6.2-sol";
         model_reasoning_effort = "xhigh";
         plan_mode_reasoning_effort = "xhigh";
         service_tier = "fast";
