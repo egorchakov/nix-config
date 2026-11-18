@@ -13,6 +13,28 @@ deploy-ml *ARGS: (rex "prefetch")
 deploy-kits *ARGS: (rex "prefetch")
     deploy --groups kits {{ ARGS }}
 
+[positional-arguments]
+deploy-kits-via BUILDER *KITS: (rex "prefetch")
+    def main [builder: string, ...kits: string] {
+        let nodes = (nix eval --json .#deploy.nodes
+            --apply 'builtins.mapAttrs (_: node: { inherit (node) groups hostname sshUser; })'
+            | from json)
+        let kit_names = ($nodes | items {|name, node| if 'kits' in $node.groups { $name } } | compact)
+        let selected = if ($kits | is-empty) { $kit_names } else { $kits | uniq }
+        let unknown = ($selected | where {|kit| $kit not-in $kit_names })
+        if not ($unknown | is-empty) { error make { msg: $"Unknown kits: ($unknown | str join ', ')" } }
+
+        let builder_store = $"ssh-ng://($builder)"
+        for kit in $selected {
+            let node = ($nodes | get $kit)
+            let profile = (nix build --eval-store auto --store $builder_store --no-link --print-out-paths
+                $".#deploy.nodes.($kit).profiles.home.path" | str trim)
+            (ssh -- $builder nix copy --no-check-sigs --to $"ssh-ng://($node.sshUser)@($node.hostname)" $profile)
+        }
+
+        deploy --targets ...($selected | each {|kit| $".#($kit).home" })
+    }
+
 follow: (rex "prefetch")
     flake-edit --config flake-edit.toml --non-interactive follow
 
