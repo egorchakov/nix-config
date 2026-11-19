@@ -70,12 +70,12 @@
             flake-edit
             gitMinimal
             nix-direnv
-            nix-output-monitor
             (nix-update.override {
               nix = inputs.determinate.inputs.nix.packages.${stdenv.hostPlatform.system}.default;
             })
             openssh
             ragenix
+            rom
           ];
         };
     };

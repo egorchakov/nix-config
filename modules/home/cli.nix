@@ -15,6 +15,7 @@
       ouch
       duckdb
       chafa
+      rom
     ];
 
     file.".duckdbrc".text = ''
@@ -42,10 +43,7 @@
         }))
       ];
     };
-    nix-your-shell = {
-      enable = true;
-      nix-output-monitor.enable = true;
-    };
+    nix-your-shell.enable = true;
     carapace.enable = true;
     nh = {
       enable = true;

@@ -5,7 +5,7 @@ set default-script
 set lazy
 
 deploy *ARGS: (rex "prefetch")
-    deploy {{ ARGS }} --no-demarcate-output -- --log-format internal-json o+e>| nom --json
+    deploy {{ ARGS }} --no-demarcate-output -- --log-format internal-json o+e>| rom
 
 deploy-ml *ARGS: (rex "prefetch")
     deploy --groups ml {{ ARGS }}
