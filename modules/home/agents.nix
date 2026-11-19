@@ -27,14 +27,18 @@ in
         };
       };
       skills.enableAll = true;
-      targets.agents = {
-        enable = true;
-        structure = "link";
-        dest = ".agents/skills";
+      targets = {
+        agents = {
+          enable = true;
+          structure = "link";
+          dest = ".agents/skills";
+        };
+        claude.enable = true;
       };
     };
 
     mcp.enable = true;
+
     codex = {
       enable = true;
       enableMcpIntegration = true;
@@ -84,6 +88,12 @@ in
           - reinvent the wheel
           - add unnecessary comments
       '';
+    };
+
+    claude-code = {
+      enable = true;
+      package = self.inputs.llm-agents.packages.${system}.claude-code;
+      enableMcpIntegration = true;
     };
   };
 }
