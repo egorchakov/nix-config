@@ -71,8 +71,8 @@
     system = "aarch64-linux";
   };
 
-  delta-devcar = {
-    address.zerotier = "172.30.0.40";
+  delta-devcar-v2 = {
+    address.zerotier = "172.30.0.154";
     group = "kits";
     system = "aarch64-linux";
   };
