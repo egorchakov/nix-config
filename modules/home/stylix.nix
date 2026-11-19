@@ -22,6 +22,7 @@
       starship.enable = true;
       yazi.enable = true;
       gitui.enable = true;
+      lazygit.enable = true;
     };
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/evenok-dark.yaml";

@@ -45,6 +45,16 @@ in
       enable = true;
     };
 
+    lazygit = {
+      enable = true;
+      settings.git.diffRenderers = [
+        {
+          type = "extDiff";
+          command = "${lib.getExe config.programs.difftastic.package} --color=always --background={{colorScheme}} --context={{diffContext}} --width={{width}}";
+        }
+      ];
+    };
+
     worktrunk = {
       enable = true;
       settings.pre-start = [
