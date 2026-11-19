@@ -29,7 +29,9 @@ deploy-kits-via BUILDER *KITS: (rex "prefetch")
             let node = ($nodes | get $kit)
             let profile = (nix build --eval-store auto --store $builder_store --no-link --print-out-paths
                 $".#deploy.nodes.($kit).profiles.home.path" | str trim)
-            (ssh -- $builder nix copy --no-check-sigs --to $"ssh-ng://($node.sshUser)@($node.hostname)" $profile)
+            (ssh -- $builder env
+                '"NIX_SSHOPTS=-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GlobalKnownHostsFile=/dev/null"'
+                nix copy --no-check-sigs --to $"ssh-ng://($node.sshUser)@($node.hostname)" $profile)
         }
 
         deploy --targets ...($selected | each {|kit| $".#($kit).home" })
