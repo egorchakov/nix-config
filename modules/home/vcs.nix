@@ -47,6 +47,13 @@ in
 
     lazygit = {
       enable = true;
+      settings.os = rec {
+        edit = "ms -- {{filename}}";
+        editAtLine = "ms +{{line}} -- {{filename}}";
+        editAtLineAndWait = editAtLine;
+        editInTerminal = true;
+        openDirInEditor = "ms -- {{dir}}";
+      };
       settings.git.diffRenderers = [
         {
           type = "extDiff";
