@@ -36,7 +36,7 @@ in
         ControlPersist = "30m";
         ServerAliveInterval = 30;
         ServerAliveCountMax = 3;
-        RemoteForward = "9878 localhost:9878";
+        # RemoteForward = "9878 localhost:9878";
         StrictHostKeyChecking = "accept-new";
         LogLevel = "QUIET";
       };
