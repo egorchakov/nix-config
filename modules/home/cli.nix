@@ -77,6 +77,7 @@
       enable = true;
       settings = {
         format = "$username$hostname$directory$git_branch$git_state$nix_shell$direnv$python\n$character";
+        hostname.ssh_only = false;
         nix_shell = {
           heuristic = true;
           format = "via [$symbol$name]($style) ";
