@@ -1,5 +1,6 @@
 {
   config,
+  deployHosts,
   hostname,
   lib,
   pkgs,
@@ -20,6 +21,10 @@
       enable = true;
       hostname = "rex-${hostname}";
     };
+  }
+  // lib.optionalAttrs (hostname == "delta-devcar-v2") {
+    extraListen = [ "http://${deployHosts.${hostname}.address.zerotier}:7297" ];
+    allowAnonymous = true;
   };
 
   home.file =
