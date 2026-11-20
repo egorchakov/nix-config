@@ -7,8 +7,7 @@
   ...
 }:
 let
-  inherit (pkgs.stdenv.hostPlatform) isLinux;
-  enableModelPreviews =
+  enableOnnxPreviews =
     hostname == "mbp"
     || builtins.elem (deployHosts.${hostname}.group or null) [
       "kits"
@@ -135,7 +134,7 @@ in
         dofile("${./init.lua}")(${lib.generators.toLua { } (builtins.attrNames deployHosts)})
       '';
     }
-    (lib.mkIf enableModelPreviews {
+    (lib.mkIf enableOnnxPreviews {
       plugins.piper = pkgs.yaziPlugins.piper;
       extraPackages = [
         (pkgs.python314.withPackages (
@@ -145,12 +144,11 @@ in
             ps.colored
           ]
           ++ ps.polygraphy.optional-dependencies.onnx
-          ++ lib.optionals isLinux ps.polygraphy.optional-dependencies.tensorrt
         ))
       ];
       settings.plugin.prepend_previewers = lib.mkBefore [
         {
-          url = if isLinux then "*.{onnx,engine}" else "*.onnx";
+          url = "*.onnx";
           run = "piper -- polygraphy inspect model \"$1\" --show attrs | sed -n '/===/,$p'";
         }
       ];
