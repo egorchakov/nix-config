@@ -67,7 +67,11 @@ in
         rex.host ${
           lib.generators.toLua { } {
             label = hostname;
-            endpoint = "https://rex-${hostname}.tail50f327.ts.net";
+            endpoint =
+              if hostname == "delta-devcar-v2" then
+                "http://${hostname}:7297"
+              else
+                "https://rex-${hostname}.tail50f327.ts.net";
           }
         }
       '') deployHosts
