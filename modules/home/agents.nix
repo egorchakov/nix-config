@@ -56,6 +56,7 @@ in
         suppress_unstable_features_warning = true;
         tui = {
           theme = "dracula";
+          collapse_turn_details = true;
           status_line = [
             "model-with-reasoning"
             "context-remaining"
