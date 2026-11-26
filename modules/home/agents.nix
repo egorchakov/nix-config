@@ -75,6 +75,7 @@ in
         };
       };
       context = ''
+        # code
         ## do
           - strive for the absolute cleanest and tighest design
           - use native library APIs instead of custom helpers
@@ -84,10 +85,13 @@ in
 
         ## do not
           - over-abstract
-          - introduce superfluous structs or single/few-use helpers
+          - over-comment
+          - introduce superfluous structures or single/few-use helpers
           - add tests unless instructed otherwise
-          - reinvent the wheel
-          - add unnecessary comments
+
+        # pull requests
+        - follow the conventional commits specifications
+        - add mermaid diagrams to PR descriptions where applicable
       '';
     };
 
