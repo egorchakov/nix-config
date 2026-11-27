@@ -1,132 +1,22 @@
 {
   nixConfig = {
-    extra-substituters = [ "https://cache.numtide.com" ];
-    extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
-  };
-
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    bootvine = {
-      url = "git+https://codeberg.org/wvhulle/bootvine";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    darwin = {
-      url = "github:nix-darwin/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "git-hooks/flake-compat";
-        utils.inputs.systems.follows = "llm-agents/systems";
-      };
-    };
-
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "determinate/nix/git-hooks-nix/flake-compat";
-      };
-    };
-
-    # TODO: Replace with pkgs.mitos once available in the pinned Nixpkgs.
-    mitos = {
-      url = "github:mitos-editor/mitos/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    rex = {
-      url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
-
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-
-    nix-index-database = {
-      url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    srvos = {
-      url = "github:nix-community/srvos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
-        systems.follows = "llm-agents/systems";
-      };
-    };
-
-    agent-skills = {
-      url = "github:Kyure-A/agent-skills-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    copper-rs-skills = {
-      url = "github:copper-project/copper-rs-skills";
-      flake = false;
-    };
-
-    rust-skills = {
-      url = "github:actionbook/rust-skills";
-      flake = false;
-    };
-
-    pohuy = {
-      url = "github:smixs/pohuy";
-      flake = false;
-    };
+    extra-substituters = [
+      "https://cache.numtide.com"
+      "https://cache.manic.systems"
+    ];
+    extra-trusted-public-keys = [
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "cache.manic.systems-1:s6OZanN8Us8vRi0jVivP3qlMn0cYHBjBALKrNe5nH8s="
+    ];
   };
 
   outputs =
-    inputs@{ self, nixpkgs, ... }:
+    { self }:
     let
+      inputs = import ./.tack // {
+        inherit self;
+      };
+      inherit (inputs) nixpkgs;
       inherit (nixpkgs) lib;
 
       profile = {
@@ -150,6 +40,7 @@
       specialArgs = {
         inherit
           self
+          inputs
           profile
           networkHosts
           deployHosts

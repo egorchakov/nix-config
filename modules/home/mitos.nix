@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  self,
+  inputs,
   ...
 }:
 let
@@ -10,7 +10,7 @@ let
   toml = pkgs.formats.toml { };
   upstreamLanguages = lib.listToAttrs (
     map (language: lib.nameValuePair language.name language)
-      (fromTOML (builtins.readFile "${self.inputs.mitos}/languages.toml")).language
+      (fromTOML (builtins.readFile "${inputs.mitos}/languages.toml")).language
   );
 in
 {
@@ -18,7 +18,7 @@ in
   home.packages = [
     (pkgs.symlinkJoin {
       name = "mitos";
-      paths = [ self.inputs.mitos.packages.${system}.default ];
+      paths = [ inputs.mitos.packages.${system}.default ];
       nativeBuildInputs = [ pkgs.makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/ms \
@@ -198,7 +198,7 @@ in
     };
 
     "mitos/themes/stylix.toml".source = config.lib.stylix.colors {
-      templateRepo = self.inputs.stylix.inputs.base16-helix;
+      templateRepo = inputs.stylix.inputs.base16-helix;
       target = "base16";
     };
     "mitos/themes/stylix-brighter-comments.toml".source =
@@ -212,12 +212,12 @@ in
         };
 
     "mitos/runtime/queries/yaml/injections.scm".text =
-      builtins.readFile "${self.inputs.mitos}/runtime/queries/yaml/injections.scm"
+      builtins.readFile "${inputs.mitos}/runtime/queries/yaml/injections.scm"
       + "\n"
       + builtins.readFile ./mitos/runtime/queries/yaml/injections.scm;
     "mitos/runtime/queries/just".source = pkgs.applyPatches {
       name = "mitos-just-queries";
-      src = "${self.inputs.mitos}/runtime/queries/just";
+      src = "${inputs.mitos}/runtime/queries/just";
       patches = [ ./patches/just-injections.patch ];
     };
   };

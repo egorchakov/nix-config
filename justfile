@@ -37,22 +37,41 @@ deploy-kits-via BUILDER *KITS: (rex "prefetch")
         deploy --targets ...($selected | each {|kit| $".#($kit).home" })
     }
 
-follow: (rex "prefetch")
-    flake-edit --config flake-edit.toml --non-interactive follow
+[positional-arguments]
+update *ARGS:
+    def --wrapped main [...args: string] {
+        let lock = '.tack/pins.lock.json'
+        let previous = open --raw $lock
+        let report = with-env { GH_TOKEN: (^gh auth token --hostname github.com) } {
+            ^tack update --exclude rex ...$args
+        }
+        print $report
+        if (open --raw $lock) != $previous {
+            let body = $report | lines | where { $in =~ ' -> |relocked \(--accept\)' } | str join (char nl)
+            ^git commit --only -m 'chore: update tack pins' -m $body -- $lock .tack/default.nix
+        }
+    }
 
 bump-rerun version="stable":
     nix-update --flake --override-filename pkgs/rerun-bin.nix --version="{{ version }}" rerun-bin
 
+[positional-arguments]
 rex action="prefetch":
-    if "{{ action }}" not-in [prefetch update] { error make { msg: "Expected rex prefetch or rex update" } }
-    let lock = open --raw flake.lock | from json
-    let inputs = $lock.nodes | get $lock.root | get inputs
-    let nixpkgs = $lock.nodes | get $inputs.nixpkgs | get locked
-    let netrc = ^nix run $"github:($nixpkgs.owner)/($nixpkgs.repo)/($nixpkgs.rev)#age" -- --decrypt --identity ~/.ssh/id_ed25519 secrets/rex.netrc.age | complete
-    if $netrc.exit_code != 0 { error make { msg: $"Could not decrypt Rex credentials:\n($netrc.stderr)" } }
-    if "{{ action }}" == "update" {
-        $netrc.stdout | ^nix flake update rex --option netrc-file /dev/stdin
-    } else {
-        let rex = $lock.nodes | get $inputs.rex | get locked
-        $netrc.stdout | ^nix flake prefetch $"($rex.url)?narHash=($rex.narHash)" --option netrc-file /dev/stdin
+    def main [action: string] {
+        if $action not-in [prefetch update] { error make { msg: "Expected rex prefetch or rex update" } }
+        let pins = open .tack/pins.lock.json
+        let tmp = mktemp --directory
+        try {
+            let netrc = mktemp --tmpdir-path $tmp netrc.XXXXXX
+            ^nix run $"github:($pins.nixpkgs.owner)/($pins.nixpkgs.repo)/($pins.nixpkgs.rev)#age" -- --decrypt --identity ~/.ssh/id_ed25519 secrets/rex.netrc.age out> $netrc
+            if $action == "update" {
+                let conf = $tmp | path join 'nix.conf'
+                $"netrc-file = ($netrc)\n" | save $conf
+                TACK_NIX_CONF_TOKENS=1 NIX_USER_CONF_FILES=$conf ^tack update rex
+            } else {
+                ^nix flake prefetch $"($pins.rex.url)?narHash=($pins.rex.narHash)" --option netrc-file $netrc
+            }
+        } finally {
+            rm --recursive $tmp
+        }
     }

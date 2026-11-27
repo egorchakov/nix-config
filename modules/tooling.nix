@@ -26,7 +26,10 @@
           rumdl-format.enable = true;
           stylua.enable = true;
         };
-        settings.excludes = [ ".git/*" ];
+        settings.excludes = [
+          ".git/*"
+          ".tack/default.nix"
+        ];
         settings.formatter = {
           deadnix.priority = 1;
           statix.priority = 2;
@@ -67,7 +70,7 @@
             just
             deploy-rs
             direnv
-            flake-edit
+            gh
             gitMinimal
             nix-direnv
             (nix-update.override {
@@ -76,6 +79,7 @@
             openssh
             ragenix
             rom
+            inputs.tack.packages.${stdenv.hostPlatform.system}.default
           ];
         };
     };

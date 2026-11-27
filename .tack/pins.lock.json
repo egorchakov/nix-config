@@ -1,0 +1,222 @@
+{
+  "$declared": {
+    "agenix": "github:ryantm/agenix",
+    "agent-skills": "github:Kyure-A/agent-skills-nix",
+    "bootvine": "git+https://codeberg.org/wvhulle/bootvine",
+    "copper-rs-skills": "github:copper-project/copper-rs-skills",
+    "darwin": "github:nix-darwin/nix-darwin",
+    "deploy-rs": "github:serokell/deploy-rs",
+    "determinate": "https://flakehub.com/f/DeterminateSystems/determinate/*",
+    "flake-parts": "github:hercules-ci/flake-parts",
+    "flake-utils": "github:numtide/flake-utils",
+    "git-hooks": "github:cachix/git-hooks.nix",
+    "home-manager": "github:nix-community/home-manager/master",
+    "llm-agents": "github:numtide/llm-agents.nix",
+    "mitos": "github:mitos-editor/mitos/main",
+    "nix-homebrew": "github:zhaofengli/nix-homebrew",
+    "nix-index-database": "github:nix-community/nix-index-database",
+    "nixos-hardware": "github:NixOS/nixos-hardware",
+    "nixpkgs": "github:nixos/nixpkgs/nixpkgs-unstable",
+    "pohuy": "github:smixs/pohuy",
+    "rex": "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz",
+    "rust-skills": "github:actionbook/rust-skills",
+    "srvos": "github:nix-community/srvos",
+    "stylix": "github:nix-community/stylix",
+    "tack": "github:manic-systems/tack",
+    "treefmt-nix": "github:numtide/treefmt-nix"
+  },
+  "agenix": {
+    "type": "github",
+    "owner": "ryantm",
+    "repo": "agenix",
+    "rev": "5e5b88a0c8e56f291a108c2fe9934054d9745b2e",
+    "narHash": "sha256-8tKjSQajD3mUND1GaAuaWTcuyUpgcGsh5V+l4ibzC7U=",
+    "lastModified": 1792507013
+  },
+  "agent-skills": {
+    "type": "github",
+    "owner": "Kyure-A",
+    "repo": "agent-skills-nix",
+    "rev": "93a02cb60eda167de8c5baa085e4a2bcfc71b885",
+    "narHash": "sha256-qu7S1arVl+Q6H/yZhJ2VdeDY/kBxY8mK8m6U49M0alk=",
+    "lastModified": 1794456227
+  },
+  "bootvine": {
+    "type": "git",
+    "url": "https://codeberg.org/wvhulle/bootvine",
+    "ref": "refs/heads/main",
+    "rev": "0e7acf85f85084b30c681658a4b8fc1c3a90b0a3",
+    "narHash": "sha256-YZhRJqsSuwA/Xh5RSELzVh1j7q9d+gwCc4iQs6cd4J0=",
+    "lastModified": 1795417174,
+    "revCount": 152
+  },
+  "copper-rs-skills": {
+    "type": "github",
+    "owner": "copper-project",
+    "repo": "copper-rs-skills",
+    "rev": "1a3c6e5f39e72937ea211ff8f7565a6a6995d03f",
+    "narHash": "sha256-7QRCjo0DFS8SsDZkE6uQXExMVd8S2k0zqvDLCJnj4ss=",
+    "lastModified": 1792328618
+  },
+  "darwin": {
+    "type": "github",
+    "owner": "nix-darwin",
+    "repo": "nix-darwin",
+    "rev": "663d8b962a11cda261b6e9f14e03911fac94baf0",
+    "narHash": "sha256-Gd1+Oaj8nS+p1qLpKk4MGv/qGh62+lTkX4262e2UDgc=",
+    "lastModified": 1795373241
+  },
+  "deploy-rs": {
+    "type": "github",
+    "owner": "serokell",
+    "repo": "deploy-rs",
+    "rev": "1cec0527bd09074bbee6d4461900ce5d58267217",
+    "narHash": "sha256-eINUtQW48bf9G3EYprthHMll8VDKxaXQP52TZFuwMmE=",
+    "lastModified": 1792446739
+  },
+  "determinate": {
+    "type": "tarball",
+    "url": "https://api.flakehub.com/f/pinned/DeterminateSystems/determinate/3.24.3/01a1f12b-29f0-7623-8ebb-9b32a98f9538/source.tar.gz",
+    "rev": "49968eb8f0f1a3c9c8790e9ead7ce7b5196f6c0f",
+    "narHash": "sha256-cIFgw0dKxzQULB8OSVLsXSrKfPfWzfzJA17rss9dqCg=",
+    "lastModified": 1795047249,
+    "revCount": 458
+  },
+  "flake-parts": {
+    "type": "github",
+    "owner": "hercules-ci",
+    "repo": "flake-parts",
+    "rev": "ea2630b7470978622c7689a1ff75d2b389175399",
+    "narHash": "sha256-V1h85lUaJBQoHFrB2vpXZOE0Ju1MYSnIpsehoVZYlDo=",
+    "lastModified": 1793576659
+  },
+  "flake-utils": {
+    "type": "github",
+    "owner": "numtide",
+    "repo": "flake-utils",
+    "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+    "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+    "lastModified": 1731533236
+  },
+  "git-hooks": {
+    "type": "github",
+    "owner": "cachix",
+    "repo": "git-hooks.nix",
+    "rev": "204b6977e00caac19e2313015a598543ca7be150",
+    "narHash": "sha256-Zb/0L3soxrkfcrywpfp0J++0WFLB3tzh0Xtx9up+VNc=",
+    "lastModified": 1793686154
+  },
+  "home-manager": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "home-manager",
+    "rev": "b56bcd042b5e69ad188eca20d9bec1bfbf3dd453",
+    "narHash": "sha256-xkRZ+PcPWaAyf9YrEBszYD5w2S6/Ac2tIfsufzd4dEQ=",
+    "lastModified": 1795534022
+  },
+  "llm-agents": {
+    "type": "github",
+    "owner": "numtide",
+    "repo": "llm-agents.nix",
+    "rev": "d70dfebdbd4616aa852fdb47c16588ec1ba8fc6f",
+    "narHash": "sha256-HUVg1F7c3btLD++JDjdTsSAwp50NvrciqTMFdCKEfAg=",
+    "lastModified": 1795534330
+  },
+  "mitos": {
+    "type": "github",
+    "owner": "mitos-editor",
+    "repo": "mitos",
+    "rev": "51a0b9a17c7671f497ab38be3b6ed0e3353fc3d7",
+    "narHash": "sha256-Z6jc2Zh5GWV6tyCQapgGlbUiRwbC+DEJfP0b6ekZNqc=",
+    "lastModified": 1795513950
+  },
+  "nix-homebrew": {
+    "type": "github",
+    "owner": "zhaofengli",
+    "repo": "nix-homebrew",
+    "rev": "52bc87da3f30c2261a6d1cfef3c892097b53daeb",
+    "narHash": "sha256-oDYLVD8KGT/M57c8HziYSSj0le4wCyA+jZ7+/qUS91M=",
+    "lastModified": 1793543863
+  },
+  "nix-index-database": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "nix-index-database",
+    "rev": "905f3e6f1e78165e79457c0bbe7ec4b885a5fce1",
+    "narHash": "sha256-p1dA8lUFQTLJfDI2gaTZQ+CcMKw3nxvyHNbwpVMy2rY=",
+    "lastModified": 1795345257
+  },
+  "nixos-hardware": {
+    "type": "github",
+    "owner": "NixOS",
+    "repo": "nixos-hardware",
+    "rev": "97a30ee0974b815496bec7b136af6b945bd65aef",
+    "narHash": "sha256-0mlYwyAv7lUDD6HBgPMqBXjMcIfIZBsLryNnkspeIGs=",
+    "lastModified": 1795549782
+  },
+  "nixpkgs": {
+    "type": "github",
+    "owner": "nixos",
+    "repo": "nixpkgs",
+    "rev": "619c39f6eac5d1ed6b8f073a9414baf7034b2356",
+    "narHash": "sha256-oa2P5WZer1A4wuhatl92JyHHEjrrOdIyuvTuI5LUi9Q=",
+    "lastModified": 1795371335
+  },
+  "pohuy": {
+    "type": "github",
+    "owner": "smixs",
+    "repo": "pohuy",
+    "rev": "56a6277d44c91a8a102607f60fbc08aa0eaa99f2",
+    "narHash": "sha256-FkiRLIzlDCGWi+U83RKANeeD8ExAnPqvjlOqgV9wNnc=",
+    "lastModified": 1789543128
+  },
+  "rex": {
+    "type": "tarball",
+    "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.1.0-snapshot.2588.tar.gz",
+    "narHash": "sha256-hjxtQR+J7PKJVuwBRz2QFpLiBeBIP1d5fl+xIsusRBM=",
+    "lastModified": 1795579662
+  },
+  "rust-skills": {
+    "type": "github",
+    "owner": "actionbook",
+    "repo": "rust-skills",
+    "rev": "5c40d3ad785193231b7d0dbfb8e1eb447e5edd94",
+    "narHash": "sha256-IWK5ftgsABvASRNyGLLlQJNkA9U38esEeHkQz/sfMFE=",
+    "lastModified": 1787483379
+  },
+  "srvos": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "srvos",
+    "rev": "e151e24ac800372a3eb1146c8f42a6e1fa286b66",
+    "narHash": "sha256-4lMxkUsFMdIxVObAgs76WINgLZXlaqmEXzHMaArkJ5w=",
+    "lastModified": 1795400873
+  },
+  "stylix": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "stylix",
+    "rev": "926063673683f3ed4810ae3edac4d69df7adf42a",
+    "narHash": "sha256-bzTDA4xxj8+KNo/qWDgDGOKqfWWlH5GCkVw+e70HWu0=",
+    "lastModified": 1795479262
+  },
+  "tack": {
+    "type": "github",
+    "owner": "manic-systems",
+    "repo": "tack",
+    "rev": "393ed432b3321a44a87e8a588552b51d5dad8f6e",
+    "narHash": "sha256-CUECELH3ty3Imlmbt88IC+ZkUxHPyd3FHuN9WWG4P+c=",
+    "lastModified": 1795730888,
+    "public": true,
+    "tag": "v2.0.0",
+    "version": "2.0.0"
+  },
+  "treefmt-nix": {
+    "type": "github",
+    "owner": "numtide",
+    "repo": "treefmt-nix",
+    "rev": "a0a97e31a897a3537eea5c49df4f8adaa83b3b37",
+    "narHash": "sha256-J8IYl3oEdctyvBgWr+/L01MY5Xm0TU4WXwZDccN5jjk=",
+    "lastModified": 1795173499
+  }
+}

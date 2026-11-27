@@ -26,7 +26,7 @@ in
       chatgpt
       slack
       signal-desktop
-      telegram-desktop
+      # telegram-desktop
       discord
       ffmpeg-headless
       bitwarden-desktop

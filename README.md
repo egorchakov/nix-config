@@ -19,5 +19,3 @@ sudo nix run nix-darwin/master#darwin-rebuild -- switch --refresh --flake github
 ```nu
 nix run home-manager/master -- switch --refresh --flake github:egorchakov/nix-config
 ```
-
-Use `nix fmt` for formatting and `just follow` to update input follows explicitly.

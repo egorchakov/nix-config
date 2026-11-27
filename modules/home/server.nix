@@ -4,14 +4,14 @@
   hostname,
   lib,
   pkgs,
-  self,
+  inputs,
   ...
 }:
 {
   imports = [
     ./default.nix
     ./linux.nix
-    self.inputs.rex.homeManagerModules.default
+    inputs.rex.homeManagerModules.default
   ];
 
   services.rex = {

@@ -1,5 +1,5 @@
-{ self, profile, ... }: {
-  imports = [ self.inputs.nix-homebrew.darwinModules.nix-homebrew ];
+{ inputs, profile, ... }: {
+  imports = [ inputs.nix-homebrew.darwinModules.nix-homebrew ];
 
   nix-homebrew = {
     user = profile.username;

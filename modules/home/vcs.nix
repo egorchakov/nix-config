@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  self,
+  inputs,
   profile,
   ...
 }:
@@ -10,7 +10,7 @@ let
   system = pkgs.stdenv.hostPlatform.system;
 in
 {
-  home.packages = [ self.inputs.llm-agents.packages.${system}.hunk ];
+  home.packages = [ inputs.llm-agents.packages.${system}.hunk ];
 
   programs = {
     git = {

@@ -2,7 +2,7 @@
   config,
   pkgs,
   profile,
-  self,
+  inputs,
   ...
 }:
 let
@@ -10,11 +10,11 @@ let
 in
 {
   imports = [
-    self.inputs.determinate.nixosModules.default
-    self.inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
-    self.inputs.srvos.nixosModules.desktop
-    self.inputs.agenix.nixosModules.default
-    self.inputs.bootvine.nixosModules.default
+    inputs.determinate.nixosModules.default
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+    inputs.srvos.nixosModules.desktop
+    inputs.agenix.nixosModules.default
+    inputs.bootvine.nixosModules.default
     ./hardware-configuration.nix
   ];
 
@@ -146,7 +146,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    self.inputs.mitos.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.mitos.packages.${pkgs.stdenv.hostPlatform.system}.default
     nextdns
     libreoffice-stable
     hunspell

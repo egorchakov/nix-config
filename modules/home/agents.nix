@@ -1,10 +1,10 @@
-{ pkgs, self, ... }:
+{ pkgs, inputs, ... }:
 let
   system = pkgs.stdenv.hostPlatform.system;
-  git-surgeon = self.inputs.llm-agents.packages.${system}.git-surgeon;
+  git-surgeon = inputs.llm-agents.packages.${system}.git-surgeon;
 in
 {
-  imports = [ self.inputs.agent-skills.homeManagerModules.default ];
+  imports = [ inputs.agent-skills.homeManagerModules.default ];
 
   home.packages = [ git-surgeon ];
 
@@ -12,17 +12,17 @@ in
     agent-skills = {
       enable = true;
       sources = {
-        copper.path = self.inputs.copper-rs-skills;
+        copper.path = inputs.copper-rs-skills;
         git-surgeon = {
           path = git-surgeon.src;
           subdir = "skills";
         };
         pohuy = {
-          path = self.inputs.pohuy;
+          path = inputs.pohuy;
           subdir = "skills";
         };
         rust = {
-          path = self.inputs.rust-skills;
+          path = inputs.rust-skills;
           subdir = "skills";
         };
       };
@@ -42,7 +42,7 @@ in
     codex = {
       enable = true;
       enableMcpIntegration = true;
-      package = self.inputs.llm-agents.packages.${system}.codex;
+      package = inputs.llm-agents.packages.${system}.codex;
       plugins = [ "${pkgs.worktrunk.src}/plugins/worktrunk" ];
       settings = {
         model = "gpt-6.2-sol";
@@ -97,7 +97,7 @@ in
 
     claude-code = {
       enable = true;
-      package = self.inputs.llm-agents.packages.${system}.claude-code;
+      package = inputs.llm-agents.packages.${system}.claude-code;
       enableMcpIntegration = true;
     };
   };

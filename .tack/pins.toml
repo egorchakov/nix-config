@@ -1,0 +1,99 @@
+[inputs.agenix]
+url = "github:ryantm/agenix"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.agent-skills]
+url = "github:Kyure-A/agent-skills-nix"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.bootvine]
+url = "git+https://codeberg.org/wvhulle/bootvine"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.copper-rs-skills]
+url = "github:copper-project/copper-rs-skills"
+type = "fetch"
+
+[inputs.darwin]
+url = "github:nix-darwin/nix-darwin"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.deploy-rs]
+url = "github:serokell/deploy-rs"
+follows.flake-compat = "git-hooks/flake-compat"
+follows.nixpkgs = "nixpkgs"
+follows.utils = "flake-utils"
+
+[inputs.determinate]
+url = "https://flakehub.com/f/DeterminateSystems/determinate/*"
+
+[inputs.flake-parts]
+url = "github:hercules-ci/flake-parts"
+follows.nixpkgs-lib = "nixpkgs"
+
+[inputs.flake-utils]
+url = "github:numtide/flake-utils"
+follows.systems = "llm-agents/systems"
+
+[inputs.git-hooks]
+url = "github:cachix/git-hooks.nix"
+follows.flake-compat = "determinate/nix/git-hooks-nix/flake-compat"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.home-manager]
+url = "github:nix-community/home-manager/master"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.llm-agents]
+url = "github:numtide/llm-agents.nix"
+follows.flake-parts = "flake-parts"
+follows.treefmt-nix = "treefmt-nix"
+
+# TODO: Replace with pkgs.mitos once available in the pinned Nixpkgs.
+[inputs.mitos]
+url = "github:mitos-editor/mitos/main"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.nix-homebrew]
+url = "github:zhaofengli/nix-homebrew"
+
+[inputs.nix-index-database]
+url = "github:nix-community/nix-index-database"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.nixos-hardware]
+url = "github:NixOS/nixos-hardware"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.nixpkgs]
+url = "github:nixos/nixpkgs/nixpkgs-unstable"
+
+[inputs.pohuy]
+url = "github:smixs/pohuy"
+type = "fetch"
+
+[inputs.rex]
+url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.rust-skills]
+url = "github:actionbook/rust-skills"
+type = "fetch"
+
+[inputs.srvos]
+url = "github:nix-community/srvos"
+follows.nixpkgs = "nixpkgs"
+
+[inputs.stylix]
+url = "github:nix-community/stylix"
+follows.flake-parts = "flake-parts"
+follows.nixpkgs = "nixpkgs"
+follows.systems = "llm-agents/systems"
+
+[inputs.tack]
+url = "github:manic-systems/tack"
+tag = "v{version}"
+
+[inputs.treefmt-nix]
+url = "github:numtide/treefmt-nix"
+follows.nixpkgs = "nixpkgs"

@@ -1,11 +1,11 @@
 {
   config,
   pkgs,
-  self,
+  inputs,
   ...
 }:
 {
-  imports = [ self.inputs.nix-index-database.homeModules.default ];
+  imports = [ inputs.nix-index-database.homeModules.default ];
   home = {
     packages = with pkgs; [
       tig

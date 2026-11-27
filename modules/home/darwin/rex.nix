@@ -4,7 +4,7 @@
   lib,
   pkgs,
   profile,
-  self,
+  inputs,
   ...
 }:
 let
@@ -57,7 +57,7 @@ let
   );
 in
 {
-  imports = [ self.inputs.rex.homeManagerModules.default ];
+  imports = [ inputs.rex.homeManagerModules.default ];
 
   programs.rex = {
     enable = true;
